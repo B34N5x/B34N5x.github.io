@@ -1,0 +1,17 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src wss://s.altnet.rippletest.net:51233 wss://testnet.xrpl-labs.com; object-src 'none'; base-uri 'none'; form-action 'none'"><meta name="referrer" content="no-referrer"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Testnet Balance Checker - B34N5x</title><meta name="description" content="Small, open-source tools for the XRP Ledger by B34N5x."><link rel="stylesheet" href="../../assets/style.css"></head><body data-network="testnet">
+<header><div class="wrap"><nav><a class="brand" href="../../">B34N5x</a><a href="../../">Home</a><a href="../../tools/" aria-current="page">Tools</a><a href="../../security/">Security</a></nav></div></header>
+<div class="netbanner testnet"><div class="wrap"><strong>Testnet</strong>: test XRP with no real value, read-only.</div></div>
+<main class="wrap">
+<div class="hero"><h1>XRPL Balance Checker: Testnet</h1><p>Paste a public XRP address to see its Testnet balance. It runs in your browser and only reads from the ledger.</p></div>
+<p class="note">Only a public address is needed (it starts with "r"). Never type a seed or secret key here or anywhere else.</p>
+<form id="f" autocomplete="off">
+<label for="addr">XRP address</label>
+<input type="text" id="addr" placeholder="r..." spellcheck="false">
+<button type="submit" id="btn">Check Testnet</button>
+</form>
+<div id="out" class="result" role="status" aria-live="polite"></div>
+<p class="switch">Looking for the other network? <a href="../mainnet/">Mainnet checker</a> · <a href="../">All checkers</a></p>
+</main>
+<footer><div class="wrap">Open source - MIT licence - free to use, no sign-up.</div></footer>
+<script src="../../assets/vendor/xrpl-4.7.0.min.js"></script>
+<script src="../../assets/checker.js"></script></body></html>
