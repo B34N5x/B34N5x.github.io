@@ -1,7 +1,7 @@
 # Security Policy
 
 ## What this site does
-- Read-only: the balance checker only looks up a **public** XRP address on the **XRPL Testnet**.
+- Read-only: the balance checker only looks up a **public** XRP address on the **XRPL Testnet or Mainnet** (read-only).
 - It never asks for, accepts or stores a seed, secret key or private key, and never signs or submits transactions.
 - Everything runs in your browser. There is no server and no sign-up. The XRPL library (xrpl.js 4.7.0) is self-hosted in `assets/vendor/`.
 
