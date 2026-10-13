@@ -87,3 +87,6 @@ a.card.pick.mainnet .tag{background:#21173a;color:#cbb6f5}
 .disclaimer{font-size:.8em;opacity:.8;margin:.5em 0 0}
 .consent{display:flex;gap:.5em;align-items:center;margin:.75em 0;font-size:.9em}
 .consent input{width:auto}
+html,body{cursor:url(/assets/cursor-xrp.svg) 16 16,url(/assets/cursor-xrp.png) 16 16,auto}
+a,button,label,summary,[role=button]{cursor:pointer}
+input[type=text],input:not([type]),textarea{cursor:text}
