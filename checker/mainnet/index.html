@@ -7,11 +7,12 @@
 <form id="f" autocomplete="off">
 <label for="addr">XRP address</label>
 <input type="text" id="addr" placeholder="r..." spellcheck="false">
+<label class="consent"><input type="checkbox" id="consent"> I've read and accept the <a href="../../terms/">Terms</a> (not advice, no liability).</label>
 <button type="submit" id="btn">Check Mainnet</button>
 </form>
 <div id="out" class="result" role="status" aria-live="polite"></div>
 <p class="switch">Looking for the other network? <a href="../testnet/">Testnet checker</a> · <a href="../">All checkers</a></p>
 </main>
-<footer><div class="wrap">Open source - MIT licence - free to use, no sign-up.</div></footer>
+<footer><div class="wrap">Open source - MIT licence - free to use, no sign-up.<p class="disclaimer">Not legal, financial or tax advice. Provided as-is with no warranty; the author accepts no liability for any losses, damages or disputes. Read-only: never asks for seeds or keys. <a href="../../terms/">Terms</a></p></div></footer>
 <script src="../../assets/vendor/xrpl-4.7.0.min.js"></script>
-<script src="../../assets/checker.js"></script><script src="../../assets/pwa.js"></script></body></html>
+<script src="../../assets/consent.js"></script><script src="../../assets/checker.js"></script><script src="../../assets/pwa.js"></script></body></html>

@@ -83,3 +83,7 @@ a.card.pick.mainnet .tag{background:#21173a;color:#cbb6f5}
 @media (prefers-reduced-motion: reduce){
  .walkthrough video{/* JS pauses autoplay and adds controls */}
 }
+
+.disclaimer{font-size:.8em;opacity:.8;margin:.5em 0 0}
+.consent{display:flex;gap:.5em;align-items:center;margin:.75em 0;font-size:.9em}
+.consent input{width:auto}
