@@ -1,7 +1,7 @@
 // B34N5 service worker: same-origin GET only. Never touches WebSocket or cross-origin requests.
-const VERSION = "b34n5-v8-1";
+const VERSION = "b34n5-v9-1";
 const SHELL = ["/", "/index.html", "/tools/", "/security/", "/checker/", "/checker/testnet/", "/checker/mainnet/", "/tools/balance-checker/", "/terms/",
-  "/assets/style.css", "/assets/cursor-xrp.svg", "/assets/cursor-xrp.png", "/assets/checker.js", "/assets/consent.js", "/assets/rain.js", "/assets/eggs.js", "/assets/pwa.js", "/assets/vendor/xrpl-4.7.0.min.js",
+  "/assets/style.css", "/assets/cursor-xrp.svg", "/assets/cursor-xrp.png", "/assets/checker.js", "/assets/consent.js", "/assets/rain.js", "/assets/eggs.js", "/assets/pwa.js", "/assets/sparkle.js", "/assets/vendor/xrpl-4.7.0.min.js",
   "/assets/img/A-digital-rain-1600x500.png", "/assets/img/A-digital-rain-800x600.png", "/assets/img/favicon-32.png", "/assets/img/favicon-192.png",
   "/assets/img/favicon-512.png", "/assets/img/icon-192.png", "/assets/img/icon-512.png", "/assets/img/icon-maskable-192.png",
   "/assets/img/icon-maskable-512.png", "/assets/img/apple-touch-icon-180.png", "/favicon.ico", "/manifest.webmanifest"];

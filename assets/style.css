@@ -90,3 +90,8 @@ a.card.pick.mainnet .tag{background:#21173a;color:#cbb6f5}
 html,body{cursor:url(/assets/cursor-xrp.svg) 16 16,url(/assets/cursor-xrp.png) 16 16,auto}
 a,button,label,summary,[role=button]{cursor:pointer}
 input[type=text],input:not([type]),textarea{cursor:text}
+.sparkle-layer{position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden}
+.sparkle{position:absolute;pointer-events:none;background:#fff;clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);animation:sparkle-fade .6s ease-out forwards}
+.sparkle-p{background:#c9b3ff}
+@keyframes sparkle-fade{from{opacity:1;transform:translate(0,0) scale(1)}to{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.4)}}
+@media (prefers-reduced-motion:reduce){.sparkle-layer{display:none}}
