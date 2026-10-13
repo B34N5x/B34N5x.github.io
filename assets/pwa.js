@@ -2,6 +2,15 @@
 (function () {
   "use strict";
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js", { scope: "/" }).catch(() => {});
+
+  // Respect reduced motion: pause walkthrough autoplay and show controls.
+  const wt = document.getElementById("walkthrough");
+  if (wt && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    wt.removeAttribute("autoplay");
+    try { wt.pause(); } catch (_) {}
+    wt.controls = true;
+  }
+
   const hint = document.getElementById("install"); if (!hint) return;
   const standalone = (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) || navigator.standalone === true;
   if (standalone) return;
