@@ -101,3 +101,18 @@ body.has-matrix{background:#020403}
 body.has-matrix header,body.has-matrix footer,body.has-matrix .hero,body.has-matrix .card,body.has-matrix .note{background:rgba(0,0,0,.78);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
 body.has-matrix .hero{padding:24px 20px;margin:24px 0;border-radius:12px;border:1px solid var(--line)}
 @media print{.matrix-bg{display:none!important}body.has-matrix header,body.has-matrix footer,body.has-matrix .hero,body.has-matrix .card,body.has-matrix .note{background:transparent!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}}
+/* HUD theme for the balance checker (original). Entry animations < 1s; disabled for reduced motion. */
+body.hud .hero,body.hud .card,body.hud form,body.hud .result,body.hud .note{position:relative;border:1px solid rgba(46,230,208,.45);box-shadow:0 0 12px rgba(46,230,208,.18),inset 0 0 0 1px rgba(46,230,208,.08);border-radius:6px;background:rgba(0,8,10,.8);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+body.hud form{padding:16px 18px}
+body.hud .hero::before,body.hud .card::before,body.hud form::before,body.hud .result::before{content:"";position:absolute;inset:-1px;pointer-events:none;border-radius:6px;
+ background:linear-gradient(#2ee6d0,#2ee6d0) top left/14px 2px,linear-gradient(#2ee6d0,#2ee6d0) top left/2px 14px,linear-gradient(#2ee6d0,#2ee6d0) top right/14px 2px,linear-gradient(#2ee6d0,#2ee6d0) top right/2px 14px,
+ linear-gradient(#2ee6d0,#2ee6d0) bottom left/14px 2px,linear-gradient(#2ee6d0,#2ee6d0) bottom left/2px 14px,linear-gradient(#2ee6d0,#2ee6d0) bottom right/14px 2px,linear-gradient(#2ee6d0,#2ee6d0) bottom right/2px 14px;background-repeat:no-repeat}
+body.hud .hero h1::after{content:"";display:inline-block;width:26px;height:26px;margin-left:12px;vertical-align:-4px;border-radius:50%;border:2px solid rgba(46,230,208,.8);border-right-color:transparent;box-shadow:0 0 8px rgba(46,230,208,.5),inset 0 0 0 4px rgba(0,8,10,.9),inset 0 0 0 5px rgba(46,230,208,.35);animation:hudspin .9s ease-out 1}
+body.hud main>*{animation:hudin .5s ease-out both}
+body.hud main>*:nth-child(2){animation-delay:.08s}body.hud main>*:nth-child(3){animation-delay:.16s}body.hud main>*:nth-child(4){animation-delay:.24s}body.hud main>*:nth-child(n+5){animation-delay:.32s}
+body.hud .result .big{font-family:var(--mono);color:#7ff7e6;text-shadow:0 0 8px rgba(46,230,208,.45)}
+.hud-scan{position:fixed;left:0;right:0;top:-10vh;height:10vh;pointer-events:none;z-index:50;background:linear-gradient(transparent,rgba(46,230,208,.18),transparent);animation:hudscan .9s ease-in-out 1 forwards}
+@keyframes hudin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes hudscan{to{top:100vh}}@keyframes hudspin{from{transform:rotate(-180deg)}to{transform:none}}
+@media (prefers-reduced-motion:reduce){body.hud main>*,body.hud .hero h1::after{animation:none!important}.hud-scan{display:none}}
+@media print{.hud-scan{display:none}}
