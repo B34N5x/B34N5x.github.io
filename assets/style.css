@@ -131,3 +131,9 @@ section:has(>.card+.card)>:not(.card){grid-column:1/-1}
 /* Faint cyber-infrastructure layer (circuit traces, server rack, city grid): static, CSS-only, self-hosted. */
 body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.07;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' fill='none' stroke='%232ee6d0' stroke-width='1'%3E%3Cpath d='M0 60h70l20 20h60l20-20h70M0 180h40l20-20h80l20 20h80M60 0v40l20 20M180 240v-40l-20-20M120 80v80'/%3E%3Ccircle cx='90' cy='80' r='3'/%3E%3Ccircle cx='150' cy='80' r='3'/%3E%3Ccircle cx='60' cy='160' r='3'/%3E%3Ccircle cx='160' cy='180' r='3'/%3E%3Crect x='196' y='96' width='28' height='48' rx='2'/%3E%3Cpath d='M200 106h20M200 116h20M200 126h20'/%3E%3C/svg%3E") repeat,linear-gradient(transparent 0 calc(100% - 1px),rgba(46,230,208,.5) 0) 0 0/80px 80px,linear-gradient(90deg,transparent 0 calc(100% - 1px),rgba(46,230,208,.5) 0) 0 0/80px 80px}
 @media print{body::before{display:none!important}body .card{box-shadow:none!important;border-color:#999!important;background:transparent!important}}
+
+details.explainer summary{font-weight:600;color:#7cffb0;list-style:none}
+details.explainer summary::-webkit-details-marker{display:none}
+details.explainer summary::before{content:"+ ";color:#2ee6d0}
+details.explainer[open] summary::before{content:"\2212  "}
+details.explainer p{margin:12px 0 0;color:#c3d4ce;line-height:1.6}
