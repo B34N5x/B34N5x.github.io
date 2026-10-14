@@ -115,3 +115,7 @@ body.hud .result .term{margin:0;white-space:pre-wrap;word-break:break-all}
 body.hud .result .term .cmd{color:#6fd8c8}body.hud .result .term .k{color:#8fb8ad}body.hud .result .term .v{color:#c8f5e3}
 body.hud .source,body.hud .switch{font-family:var(--mono);font-size:.85rem;color:#b9cfc8;margin:8px 0;padding:6px 10px;background:rgba(0,8,10,.82);border-radius:6px;display:inline-block}
 @media (prefers-reduced-motion:reduce){body.hud main{animation:none}}
+.visit-count{position:fixed;left:10px;bottom:8px;z-index:50;pointer-events:none;user-select:none;font:12px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.08em;color:#3df58f;background:rgba(0,0,0,.45);padding:3px 6px;border-radius:3px;text-shadow:0 0 6px rgba(61,245,143,.5);animation:vc-fade 2s ease-in-out infinite alternate}
+@keyframes vc-fade{from{opacity:.55}to{opacity:.9}}
+@media (prefers-reduced-motion:reduce){.visit-count{animation:none;opacity:.75}}
+@media print{.visit-count{display:none}}
