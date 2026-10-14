@@ -30,7 +30,7 @@
     if (!/^r[1-9A-HJ-NP-Za-km-z]{24,34}$/.test(addr) || !xrpl.isValidClassicAddress(addr)) {
       return msg("err", "That doesn't look like a valid XRP address. It should start with \"r\". (Never paste a seed or secret here.)");
     }
-    btn.disabled = true; msg("ok", "Checking the " + NET.name + " ledger...");
+    btn.disabled = true; msg("ok", "Checking ledger\u2026");
     let client = null;
     try {
       for (const url of NET.servers) {
@@ -41,9 +41,10 @@
       const r = await client.request({ command: "account_info", account: addr, ledger_index: "validated" });
       const xrp = xrpl.dropsToXrp(String(r.result.account_data.Balance));
       const ledger = Number(r.result.ledger_index);
-      const line = el("div");
-      line.append(NET.name + " balance for ", el("code", null, addr), " (validated ledger " + (Number.isFinite(ledger) ? ledger : "?") + ").");
-      show("ok", [el("div", "big", xrp + " XRP"), line]);
+      const term = el("pre", "term"), row = (k, v) => { term.append(el("span", "k", k + ": "), el("span", "v", v), "\n"); };
+      term.append(el("span", "cmd", "> account_info"), "\n");
+      row("network", NET.name); row("account", addr); row("validated_ledger", Number.isFinite(ledger) ? ledger : "?"); row("balance", xrp + " XRP");
+      show("ok", [term]);
     } catch (err) {
       const code = err && err.data && err.data.error;
       if (code === "actNotFound") {
