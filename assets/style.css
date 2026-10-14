@@ -95,3 +95,9 @@ input[type=text],input:not([type]),textarea{cursor:text}
 .sparkle-p{background:#c9b3ff}
 @keyframes sparkle-fade{from{opacity:1;transform:translate(0,0) scale(1)}to{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.4)}}
 @media (prefers-reduced-motion:reduce){.sparkle-layer{display:none}}
+/* Matrix backdrop: canvas behind everything; every text block on a semi-opaque dark panel. */
+.matrix-bg{position:fixed;inset:0;width:100vw;height:100vh;z-index:-1;pointer-events:none;opacity:.45}
+body.has-matrix{background:#020403}
+body.has-matrix header,body.has-matrix footer,body.has-matrix .hero,body.has-matrix .card,body.has-matrix .note{background:rgba(0,0,0,.78);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+body.has-matrix .hero{padding:24px 20px;margin:24px 0;border-radius:12px;border:1px solid var(--line)}
+@media print{.matrix-bg{display:none!important}body.has-matrix header,body.has-matrix footer,body.has-matrix .hero,body.has-matrix .card,body.has-matrix .note{background:transparent!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}}
