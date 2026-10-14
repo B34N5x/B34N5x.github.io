@@ -3,7 +3,7 @@
   "use strict";
   const c = document.getElementById("rain"); if (!c || !c.getContext) return;
   const ctx = c.getContext("2d");
-  const WORDS = ["bg123","B34N5","#XRPFamily","#XRPCommunity","XRPL","rippled","3-5 sec","tesSUCCESS","rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh","drops","1M drops = 1 XRP","EscrowFinish","TrustSet","AMM","XLS-20","XLS-100","Hooks","Testnet","ledger close","build in public","B34N5\u{1FADB}XRP"];
+  const WORDS = ["XRPL","XRP Ledger","Payments","Cross-border","Escrow","EscrowFinish","Time-locked savings","AMM","DEX","NFTs","XLS-20","Tokenization","RWA","RLUSD","Stablecoins","Trust lines","TrustSet","Checks","Payment channels","Hooks","Sidechains","drops","1M drops = 1 XRP","3-5 sec","tesSUCCESS","Testnet","ledger close","#XRPFamily","#XRPCommunity","#BuildOnXRPL","build in public","bg123","B34N5"];
   const GLYPHS = "01XRPLrabcdef0123456789ABCDEF<>/=+*";
   const FS = 14; let cols = [], words = [], w = 0, h = 0, timer = null;
   const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -19,9 +19,9 @@
       ctx.fillText(GLYPHS[(Math.random() * GLYPHS.length) | 0], i * FS, cols[i] * FS);
       if (cols[i] * FS > h && Math.random() > 0.975) cols[i] = 0; else cols[i]++;
     }
-    if (Math.random() < 0.02 && words.length < 3) words.push({ t: WORDS[(Math.random() * WORDS.length) | 0], x: Math.random() * Math.max(10, w - 300), y: 0 });
+    if (Math.random() < 0.06 && words.length < 4) words.push({ t: WORDS[(Math.random() * WORDS.length) | 0], x: Math.random() * Math.max(10, w - 300), y: 0 });
     ctx.fillStyle = "#eafff4";
-    words = words.filter(o => { ctx.fillText(o.t, o.x, o.y); o.y += FS * 0.6; return o.y < h + FS; });
+    words = words.filter(o => { ctx.fillText(o.t, o.x, o.y); o.y += FS * 0.35; return o.y < h + FS; });
   }
   function staticFrame() { size(); for (let i = 0; i < 60; i++) step(); ctx.fillStyle = "#eafff4"; ctx.fillText("bg123", 20, h * 0.3); }
   function start() { if (!timer && !document.hidden && !(reduce && reduce.matches)) timer = setInterval(step, 60); }
