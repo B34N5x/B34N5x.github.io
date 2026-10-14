@@ -119,3 +119,15 @@ body.hud .source,body.hud .switch{font-family:var(--mono);font-size:.85rem;color
 @keyframes vc-fade{from{opacity:.55}to{opacity:.9}}
 @media (prefers-reduced-motion:reduce){.visit-count{animation:none;opacity:.75}}
 @media print{.visit-count{display:none}}
+/* Calm dark cards (xrpl.org-like): rounded, faint border, soft green hover glow, generous spacing; grid on wide screens. */
+body .card,body.has-matrix .card,body.hud .card{background:rgba(3,9,8,.86);border:1px solid rgba(46,230,208,.16);border-radius:14px;padding:24px 26px;margin:0 0 22px;transition:border-color .2s,box-shadow .2s}
+body .card:hover,body .card:focus-within{border-color:rgba(61,245,143,.4);box-shadow:0 0 0 1px rgba(61,245,143,.08),0 8px 30px rgba(0,0,0,.4)}
+body .card.disabled:hover{border-color:rgba(46,230,208,.16);box-shadow:none}
+body.hud .card::before{border-radius:14px}
+section:has(>.card+.card){display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px}
+section:has(>.card+.card)>*{margin:0}
+section:has(>.card+.card)>:not(.card){grid-column:1/-1}
+@media (max-width:600px){body .card{padding:20px 18px;border-radius:12px}}
+/* Faint cyber-infrastructure layer (circuit traces, server rack, city grid): static, CSS-only, self-hosted. */
+body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.07;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' fill='none' stroke='%232ee6d0' stroke-width='1'%3E%3Cpath d='M0 60h70l20 20h60l20-20h70M0 180h40l20-20h80l20 20h80M60 0v40l20 20M180 240v-40l-20-20M120 80v80'/%3E%3Ccircle cx='90' cy='80' r='3'/%3E%3Ccircle cx='150' cy='80' r='3'/%3E%3Ccircle cx='60' cy='160' r='3'/%3E%3Ccircle cx='160' cy='180' r='3'/%3E%3Crect x='196' y='96' width='28' height='48' rx='2'/%3E%3Cpath d='M200 106h20M200 116h20M200 126h20'/%3E%3C/svg%3E") repeat,linear-gradient(transparent 0 calc(100% - 1px),rgba(46,230,208,.5) 0) 0 0/80px 80px,linear-gradient(90deg,transparent 0 calc(100% - 1px),rgba(46,230,208,.5) 0) 0 0/80px 80px}
+@media print{body::before{display:none!important}body .card{box-shadow:none!important;border-color:#999!important;background:transparent!important}}
