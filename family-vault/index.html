@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src wss://s.altnet.rippletest.net:51233 wss://testnet.xrpl-labs.com; img-src 'self' data: blob:; style-src 'self'; script-src 'self'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Family Vault · Practice vault (Testnet)</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="intro">
+<div id="glow" aria-hidden="true"><i></i><i></i><i></i></div><canvas id="rain" aria-hidden="true"></canvas><canvas id="sil" aria-hidden="true"></canvas><div id="haze" aria-hidden="true"></div>
+<main>
+<div class="banner">Practice vault · Testnet</div>
+<h1>Family Vault</h1>
+<p class="sub">Savings for the young people in your family. It's theirs. You sign everything in your own wallet. This site never sees keys and stores nothing.</p>
+
+<section class="card" id="childCard">
+<h2 class="h0">Family member's savings</h2>
+<p class="note">Paste the young family member's Testnet wallet address (starts with "r"). We read the public ledger only.</p>
+<label for="childName">Their first name (optional, stays on this page only)</label><input id="childName" autocomplete="off" placeholder="e.g. Mia">
+<label for="childAddr">Their wallet address</label>
+<input id="childAddr" autocomplete="off" spellcheck="false" placeholder="r...">
+<div class="btns"><button id="loadChild">Show savings</button></div>
+<div id="childOut" aria-live="polite"></div>
+</section>
+
+<section class="card">
+<h2 class="h0">Check progress with a hash</h2>
+<p class="note">Paste a transaction hash (for example your EscrowCreate). The hash is the memory: nothing is saved here.</p>
+<label for="hash">Transaction hash</label>
+<input id="hash" autocomplete="off" spellcheck="false" placeholder="64 characters, 0-9 and A-F">
+<div class="btns"><button id="lookHash">Look up</button></div>
+<div id="hashOut" aria-live="polite"></div>
+</section>
+
+<section class="card">
+<h2 class="h0">Build a saving (unsigned)</h2>
+<p class="note">This makes an <b>unsigned</b> EscrowCreate for you to check and sign in your own wallet. This site cannot sign or send it.</p>
+<label for="saver">Your wallet address (the saver)</label><input id="saver" autocomplete="off" spellcheck="false" placeholder="r...">
+<label for="dest">Young family member's wallet address</label><input id="dest" autocomplete="off" spellcheck="false" placeholder="r...">
+<label for="amt">Amount (test XRP)</label><input id="amt" type="number" min="0.000001" step="0.000001" placeholder="10">
+<label for="finish">Unlock date and time (UTC): milestone</label><input id="finish" type="datetime-local">
+<label for="cancel">Cancel-after date and time (UTC): unclaimed XRP can come back to you after this</label><input id="cancel" type="datetime-local">
+<label for="mlabel">Milestone label (stays on this page only, never in the transaction)</label><input id="mlabel" autocomplete="off" placeholder="e.g. Age 10">
+<div class="btns"><button id="build">Build unsigned transaction</button></div>
+<div id="buildOut" aria-live="polite"></div>
+</section>
+
+<section class="card">
+<h2 class="h0">Your saving story</h2>
+<p class="note">Write about the journey, just for you and them. This text is never sent anywhere and isn't saved on this site. It only goes into the journey PDF or a story file you choose to download. Keep that file safe and open it again on the final milestone. (We never put it on the ledger, because ledger notes are public.)</p>
+<p class="note" id="storyDur"></p>
+<label for="story">Your story</label><textarea id="story"></textarea>
+<label for="highlights">Highlights to add to the journey (one per line, e.g. "2027-02 first day of school")</label><textarea id="highlights"></textarea>
+<div class="btns"><button class="alt" id="storyTxt">Download story file (.txt)</button><button class="alt" id="storyJson">Download story file (.json)</button><button id="pdf">Download my saving journey (PDF)</button></div>
+<p class="small">The journey uses the family member's public Testnet history (load their savings above first), plus anything you write here. Your browser's print window opens: choose "Save as PDF".</p>
+</section>
+
+<footer class="foot">Mainnet soon<br><span>Not financial or legal advice. Testnet only. Nothing is stored. The hash is the memory.</span></footer>
+</main>
+<section id="journey" aria-hidden="true">
+<h1 id="jtitle">Saving journey</h1><p>Practice vault · Testnet · made in your browser, nothing stored</p>
+<p><b id="jdur"></b></p>
+<table><thead><tr><th>Month (UTC)</th><th>What happened</th><th>Amount</th><th>Tx hash</th></tr></thead><tbody id="jrows"></tbody></table>
+<h2>You saved through…</h2><ul id="jevents"></ul><p id="jkept">And you kept going.</p>
+<h2>Highlights you added</h2><ul id="jhigh"></ul>
+<h2>Your saving story</h2><p class="story" id="jstory"></p>
+<p class="jfoot">Ledger events come from the public XRP Ledger Testnet (account_tx, read-only). Highlights and story come only from this device. Not financial or legal advice.</p>
+</section>
+<div id="pop" role="dialog" aria-modal="true" aria-labelledby="pt"><div class="popc"><div class="confwrap" id="popc"></div>
+<h2 id="pt"></h2><p class="note" id="pdur" hidden></p><p class="note" id="psub"></p>
+<p class="quote" id="pq" hidden>"The best time to plant a tree was twenty years ago. The second best time is now."<span>Proverb (modern saying, origin unknown)</span></p><button id="close">Close</button></div></div>
+<script src="bg.js"></script>
+<script src="app.js"></script>
+<script src="journey.js"></script>
+</body></html>
