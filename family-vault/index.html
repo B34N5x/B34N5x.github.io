@@ -12,6 +12,26 @@
 <div class="banner">Practice vault · Testnet</div>
 <h1>Family Vault</h1>
 <p class="sub">Savings for the young people in your family. It's theirs. You sign everything in your own wallet. This site never sees keys and stores nothing.</p>
+<label class="beginner-toggle"><input type="checkbox" id="beginner-toggle"> I'm new to this</label>
+<section class="card beginner-only" aria-label="Beginner guide"><h2 class="h0">New here? The basics</h2>
+<ul class="note privacy">
+<li><b>Testnet</b> is a practice XRP Ledger. Its test XRP is free and worth nothing, so you can learn without risk.</li>
+<li>An <b>escrow</b> locks XRP on the ledger until a date you choose. Then it can be released to the person it's for.</li>
+<li>A <b>tx hash</b> is the receipt ID for a transaction (64 characters). Save it somewhere private, then paste it here later to check progress.</li>
+<li><b>Never share your seed or secret words.</b> Not with us, not with anyone. Nobody legit will ever ask.</li>
+</ul></section>
+
+<details class="card explainer" id="privacy"><summary>Your privacy</summary>
+<ul class="note privacy">
+<li><b>We keep nothing.</b> No account, no cookies, no saved data. This page doesn't remember you.</li>
+<li><b>Your tx hash is your bookmark.</b> Save it yourself, then paste it here to pick up where you left off. The page reads it from the public XRPL ledger each time.</li>
+<li><b>Closing the tab, or pressing "Clear this page", wipes everything you typed.</b></li>
+<li><b>Escrows live on the public ledger.</b> Anyone with the address can see them. Nobody, including us, can delete them. Only the owner can cancel or finish one from their own wallet, when its rules allow.</li>
+<li><b>We never ask for your seed or keys.</b> If anyone does, it's a scam.</li>
+</ul>
+<p class="small">Tip: keep your tx hashes somewhere private, like a note only you control.</p>
+</details>
+<div class="clearbar"><button type="button" class="alt small-btn" id="clearPage">Clear this page</button> <span class="note" id="clearMsg" role="status" aria-live="polite" hidden>Cleared, nothing was saved.</span></div>
 
 <section class="card" id="childCard">
 <h2 class="h0">Family member's savings</h2>
@@ -25,6 +45,7 @@
 
 <section class="card">
 <h2 class="h0">Check progress with a hash</h2>
+<p class="note beginner-only">New? Your hash came from your wallet after you signed. Find it in your wallet's activity and copy the whole thing.</p>
 <p class="note">Paste a transaction hash (for example your EscrowCreate). The hash is the memory: nothing is saved here.</p>
 <label for="hash">Transaction hash</label>
 <input id="hash" autocomplete="off" spellcheck="false" placeholder="64 characters, 0-9 and A-F">
@@ -72,4 +93,5 @@
 <script src="bg.js"></script>
 <script src="app.js"></script>
 <script src="journey.js"></script>
+<script src="privacy.js"></script>
 </body></html>

@@ -58,3 +58,14 @@ pre.json{color:var(--text);max-height:340px;overflow:auto}
 .h0{margin-top:0}
 #childOut>.big:first-child,#childOut>.big{margin-top:14px}
 .jfoot{font-size:9pt}
+.privacy{margin:.4em 0;padding-left:1.2em}.privacy li{margin:.3em 0}
+details.explainer summary{font-weight:600;cursor:pointer;color:var(--ok);list-style:none}
+details.explainer summary::-webkit-details-marker{display:none}
+details.explainer summary::before{content:"+ ";color:var(--accent-2)}
+details.explainer[open] summary::before{content:"\2212  "}
+.clearbar{display:flex;align-items:center;gap:.6em;margin:-.4em 0 1em}
+.small-btn{font-size:.85em;padding:.35em .8em}
+.beginner-toggle{display:inline-block;margin:.2em 0 1em;font-size:.9em;cursor:pointer}
+.beginner-only{display:none}
+body.beginner .beginner-only{display:block}
+.beginner-toggle{display:inline-flex;align-items:center;gap:.4em;font-weight:500}.beginner-toggle input{width:auto;margin:0;padding:0}
