@@ -5,6 +5,20 @@ const TESTNET_SERVERS = ['wss://s.altnet.rippletest.net:51233', 'wss://testnet.x
 const RIPPLE_EPOCH = 946684800; // seconds between 1970-01-01 and 2000-01-01 (UTC)
 const $ = id => document.getElementById(id);
 const ADDR_RE = /^r[1-9A-HJ-NP-Za-km-z]{24,34}$/;
+// Checks the built-in checksum of a classic XRPL address (base58 + double SHA-256), so typos are caught before anything is read.
+const XRPL_ALPHA = 'rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz';
+const BAD_SUM = 'That address has a typo somewhere (its built-in checksum does not match). Please copy it again from the wallet.';
+async function isClassicAddress(a) {
+  if (typeof a !== 'string' || !ADDR_RE.test(a)) return false;
+  let n = 0n; for (const ch of a) { const k = XRPL_ALPHA.indexOf(ch); if (k < 0) return false; n = n * 58n + BigInt(k); }
+  const raw = []; while (n > 0n) { raw.unshift(Number(n & 255n)); n >>= 8n; }
+  for (let i = 0; i < a.length && a[i] === 'r'; i++) raw.unshift(0);
+  if (raw.length !== 25 || raw[0] !== 0) return false;
+  const d1 = await crypto.subtle.digest('SHA-256', new Uint8Array(raw.slice(0, 21)));
+  const d2 = new Uint8Array(await crypto.subtle.digest('SHA-256', d1));
+  for (let i = 0; i < 4; i++) if (d2[i] !== raw[21 + i]) return false;
+  return true;
+}
 const HASH_RE = /^[0-9A-Fa-f]{64}$/;
 
 // ---- tiny Testnet client (read-only requests only) ----
@@ -87,13 +101,14 @@ async function txDate(hash) { try { const t = await rpc('tx', { transaction: has
 $('loadChild').onclick = async () => {
   const addr = $('childAddr').value.trim();
   if (!ADDR_RE.test(addr)) return errBox('childOut', 'That does not look like an XRPL address. It should start with "r".');
+  if (!(await isClassicAddress(addr))) return errBox('childOut', BAD_SUM);
   show('childOut', '<p class="note">Reading the Testnet ledger…</p>');
   try {
     let marker, objs = [];
     do { const r = await rpc('account_objects', { account: addr, type: 'escrow', ledger_index: 'validated', limit: 200, ...(marker ? { marker } : {}) }); objs = objs.concat(r.account_objects); marker = r.marker; } while (marker);
     const mine = objs.filter(o => o.Destination === addr);
-    if (!mine.length) { show('childOut', '<p class="note">No locked savings found for this address on Testnet right now.</p>'); document.dispatchEvent(new CustomEvent('fv:child', { detail: { addr, open: [], now } })); return; }
     const now = nowRipple(); let total = 0n;
+    if (!mine.length) { show('childOut', '<p class="note">No locked savings found for this address on Testnet right now.</p>'); document.dispatchEvent(new CustomEvent('fv:child', { detail: { addr, open: [], now } })); return; }
     for (const o of mine) { total += BigInt(o.Amount); o._created = await txDate(o.PreviousTxnID); }
     mine.sort((a, b) => (a.FinishAfter || 0) - (b.FinishAfter || 0));
     const upcoming = mine.filter(o => o.FinishAfter && o.FinishAfter > now);
@@ -175,8 +190,8 @@ $('lookHash').onclick = async () => {
     document.querySelectorAll('#hashOut .bar>i').forEach(i => i.style.width = i.dataset.w + '%');
     if (entry && t.FinishAfter && t.FinishAfter > now) icsButton($('hashIcs'), [{ date: rippleToDate(t.FinishAfter), title: 'Family Vault: savings unlock (' + dropsToXrp(t.Amount) + ' test XRP)', desc: 'Testnet practice saving unlocks. Hash: ' + h }]);
     if (entry) {
-      const mk = kind => {
-        const s = $('signer').value.trim(); if (!ADDR_RE.test(s)) return errBox('fcOut', 'Enter the address of the wallet that will sign.');
+      const mk = async kind => {
+        const s = $('signer').value.trim(); if (!ADDR_RE.test(s)) return errBox('fcOut', 'Enter the address of the wallet that will sign.'); if (!(await isClassicAddress(s))) return errBox('fcOut', BAD_SUM);
         const n2 = nowRipple();
         if (kind === 'EscrowFinish' && t.FinishAfter && n2 <= t.FinishAfter) return errBox('fcOut', 'Too early: the ledger will refuse a claim before ' + fmtUTC(rippleToDate(t.FinishAfter)) + '.');
         if (kind === 'EscrowCancel' && (!t.CancelAfter || n2 <= t.CancelAfter)) return errBox('fcOut', t.CancelAfter ? 'Too early: cancelling only works after ' + fmtUTC(rippleToDate(t.CancelAfter)) + '.' : 'This saving has no cancel date, so it cannot be cancelled.');
@@ -194,6 +209,8 @@ $('build').onclick = async () => {
   const fa = utcInputToRipple($('finish').value), ca = utcInputToRipple($('cancel').value), now = nowRipple(), errs = [];
   if (!ADDR_RE.test(saver)) errs.push('Your wallet address does not look right.');
   if (!ADDR_RE.test(dest)) errs.push("The family member's address does not look right.");
+  if (ADDR_RE.test(saver) && !(await isClassicAddress(saver))) errs.push('Your wallet address has a typo (checksum does not match).');
+  if (ADDR_RE.test(dest) && !(await isClassicAddress(dest))) errs.push("The family member's address has a typo (checksum does not match).");
   if (saver && saver === dest) errs.push('The saver and the family member must be different wallets.');
   if (!drops) errs.push('Enter an amount above 0 with at most 6 decimal places.');
   if (!fa || fa <= now + 60) errs.push('The unlock date must be in the future.');
