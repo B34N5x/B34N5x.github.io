@@ -1,5 +1,5 @@
 // B34N5 service worker: same-origin GET only. Never touches WebSocket or cross-origin requests.
-const VERSION = "b34n5-v20";
+const VERSION = "b34n5-v21";
 const SHELL = ["/", "/index.html", "/tools/", "/security/", "/checker/", "/checker/testnet/", "/checker/mainnet/", "/tools/balance-checker/", "/terms/",
   "/assets/style.css", "/assets/cursor-xrp.svg", "/assets/cursor-xrp.png", "/assets/checker.js", "/assets/consent.js", "/assets/rain.js", "/assets/eggs.js", "/assets/pwa.js", "/assets/sparkle.js", "/assets/matrix-bg.js", "/assets/hud.js", "/assets/visits.js", "/assets/vendor/xrpl-4.7.0.min.js",
   "/assets/img/A-digital-rain-1600x500.png", "/assets/img/A-digital-rain-800x600.png", "/assets/img/favicon-32.png", "/assets/img/favicon-192.png",
