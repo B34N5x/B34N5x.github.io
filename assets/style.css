@@ -138,3 +138,7 @@ details.explainer summary::before{content:"+ ";color:#2ee6d0}
 details.explainer[open] summary::before{content:"\2212  "}
 details.explainer p{margin:12px 0 0;color:#c3d4ce;line-height:1.6}
 #site-version{margin:0 0 8px;font-size:.8rem;opacity:.75}
+.lobby-show{margin:.75rem 0}.lobby-show video{display:block;width:100%;max-width:960px;aspect-ratio:16/9;height:auto;border-radius:10px;background:#000}
+.lobby-shots{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:.5rem;max-width:960px}.lobby-shots img{width:100%;height:auto;border-radius:8px;display:block}
+@media (max-width:600px){.lobby-shots{grid-template-columns:repeat(2,1fr)}.lobby-shots img:last-child{display:none}}
+.lobby-show figcaption{margin-top:.4rem;opacity:.8;font-size:.9em}
