@@ -185,3 +185,4 @@ body.home{line-height:1.5}
 @media (prefers-reduced-motion:reduce){.maint .wr{animation:none}}
 .maint-note{font-size:.85em;opacity:.7;margin-left:.3em}
 .maint-s{opacity:.6;font-size:.75em;margin-left:.3em}
+.lobby-age{font-size:.75em;opacity:.55;margin:.3em 0 0}
