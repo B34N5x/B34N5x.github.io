@@ -186,3 +186,24 @@ body.home{line-height:1.5}
 .maint-note{font-size:.85em;opacity:.7;margin-left:.3em}
 .maint-s{opacity:.6;font-size:.75em;margin-left:.3em}
 .lobby-age{font-size:.75em;opacity:.55;margin:.3em 0 0}
+
+/* AI-motion floating cards (motionsites-inspired soft depth; no heavy libs) */
+.float-deck{list-style:none;margin:0;padding:0;display:grid;gap:12px;perspective:1200px;border:0;background:transparent;overflow:visible}
+.float-deck .fcard{position:relative;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;padding:14px 16px;border-radius:18px;border:1px solid rgba(46,230,208,.18);background:linear-gradient(160deg,rgba(10,18,20,.92),rgba(6,12,14,.78));box-shadow:0 10px 28px rgba(0,0,0,.35),0 1px 0 rgba(95,240,200,.08) inset;transform-style:preserve-3d;will-change:transform;transition:border-color .25s,box-shadow .25s;font-size:.92rem;isolation:isolate}
+.float-deck .fcard::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(120% 80% at 10% 0%,rgba(61,245,143,.08),transparent 55%);opacity:.9}
+.float-deck .fcard:hover,.float-deck .fcard:focus-within{border-color:rgba(61,245,143,.42);box-shadow:0 16px 40px rgba(0,0,0,.45),0 0 0 1px rgba(61,245,143,.1),0 0 24px rgba(46,230,208,.08)}
+.float-deck .fcard a{font-weight:600;text-decoration:none;font-family:var(--mono);position:relative;z-index:1}
+.float-deck .fcard .tag{font-size:.68rem;padding:0 7px;position:relative;z-index:1}
+.float-deck .fcard>span:not(.tag):not(.chips):not(.maint){flex-basis:100%;color:var(--dim);font-size:.82rem;line-height:1.35;position:relative;z-index:1}
+.float-deck .chips{flex-basis:100%;display:flex;flex-wrap:wrap;gap:4px;position:relative;z-index:1}
+.float-deck .chips i{font-style:normal;font-size:.68rem;color:var(--teal);border:1px solid var(--line);border-radius:99px;padding:0 8px}
+.float-deck .fcard .maint{margin-left:auto}
+@media (min-width:720px){.float-deck{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.float-deck .fcard:first-child{grid-column:1/-1}}
+@keyframes fbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.float-deck .fcard.bob{animation:fbob 5.5s ease-in-out infinite}
+.float-deck .fcard:nth-child(2).bob{animation-delay:.4s}
+.float-deck .fcard:nth-child(3).bob{animation-delay:.9s}
+.float-deck .fcard:nth-child(4).bob{animation-delay:1.3s}
+.float-deck .fcard:nth-child(5).bob{animation-delay:1.7s}
+@media (prefers-reduced-motion:reduce){.float-deck .fcard.bob{animation:none!important}.float-deck .fcard{transition:none}}
+@media (max-width:600px){.float-deck{gap:10px}.float-deck .fcard{padding:12px 14px;border-radius:16px}.home .banner picture img{height:160px}.home .banner h1{font-size:1.1rem}.home .banner p{font-size:.85rem}.trust{font-size:.75rem;margin-bottom:8px}.cta{margin:10px 0 4px;font-size:.85rem}}
