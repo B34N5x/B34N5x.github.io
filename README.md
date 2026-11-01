@@ -8,7 +8,7 @@ Personal site for B34N5x: small, open-source tools for the XRP Ledger, built whi
 
 Run locally: `python -m http.server` then open http://localhost:8000.
 
-Open source under the MIT licence (see `LICENSE`).
+Open source under the Apache-2.0 licence (see `LICENSE`).
 
 ## Terms and disclaimer
 
