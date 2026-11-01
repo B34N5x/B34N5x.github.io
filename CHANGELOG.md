@@ -2,6 +2,15 @@
 
 All notable site updates are listed here. Each entry has a matching JSON summary under `updates/`.
 
+## 2026-11-02 — XRP Starter Packs (v0.3.5 / sw b34n5-v33)
+
+- Tools page: new **XRP Starter Packs** section with floating tiles — Family (Live), Analyst (Live), Traffic (Coming soon), More packs coming.
+- Family: Family Vault + XRPL Will. Analyst: Balance Checker, Apache-2.0 balance script, public explorers (XRPL Explorer, Bithomp, XRPScan) + NFT docs. Traffic: toll-road fees idea only, no live tool.
+- Note on every pack path: Testnet first. No keys, nothing stored. Existing All tools cards kept.
+- Home Tools carousel: starter-pack subcategory tiles + All tools link; summary mentions Starter Packs.
+- Service worker bumped to `b34n5-v33`; site version 0.3.5; CSS cache-bust `?v=33`.
+- Rollback: revert to commit `baca428`.
+
 ## 2026-11-01 — Tab titles & summaries (v0.3.4 / sw b34n5-v32)
 
 - Replaced vague "tap · subcategories" tile hints with a clear carousel guide ("Swipe to explore · tap a tile for more") and a real one-line summary on every tile.

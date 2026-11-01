@@ -194,7 +194,7 @@ body.home{line-height:1.5}
 .float-deck .fcard:hover,.float-deck .fcard:focus-within{border-color:rgba(61,245,143,.42);box-shadow:0 16px 40px rgba(0,0,0,.45),0 0 0 1px rgba(61,245,143,.1),0 0 24px rgba(46,230,208,.08)}
 .float-deck .fcard a{font-weight:600;text-decoration:none;font-family:var(--mono);position:relative;z-index:1}
 .float-deck .fcard .tag{font-size:.68rem;padding:0 7px;position:relative;z-index:1}
-.float-deck .fcard>span:not(.tag):not(.chips):not(.maint){flex-basis:100%;color:var(--dim);font-size:.82rem;line-height:1.35;position:relative;z-index:1}
+.float-deck .fcard>span:not(.tag):not(.chips):not(.maint):not(.sub-item-title):not(.sub-item-sum):not(.pack-links):not(.lobby-age):not(.car-sum):not(.car-head){flex-basis:100%;color:var(--dim);font-size:.82rem;line-height:1.35;position:relative;z-index:1}
 .float-deck .chips{flex-basis:100%;display:flex;flex-wrap:wrap;gap:4px;position:relative;z-index:1}
 .float-deck .chips i{font-style:normal;font-size:.68rem;color:var(--teal);border:1px solid var(--line);border-radius:99px;padding:0 8px}
 .float-deck .fcard .maint{margin-left:auto}
@@ -350,3 +350,20 @@ header.glass-nav .navdd>summary{font-size:.92rem}
 .carousel-track .car-tile.bob{animation:none}
 /* Kill persistent will-change / 3D on float cards inside snap carousel */
 .carousel-wrap.car-snap .float-deck .fcard{will-change:auto;transform-style:flat;perspective:none}
+
+/* XRP Starter Packs (Tools page) */
+.packs{margin:28px 0 8px}
+.pack-lead{margin:0 0 14px;color:var(--dim);font-size:.92rem;line-height:1.45}
+.pack-lead strong{color:var(--text);font-weight:600}
+.tag.soon{background:#2a2410;color:#e6c35c}
+.pack-deck.float-deck .fcard:first-child{grid-column:auto}
+.pack-deck.float-deck .fcard .sub-item-title{flex-basis:auto;width:auto;font-family:var(--mono);font-weight:700;color:var(--green);font-size:.98rem;position:relative;z-index:1}
+.pack-deck.float-deck .fcard .sub-item-sum{display:block;flex-basis:100%;font-size:.84rem;line-height:1.35;margin:4px 0 6px;color:var(--text);position:relative;z-index:1}
+.pack-deck.float-deck .fcard .pack-links{display:block;flex-basis:100%;font-size:.8rem;line-height:1.45;color:var(--dim);position:relative;z-index:1;margin:0 0 6px}
+.pack-deck .pack-links a{font-weight:600;font-family:var(--mono);font-size:.8rem}
+.sub-tiles .tag.soon{background:#2a2410;color:#e6c35c}
+@media (max-width:600px){
+ .pack-lead{font-size:.85rem;margin-bottom:10px}
+ .pack-deck .pack-links{font-size:.76rem}
+ .pack-deck .fcard{padding:12px 14px}
+}

@@ -1,0 +1,26 @@
+{
+  "date": "2026-11-02",
+  "version": "0.3.5",
+  "sw": "b34n5-v33",
+  "files_changed": [
+    "tools/index.html",
+    "index.html",
+    "assets/style.css",
+    "sw.js",
+    "CHANGELOG.md",
+    "updates/2026-11-02-starter-packs.json"
+  ],
+  "summary": "Tools: XRP Starter Packs section (Family Live, Analyst Live, Traffic Coming soon, More packs); Testnet first / no keys note; home Tools subs point at packs; sw b34n5-v33; site 0.3.5.",
+  "packs": [
+    {"title": "Family Starter", "status": "Live", "links": ["family-vault/", "https://xrpl-will.pages.dev"], "summary": "Practice family escrows and time-locks on Testnet."},
+    {"title": "Analyst Starter", "status": "Live", "links": ["checker/", "https://github.com/B34N5x/xrpl-balance-checker", "https://livenet.xrpl.org", "https://bithomp.com", "https://xrpscan.com", "https://xrpl.org/docs/concepts/tokens/nfts"], "summary": "Check balances and browse the ledger read-only."},
+    {"title": "Traffic Starter", "status": "Coming soon", "links": [], "summary": "Learn XRPL fees like a toll road. Build coming later."},
+    {"title": "More packs coming", "status": "Soon", "links": [], "summary": "New starter paths as tools leave Testnet practice."}
+  ],
+  "broken": [],
+  "risks": [
+    "Service worker cache bust depends on clients fetching new sw.js",
+    "External explorer links are third-party (read-only navigation only)"
+  ],
+  "rollback": "baca428"
+}
