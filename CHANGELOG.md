@@ -2,6 +2,15 @@
 
 All notable site updates are listed here. Each entry has a matching JSON summary under `updates/`.
 
+## 2026-11-02 — Starter Packs regroup (v0.3.6 / sw b34n5-v34)
+
+- Family Starter: Family Vault + XRPL Will only.
+- Analyst Starter: Balance Checker, Apache-2.0 balance script, BatchChecker (Coming soon); explorers kept as small secondary links.
+- Traffic Starter: Toll (Coming soon) + More traffic projects coming.
+- Removed standalone More packs coming tile (covered under Traffic).
+- Service worker bumped to `b34n5-v34`; site version 0.3.6; CSS `?v=34`.
+- Rollback: revert to commit `ceb0b35`.
+
 ## 2026-11-02 — XRP Starter Packs (v0.3.5 / sw b34n5-v33)
 
 - Tools page: new **XRP Starter Packs** section with floating tiles — Family (Live), Analyst (Live), Traffic (Coming soon), More packs coming.
