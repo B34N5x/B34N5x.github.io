@@ -1,7 +1,8 @@
 // Soft tilt for floating cards. No libraries. Respects prefers-reduced-motion.
+// Skips carousel tiles (carousel.js owns their transforms).
 (function () {
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var cards = document.querySelectorAll('.float-deck .fcard');
+  var cards = document.querySelectorAll('.float-deck .fcard:not(.car-tile)');
   if (!cards.length) return;
   cards.forEach(function (c, i) {
     if (!reduce) c.classList.add('bob');

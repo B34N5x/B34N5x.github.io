@@ -1,0 +1,21 @@
+{
+  "date": "2026-11-01",
+  "version": "0.3.2",
+  "sw": "b34n5-v30",
+  "files_changed": [
+    "index.html",
+    "assets/style.css",
+    "assets/carousel.js",
+    "assets/float-cards.js",
+    "sw.js",
+    "CHANGELOG.md",
+    "updates/2026-11-01-carousel.json"
+  ],
+  "summary": "Home: 3D-ish rotating tile carousel with zoom focus; subcategory floating corner panel (NFTs/Tools); glassy minimalist sticky nav; reduced-motion static grid; logging rule (CHANGELOG + updates JSON); sw b34n5-v30.",
+  "risks": [
+    "Carousel JS owns transforms on .car-tile; conflict if other scripts animate those nodes",
+    "Sticky glass nav may overlap content on very short viewports",
+    "Service worker cache bust depends on clients fetching new sw.js"
+  ],
+  "rollback": "e6ec078b31210bb997549c8c7a2c7d7b8c889e1e"
+}
