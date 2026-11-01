@@ -2,6 +2,13 @@
 
 All notable site updates are listed here. Each entry has a matching JSON summary under `updates/`.
 
+## 2026-11-02 — Projects Coming soon (v0.3.7 / sw b34n5-v35)
+
+- Projects page: **Coming soon** section with BatchChecker (Analyst pack) and XRPL Toll (Traffic pack) — short title, one-line summary, Coming soon badge, link to Starter Pack.
+- Lobby card kept under In progress (maintenance unchanged).
+- Service worker bumped to `b34n5-v35`; site version 0.3.7; CSS `?v=35`.
+- Rollback: revert to commit `aaef4ef`.
+
 ## 2026-11-02 — Starter Packs regroup (v0.3.6 / sw b34n5-v34)
 
 - Family Starter: Family Vault + XRPL Will only.
