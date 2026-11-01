@@ -206,6 +206,13 @@ body.home{line-height:1.5}
 .float-deck .fcard:nth-child(4).bob{animation-delay:1.3s}
 .float-deck .fcard:nth-child(5).bob{animation-delay:1.7s}
 @media (prefers-reduced-motion:reduce){.float-deck .fcard.bob{animation:none!important}.float-deck .fcard{transition:none}}
+/* mobile: flatten float-deck 3D to avoid Android backface flicker */
+@media (max-width:768px),(pointer:coarse){
+ .float-deck{perspective:none}
+ .float-deck .fcard{transform-style:flat;will-change:auto}
+ .float-deck .fcard.bob{animation:none}
+}
+
 @media (max-width:600px){.float-deck{gap:10px}.float-deck .fcard{padding:12px 14px;border-radius:16px}.home .banner picture img{height:160px}.home .banner h1{font-size:1.1rem}.home .banner p{font-size:.85rem}.trust{font-size:.75rem;margin-bottom:8px}.cta{margin:10px 0 4px;font-size:.85rem}}
 
 /* Glassy minimalist nav — slim, eye-catching accent */
@@ -217,28 +224,28 @@ header.glass-nav nav a{font-size:.92rem;position:relative}
 header.glass-nav nav a[aria-current]::after,header.glass-nav nav a:hover::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:2px;border-radius:2px;background:var(--green);box-shadow:0 0 8px rgba(61,245,143,.5)}
 header.glass-nav .navdd>summary{font-size:.92rem}
 
-/* 3D-ish tile carousel */
+/* Tile carousel — desktop 3D coverflow; touch/narrow = flat scroll-snap */
 .carousel-wrap{position:relative;margin:4px 0 12px;--car-h:200px}
 .carousel-stage{position:relative;height:var(--car-h);perspective:1100px;outline:none;touch-action:pan-y;overflow:visible}
 .carousel-track{list-style:none;margin:0;padding:0;position:relative;height:100%;transform-style:preserve-3d;border:0;background:transparent;display:block}
-.carousel-track.float-deck{display:block;grid-template-columns:none}
-.car-tile{position:absolute;left:50%;top:50%;width:min(78%,320px);max-width:340px;transform:translate(-50%,-50%);cursor:pointer;margin:0;transition:transform .45s cubic-bezier(.22,.7,.25,1),opacity .35s,box-shadow .25s,border-color .25s;will-change:transform,opacity}
+.carousel-track.float-deck{display:block;grid-template-columns:none;perspective:none}
+.car-tile{position:absolute;left:50%;top:50%;width:min(78%,320px);max-width:340px;transform:translate(-50%,-50%);cursor:pointer;margin:0;transition:transform .45s cubic-bezier(.22,.7,.25,1),opacity .35s,box-shadow .25s,border-color .25s;backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .car-tile .car-title{font-family:var(--mono);font-weight:700;color:var(--green);font-size:1.05rem;position:relative;z-index:1;margin:0 4px 0 0}
 .car-tile .car-hint{font-size:.72rem;color:var(--teal);opacity:.8;position:relative;z-index:1;margin-left:auto}
 .car-tile.is-focus{box-shadow:0 18px 44px rgba(0,0,0,.5),0 0 0 1px rgba(61,245,143,.18),0 0 28px rgba(46,230,208,.14)}
 .car-tile[data-has-subs="1"] .car-hint::before{content:"tap · "}
-.car-prev,.car-next{position:absolute;top:50%;transform:translateY(-50%);z-index:30;margin:0;padding:6px 10px;font-size:1.2rem;line-height:1;background:rgba(5,10,12,.65);color:var(--green);border:1px solid rgba(46,230,208,.35);border-radius:999px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);box-shadow:0 0 12px rgba(61,245,143,.12)}
+.car-prev,.car-next{position:absolute;top:50%;transform:translateY(-50%);z-index:30;margin:0;padding:6px 10px;font-size:1.2rem;line-height:1;background:rgba(5,10,12,.65);color:var(--green);border:1px solid rgba(46,230,208,.35);border-radius:999px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);box-shadow:0 0 12px rgba(61,245,143,.12);min-width:40px;min-height:40px}
 .car-prev{left:0}.car-next{right:0}
 .car-prev:hover,.car-next:hover{border-color:var(--green);box-shadow:0 0 16px rgba(61,245,143,.25)}
 .car-dots{display:flex;justify-content:center;gap:8px;margin:10px 0 0;padding:0}
-.car-dot{width:8px;height:8px;padding:0;margin:0;border-radius:99px;border:1px solid rgba(46,230,208,.45);background:transparent;cursor:pointer}
+.car-dot{width:10px;height:10px;padding:0;margin:0;border-radius:99px;border:1px solid rgba(46,230,208,.45);background:transparent;cursor:pointer}
 .car-dot.on{background:var(--green);box-shadow:0 0 8px rgba(61,245,143,.55);border-color:var(--green)}
 .carousel-wrap.car-dimmed .carousel-stage{opacity:.45;filter:saturate(.7)}
 .carousel-wrap.car-dimmed .car-prev,.carousel-wrap.car-dimmed .car-next{opacity:.4;pointer-events:none}
 
 /* Reduced motion / static grid fallback */
-.carousel-wrap.car-static .carousel-stage{height:auto;perspective:none}
-.carousel-wrap.car-static .carousel-track{display:grid;gap:12px;height:auto;transform:none}
+.carousel-wrap.car-static .carousel-stage{height:auto;perspective:none;overflow:visible;touch-action:auto}
+.carousel-wrap.car-static .carousel-track{display:grid;gap:12px;height:auto;transform:none;transform-style:flat}
 .carousel-wrap.car-static .car-tile{position:relative;left:auto;top:auto;width:auto;max-width:none;transform:none!important;opacity:1!important}
 .carousel-wrap.car-static .car-prev,.carousel-wrap.car-static .car-next,.carousel-wrap.car-static .car-dots{display:none}
 @media (prefers-reduced-motion:reduce){
@@ -257,22 +264,82 @@ header.glass-nav .navdd>summary{font-size:.92rem}
  .car-dots{margin-top:6px}
 }
 
-/* Floating subcategory corner panel */
-.sub-float{position:fixed;z-index:45;right:12px;bottom:12px;width:min(360px,calc(100vw - 24px));max-height:min(70vh,520px);overflow:auto;padding:14px 14px 16px;border-radius:18px;border:1px solid rgba(61,245,143,.35);background:linear-gradient(165deg,rgba(8,14,16,.94),rgba(4,8,10,.88));box-shadow:0 20px 50px rgba(0,0,0,.55),0 0 30px rgba(46,230,208,.12);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);transform:translateY(24px) scale(.92);opacity:0;pointer-events:none;transition:transform .35s cubic-bezier(.22,.7,.25,1),opacity .3s}
+/* Touch / narrow: flat horizontal scroll-snap (no 3D, no perspective, no backface flicker) */
+@media (max-width:768px),(pointer:coarse){
+ .carousel-wrap.car-snap{--car-h:auto;margin:4px 0 10px}
+ .carousel-wrap.car-snap .carousel-stage{
+   height:auto;perspective:none;transform:none;
+   overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;
+   scroll-snap-type:x mandatory;scroll-padding-inline:16px;
+   touch-action:pan-x;overscroll-behavior-x:contain;
+   display:block;padding:4px 0 8px;
+   scrollbar-width:none;
+ }
+ .carousel-wrap.car-snap .carousel-stage::-webkit-scrollbar{display:none}
+ .carousel-wrap.car-snap .carousel-track{
+   display:flex;flex-direction:row;align-items:stretch;gap:12px;
+   height:auto;width:max-content;min-width:100%;
+   transform:none;transform-style:flat;perspective:none;
+   padding:0 16px;box-sizing:border-box;
+ }
+ .carousel-wrap.car-snap .carousel-track.float-deck{
+   display:flex;grid-template-columns:none;perspective:none;overflow:visible;
+ }
+ .carousel-wrap.car-snap .car-tile{
+   position:relative;left:auto;top:auto;
+   flex:0 0 min(82vw,300px);width:min(82vw,300px);max-width:300px;
+   transform:none!important;opacity:.72;z-index:auto;
+   scroll-snap-align:center;scroll-snap-stop:always;
+   transition:opacity .25s ease,box-shadow .25s ease,border-color .25s;
+   will-change:auto;backface-visibility:visible;-webkit-backface-visibility:visible;
+   /* kill inherited 3D from .float-deck .fcard */
+   transform-style:flat;
+ }
+ .carousel-wrap.car-snap .car-tile.is-focus{opacity:1;transform:none!important}
+ .carousel-wrap.car-snap .car-tile.is-focus{box-shadow:0 12px 28px rgba(0,0,0,.4),0 0 0 1px rgba(61,245,143,.2),0 0 18px rgba(46,230,208,.1)}
+ .carousel-wrap.car-snap .car-prev,.carousel-wrap.car-snap .car-next{display:none}
+ .carousel-wrap.car-snap.car-dimmed .carousel-stage{opacity:.55;filter:none}
+ /* Bottom sheet instead of corner float */
+ .sub-float.sub-sheet{
+   left:0;right:0;bottom:0;top:auto;width:auto;
+   max-height:min(70dvh,70vh);
+   border-radius:18px 18px 0 0;
+   padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));
+   transform:translateY(110%);
+   opacity:1;
+   box-shadow:0 -12px 40px rgba(0,0,0,.55),0 0 24px rgba(46,230,208,.1);
+ }
+ .sub-float.sub-sheet.open{transform:translateY(0);opacity:1}
+ .sub-float.sub-sheet .sub-close{top:10px;right:12px;min-width:40px;min-height:40px}
+ body.sub-open{overflow:hidden;touch-action:none}
+}
+/* Guard: never let coverflow paint sideways scroll on narrow screens without car-snap */
+@media (max-width:768px){
+ html,body{overflow-x:clip;max-width:100%}
+ .carousel-wrap:not(.car-static){overflow:hidden}
+ .more>summary{padding:12px 0;min-height:44px;display:flex;align-items:center}
+ header.glass-nav{padding-top:env(safe-area-inset-top,0px)}
+ header.glass-nav nav{padding:8px 0;gap:12px}
+}
+
+/* Floating subcategory corner panel (desktop) / bottom sheet (touch via .sub-sheet) */
+.sub-float{position:fixed;z-index:45;right:max(12px,env(safe-area-inset-right,0px));bottom:max(12px,env(safe-area-inset-bottom,0px));width:min(360px,calc(100vw - 24px));max-height:min(70dvh,70vh,520px);overflow:auto;padding:14px 14px 16px;border-radius:18px;border:1px solid rgba(61,245,143,.35);background:linear-gradient(165deg,rgba(8,14,16,.94),rgba(4,8,10,.88));box-shadow:0 20px 50px rgba(0,0,0,.55),0 0 30px rgba(46,230,208,.12);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);transform:translateY(24px) scale(.92);opacity:0;pointer-events:none;transition:transform .35s cubic-bezier(.22,.7,.25,1),opacity .3s}
 .sub-float.open{transform:translateY(0) scale(1);opacity:1;pointer-events:auto}
 .sub-float[hidden]{display:none}
 .sub-float.open[hidden]{display:block}
 .sub-float .sub-close{position:absolute;top:8px;right:8px;margin:0;padding:4px 10px;font-size:.95rem;background:transparent;color:var(--text);border:1px solid var(--line);border-radius:999px}
 .sub-float .sub-title{margin:0 28px 10px 0;font-size:1rem;color:var(--teal)}
 .sub-float .sub-title::before{content:"// "}
-.sub-tiles{list-style:none;margin:0;padding:0;display:grid;gap:10px;border:0;background:transparent}
-.sub-tiles .fcard{animation:sub-in .4s ease both}
+.sub-tiles{list-style:none;margin:0;padding:0;display:grid;gap:10px;border:0;background:transparent;perspective:none;transform-style:flat}
+.sub-tiles .fcard{animation:sub-in .4s ease both;transform-style:flat}
 .sub-tiles .fcard:nth-child(2){animation-delay:.05s}
 .sub-tiles .fcard:nth-child(3){animation-delay:.1s}
 .sub-tiles .fcard:nth-child(4){animation-delay:.15s}
 @keyframes sub-in{from{opacity:0;transform:translateY(12px) scale(.96)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.sub-tiles .fcard{animation:none}}
 @media (max-width:600px){
- .sub-float{right:8px;left:8px;bottom:8px;width:auto;max-height:55vh}
+ .sub-float:not(.sub-sheet){right:8px;left:8px;bottom:8px;width:auto;max-height:min(55dvh,55vh)}
 }
 .carousel-track .car-tile.bob{animation:none}
+/* Kill persistent will-change / 3D on float cards inside snap carousel */
+.carousel-wrap.car-snap .float-deck .fcard{will-change:auto;transform-style:flat;perspective:none}

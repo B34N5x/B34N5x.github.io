@@ -2,6 +2,15 @@
 
 All notable site updates are listed here. Each entry has a matching JSON summary under `updates/`.
 
+## 2026-11-01 — Android carousel fix (v0.3.3 / sw b34n5-v31)
+
+- Touch/narrow screens (`max-width: 768px` or `pointer: coarse`): flat horizontal scroll-snap carousel — no 3D transforms, perspective, or backface flicker; opacity/scale only; `will-change` only while animating.
+- No auto-rotate on mobile (native pan-x scroll instead of JS swipe vs vertical scroll fights).
+- Subcategories open as a bottom sheet with safe-area padding; desktop keeps the floating corner panel and 3D coverflow.
+- Kept all tile content, chips/pills, Lobby maintenance, glassy nav, See more.
+- Service worker bumped to `b34n5-v31`; site version 0.3.3.
+- Rollback: revert to commit `159bd20`.
+
 ## 2026-11-01 — Carousel + glassy nav (v0.3.2 / sw b34n5-v30)
 
 - Added a lightweight 3D-ish project tile carousel (auto-rotate, pause on hover/touch, swipe, arrow keys, dots).

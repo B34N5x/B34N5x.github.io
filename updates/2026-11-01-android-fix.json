@@ -1,0 +1,31 @@
+{
+  "date": "2026-11-01",
+  "version": "0.3.3",
+  "sw": "b34n5-v31",
+  "files_changed": [
+    "index.html",
+    "assets/style.css",
+    "assets/carousel.js",
+    "sw.js",
+    "CHANGELOG.md",
+    "updates/2026-11-01-android-fix.json"
+  ],
+  "summary": "Android/touch fix: flat scroll-snap carousel (no 3D/perspective/backface) on max-width 768px or pointer:coarse; no auto-rotate on mobile; subcategory bottom sheet with safe-area; desktop coverflow unchanged; content and chips kept; sw b34n5-v31.",
+  "broken": [
+    "3D coverflow rotateY/translateZ + perspective caused tile flicker/glitches on Android GPUs",
+    "touch-action:pan-y fought horizontal swipes vs vertical page scroll",
+    "persistent will-change:transform and preserve-3d on tiles",
+    "corner floating subcategory panel awkward on narrow viewports"
+  ],
+  "fixed": [
+    "car-snap horizontal scroll-snap with opacity-only focus",
+    "sub-sheet bottom sheet + body.sub-open scroll lock",
+    "overflow-x clip on narrow; dvh max-heights; larger tap targets",
+    "desktop 3D coverflow + autoplay preserved above 768px with fine pointer"
+  ],
+  "risks": [
+    "pointer:coarse laptops get snap mode (intentional)",
+    "Service worker cache bust depends on clients fetching new sw.js"
+  ],
+  "rollback": "159bd20"
+}
