@@ -2,6 +2,15 @@
 
 All notable site updates are listed here. Each entry has a matching JSON summary under `updates/`.
 
+## 2026-11-01 — Tab titles & summaries (v0.3.4 / sw b34n5-v32)
+
+- Replaced vague "tap · subcategories" tile hints with a clear carousel guide ("Swipe to explore · tap a tile for more") and a real one-line summary on every tile.
+- Each subcategory now has a short title plus a ≤60-char plain-English summary (Lobby keeps Under maintenance + Adult supervision advised).
+- Nav order matches the carousel: Home → NFTs → Tools → Security → Projects (Privacy stays in the footer).
+- Checked links: tools, checker (mainnet/testnet), family-vault, security, projects, privacy, terms, XRPL Will, balance-checker GitHub — no 404s; Lobby remains under NFTs only.
+- Service worker bumped to `b34n5-v32`; site version 0.3.4.
+- Rollback: revert to commit `15c46e0`.
+
 ## 2026-11-01 — Android carousel fix (v0.3.3 / sw b34n5-v31)
 
 - Touch/narrow screens (`max-width: 768px` or `pointer: coarse`): flat horizontal scroll-snap carousel — no 3D transforms, perspective, or backface flicker; opacity/scale only; `will-change` only while animating.
