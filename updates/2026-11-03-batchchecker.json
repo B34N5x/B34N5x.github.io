@@ -1,0 +1,66 @@
+{
+  "date": "2026-11-03",
+  "version": "0.3.8",
+  "sw": "b34n5-v36",
+  "status": "live",
+  "files_changed": [
+    "checker/batch/index.html",
+    "checker/batch/tests/index.html",
+    "checker/batch/tests/TESTLOG.md",
+    "checker/batch/tests/clips/*.mp4",
+    "assets/batch-checker.js",
+    "assets/style.css",
+    "sw.js",
+    "tools/index.html",
+    "projects/index.html",
+    "index.html",
+    "CHANGELOG.md",
+    "updates/2026-11-03-batchchecker.json"
+  ],
+  "summary": "BatchChecker v0 live: step UI, New to this? tour, phone cards, CSV, 6s timeout/retry, public test-runs page with short clips. Testnet default + Mainnet toggle. Wired into Analyst Starter / Projects Live / All tools. forceNodeDown test hook removed. More info mentions CSV for own records at tax time (education; not advice).",
+  "security": [
+    "No keys/seeds; secret-looking input cleared and never sent",
+    "No localStorage/sessionStorage of addresses (consent.js still only stores terms version); tour stores nothing",
+    "No analytics; CSP connect-src limited to known public XRPL WSS; media-src 'self' on batch + tests",
+    "No innerHTML; DOM textContent only",
+    "Test-only forceNodeDown hook removed before release",
+    "SPDX Apache-2.0 on batch-checker.js; site LICENSE already Apache-2.0 (Lobby not relicensed)"
+  ],
+  "tests": [
+    {
+      "name": "seed-reject",
+      "result": "PASS"
+    },
+    {
+      "name": "invalid-mixed",
+      "result": "PASS"
+    },
+    {
+      "name": "testnet-ok",
+      "result": "PASS"
+    },
+    {
+      "name": "mainnet-mixed",
+      "result": "PASS"
+    },
+    {
+      "name": "csv-download",
+      "result": "PASS"
+    },
+    {
+      "name": "node-timeout",
+      "result": "PASS"
+    },
+    {
+      "name": "new-to-this-tour",
+      "result": "PASS"
+    }
+  ],
+  "broken": [],
+  "risks": [
+    "Single page CSP allows both Testnet and Mainnet WSS (unlike per-network Balance Checker pages)",
+    "Public nodes may rate-limit; sequential delay may still fail under load",
+    "account_tx last-activity shape can vary by node (close_time_iso vs date)"
+  ],
+  "rollback": "a89ff89"
+}

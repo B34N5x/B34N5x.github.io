@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>BatchChecker test runs - B34N5x</title>
+<meta name="description" content="Public short video log of XRPL BatchChecker test runs. Read-only tool.">
+<link rel="stylesheet" href="../../../assets/style.css?v=36">
+<meta name="theme-color" content="#07090b">
+</head>
+<body>
+<header><div class="wrap"><nav><a class="brand" href="../../../">B34N5x</a><a href="../">BatchChecker</a><a href="../../../tools/">Tools</a></nav></div></header>
+<main class="wrap batch-page">
+<div class="hero">
+  <h1>BatchChecker test runs</h1>
+  <p>Short clips from automated checks on 3 Nov 2026 (AEDT). Public addresses only. No seeds. Nothing stored.</p>
+</div>
+
+<article class="batch-step test-run">
+  <h2>Seed paste rejected <span class="tag">PASS</span></h2>
+  <p class="batch-summary">3 Nov 2026 AEDT · Testnet · Fake seed-format string cleared; never sent.</p>
+  <video class="test-clip" src="clips/a-seed-reject.mp4" muted loop playsinline autoplay controls preload="metadata" aria-label="Seed rejection clip"></video>
+</article>
+
+<article class="batch-step test-run">
+  <h2>Invalid lines flagged <span class="tag">PASS</span></h2>
+  <p class="batch-summary">3 Nov 2026 AEDT · Testnet · Bad lines flagged while valid address/tx still run.</p>
+  <video class="test-clip" src="clips/b-invalid-mixed.mp4" muted loop playsinline autoplay controls preload="metadata" aria-label="Invalid lines clip"></video>
+</article>
+
+<article class="batch-step test-run">
+  <h2>Testnet address lookup <span class="tag">PASS</span></h2>
+  <p class="batch-summary">3 Nov 2026 AEDT · Testnet · Public faucet address returns balance/reserve/spendable.</p>
+  <video class="test-clip" src="clips/c-testnet-ok.mp4" muted loop playsinline autoplay controls preload="metadata" aria-label="Testnet success clip"></video>
+</article>
+
+<article class="batch-step test-run">
+  <h2>Mainnet mixed list <span class="tag">PASS</span></h2>
+  <p class="batch-summary">3 Nov 2026 AEDT · Mainnet · Public GateHub issuer ok; invalid lines flagged.</p>
+  <video class="test-clip" src="clips/d-mainnet-mixed.mp4" muted loop playsinline autoplay controls preload="metadata" aria-label="Mainnet mixed clip"></video>
+</article>
+
+<article class="batch-step test-run">
+  <h2>CSV download <span class="tag">PASS</span></h2>
+  <p class="batch-summary">3 Nov 2026 AEDT · Testnet · CSV built in-browser after a successful run.</p>
+  <video class="test-clip" src="clips/e-csv-download.mp4" muted loop playsinline autoplay controls preload="metadata" aria-label="CSV download clip"></video>
+</article>
+
+<article class="batch-step test-run">
+  <h2>Node unavailable / timeout <span class="tag">PASS</span></h2>
+  <p class="batch-summary">3 Nov 2026 AEDT · Testnet · When nodes fail, page shows a clear error (timeout + retry next node in code).</p>
+  <video class="test-clip" src="clips/f-node-timeout.mp4" muted loop playsinline autoplay controls preload="metadata" aria-label="Node timeout clip"></video>
+</article>
+
+<article class="batch-step test-run">
+  <h2>New to this? tour <span class="tag">PASS</span></h2>
+  <p class="batch-summary">3 Nov 2026 AEDT · Guided demo opens, fills a labelled sample list, explains Testnet vs Mainnet.</p>
+  <video class="test-clip" src="clips/g-new-to-this.mp4" muted loop playsinline autoplay controls preload="metadata" aria-label="New to this tour clip"></video>
+</article>
+
+<p class="switch"><a href="../">Back to BatchChecker</a> · <a href="TESTLOG.md">TESTLOG.md</a></p>
+</main>
+<footer class="batch-footer"><div class="wrap">
+  <p class="disclaimer">Read-only. Not financial advice. Clips use public Testnet/Mainnet data only.</p>
+  <p class="batch-footer-links"><a href="../../../LICENSE">Licence (Apache-2.0)</a> · <a href="../../../privacy/">Privacy</a></p>
+</div></footer>
+</body>
+</html>

@@ -2,6 +2,24 @@
 
 All notable site updates are listed here. Each entry has a matching JSON summary under `updates/`.
 
+
+## 2026-11-03 — BatchChecker v0 live (v0.3.8 / sw b34n5-v36)
+
+- New page `checker/batch/`: step flow — (1) Paste your list, (2) Results, (3) Download CSV.
+- Phone: compact result cards; desktop keeps the table. Extra detail behind More info / ?.
+- **New to this?** self-made guided tour (skippable; sample Testnet list; no tour library; nothing stored).
+- Client-side only; Testnet default; Mainnet toggle; CSV via in-browser Blob.
+- Rate limit: sequential lookups with ~0.2s delay, max 50 lines (noted in More info).
+- Per-request timeout (6s) + retry next public node; per-line `node unavailable` / clear reachability error.
+- Test-only `forceNodeDown` hook removed before release (real timeout/retry kept).
+- Public test runs page `checker/batch/tests/` + `TESTLOG.md` + short muted looping clips.
+- Footer: short disclaimer, privacy one-liner, Adult supervision advised, See test runs, Licence (Apache-2.0).
+- More info: optional “Handy at tax time? Export a CSV for your own records” (education only; not tax/financial advice).
+- SPDX Apache-2.0 header on `assets/batch-checker.js`; repo `LICENSE` unchanged (Lobby not relicensed).
+- Analyst Starter pack + All tools: BatchChecker linked live; Projects Live card; home Analyst summary updated.
+- Service worker bumped to `b34n5-v36` (caches batch page + `batch-checker.js` + tests); site version 0.3.8; CSS `?v=36`.
+- Rollback: revert to commit `a89ff89`.
+
 ## 2026-11-02 — Projects Coming soon (v0.3.7 / sw b34n5-v35)
 
 - Projects page: **Coming soon** section with BatchChecker (Analyst pack) and XRPL Toll (Traffic pack) — short title, one-line summary, Coming soon badge, link to Starter Pack.

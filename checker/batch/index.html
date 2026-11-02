@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src wss://s.altnet.rippletest.net:51233 wss://testnet.xrpl-labs.com wss://xrplcluster.com wss://s1.ripple.com; manifest-src 'self'; worker-src 'self'; media-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<link rel="manifest" href="../../manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="B34N5">
+<meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>XRPL BatchChecker - B34N5x</title>
+<meta name="description" content="Free, read-only XRPL batch checker. Paste addresses or transaction hashes. Runs in your browser. Testnet first.">
+<link rel="icon" href="../../favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../../assets/img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../../assets/img/favicon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../../assets/img/apple-touch-icon-180.png">
+<meta name="theme-color" content="#07090b">
+<link rel="stylesheet" href="../../assets/style.css?v=36">
+</head>
+<body data-network="testnet">
+<header><div class="wrap"><nav><a class="brand" href="../../">B34N5x</a><a href="../../">Home</a><a href="../../tools/">Tools</a><a href="../../security/">Security</a></nav></div></header>
+<div id="netbanner" class="netbanner testnet"><div class="wrap"><strong>Testnet</strong>: test XRP with no real value, read-only. Default network.</div></div>
+<main class="wrap batch-page">
+<div class="hero">
+  <h1>XRPL BatchChecker</h1>
+  <p>Check a list of public addresses or transactions in your browser. Read-only. Nothing is stored.</p>
+</div>
+
+<section class="batch-step" id="step1" data-step="1" aria-labelledby="step1-title">
+  <div class="batch-step-head">
+    <h2 id="step1-title"><span class="step-num">1</span> Paste your list</h2>
+    <button type="button" id="tour-start" class="tour-start" aria-haspopup="dialog">New to this?</button>
+  </div>
+  <form id="f" autocomplete="off">
+    <fieldset class="batch-net">
+      <legend>Network <button type="button" class="hint-btn" data-hint="net" aria-label="What is Testnet vs Mainnet?">?</button></legend>
+      <label><input type="radio" name="net" value="testnet" checked> Testnet <span class="hint-inline">(practice, free test XRP)</span></label>
+      <label><input type="radio" name="net" value="mainnet"> Mainnet <span class="hint-inline">(real XRP, still read-only)</span></label>
+    </fieldset>
+    <label for="list">Addresses or transaction hashes <span class="hint-inline">(one per line, up to 50)</span></label>
+    <textarea id="list" rows="7" placeholder="r…&#10;r…&#10;A1B2C3… (64 hex)" spellcheck="false"></textarea>
+    <details class="batch-more explainer">
+      <summary>More info</summary>
+      <p>Only public addresses (start with “r”) or 64-character transaction hashes. Never paste a seed or secret key.</p>
+      <p><strong>Rate limit:</strong> checks run one at a time with a short pause (~0.2s) so public nodes are not flooded. Max 50 lines per run.</p>
+      <p>If a node times out, the tool retries the next public node and marks the line if none answer.</p>
+      <p>Handy at tax time? Export a CSV for your own records. This is a read-only lookup helper only — not financial or tax advice, and it does not prepare a tax return.</p>
+    </details>
+    <label class="consent"><input type="checkbox" id="consent"> I've read and accept the <a href="../../terms/">Terms</a> · <a href="../../privacy/">Privacy</a> (not advice, no liability).</label>
+    <div class="batch-actions">
+      <button type="submit" id="btn">Check list</button>
+    </div>
+  </form>
+</section>
+
+<section class="batch-step is-idle" id="step2" data-step="2" aria-labelledby="step2-title" hidden>
+  <div class="batch-step-head">
+    <h2 id="step2-title"><span class="step-num">2</span> Results</h2>
+  </div>
+  <div id="out" class="result" role="status" aria-live="polite"></div>
+  <details class="batch-more explainer" id="results-help">
+    <summary>What do these numbers mean?</summary>
+    <p><strong>Balance</strong> — total XRP on that address.</p>
+    <p><strong>Reserve</strong> — XRP locked by the network so the account can exist (plus a bit per item it holds).</p>
+    <p><strong>Spendable</strong> — roughly balance minus reserve; what can usually be sent.</p>
+    <p>Figures come from public XRPL nodes and may be briefly delayed or wrong.</p>
+  </details>
+</section>
+
+<section class="batch-step is-idle" id="step3" data-step="3" aria-labelledby="step3-title" hidden>
+  <div class="batch-step-head">
+    <h2 id="step3-title"><span class="step-num">3</span> Download CSV</h2>
+  </div>
+  <p class="batch-csv-note">Optional. Built in your browser — nothing is uploaded.</p>
+  <button type="button" id="csv" disabled>Download CSV</button>
+  <p class="batch-privacy-inline" id="privacy-note">Nothing you paste is stored. Only public XRPL nodes see the lookup.</p>
+</section>
+</main>
+
+<footer class="batch-footer">
+  <div class="wrap">
+    <p class="disclaimer">Read-only. Not financial advice. Data from public XRPL nodes, may be delayed or wrong.</p>
+    <p class="disclaimer">Nothing you paste is stored or sent anywhere except public XRPL nodes.</p>
+    <p class="lobby-age">Adult supervision advised</p>
+    <p class="batch-footer-links">
+      <a href="tests/">See test runs</a> ·
+      <a href="../../LICENSE">Licence (Apache-2.0)</a> ·
+      <a href="../">Balance checkers</a> ·
+      <a href="../../terms/">Terms</a> ·
+      <a href="../../privacy/">Privacy</a>
+    </p>
+  </div>
+</footer>
+
+<div id="tour" class="tour" hidden aria-hidden="true">
+  <div class="tour-backdrop" data-tour-skip></div>
+  <div class="tour-card" role="dialog" aria-modal="true" aria-labelledby="tour-title">
+    <p class="tour-stepcount" id="tour-stepcount"></p>
+    <h3 id="tour-title"></h3>
+    <p id="tour-body"></p>
+    <div class="tour-actions">
+      <button type="button" id="tour-back">Back</button>
+      <button type="button" id="tour-skip" data-tour-skip>Skip</button>
+      <button type="button" id="tour-next" class="tour-primary">Next</button>
+    </div>
+  </div>
+</div>
+<div id="tour-spot" class="tour-spot" hidden></div>
+
+<script src="../../assets/vendor/xrpl-4.7.0.min.js"></script>
+<script src="../../assets/consent.js"></script>
+<script src="../../assets/batch-checker.js"></script>
+<script src="../../assets/matrix-bg.js"></script>
+<script src="../../assets/hud.js"></script>
+<script src="../../assets/pwa.js"></script>
+<script src="../../assets/sparkle.js"></script>
+</body>
+</html>
