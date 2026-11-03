@@ -44,6 +44,7 @@
     <details class="batch-more explainer">
       <summary>More info</summary>
       <p>Only public addresses (start with “r”) or 64-character transaction hashes. Never paste a seed or secret key.</p>
+      <p>Use classic r-addresses only (X-addresses and destination tags aren't supported yet).</p>
       <p><strong>Rate limit:</strong> checks run one at a time with a short pause (~0.2s) so public nodes are not flooded. Max 50 lines per run.</p>
       <p>If a node times out, the tool retries the next public node and marks the line if none answer.</p>
       <p>Handy at tax time? Export a CSV for your own records. This is a read-only lookup helper only — not financial or tax advice, and it does not prepare a tax return.</p>
@@ -75,14 +76,15 @@
   </div>
   <p class="batch-csv-note">Optional. Built in your browser — nothing is uploaded.</p>
   <button type="button" id="csv" disabled>Download CSV</button>
-  <p class="batch-privacy-inline" id="privacy-note">Nothing you paste is stored. Only public XRPL nodes see the lookup.</p>
+  <p class="batch-privacy-inline" id="privacy-note">Nothing is stored by this site. Lookups go to public XRPL nodes, which can see the addresses queried.</p>
 </section>
 </main>
 
 <footer class="batch-footer">
   <div class="wrap">
     <p class="disclaimer">Read-only. Not financial advice. Data from public XRPL nodes, may be delayed or wrong.</p>
-    <p class="disclaimer">Nothing you paste is stored or sent anywhere except public XRPL nodes.</p>
+    <p class="disclaimer">Nothing is stored by this site. Lookups go to public XRPL nodes, which can see the addresses queried.</p>
+    <p class="disclaimer">Not affiliated with Ripple or the XRPL Foundation.</p>
     <p class="lobby-age">Adult supervision advised</p>
     <p class="batch-footer-links">
       <a href="tests/">See test runs</a> ·

@@ -3,6 +3,13 @@
 All notable site updates are listed here. Each entry has a matching JSON summary under `updates/`.
 
 
+## 2026-11-03 — BatchChecker safety notes (v0.3.9 / sw b34n5-v37)
+
+- Footer: "Not affiliated with Ripple or the XRPL Foundation."
+- Privacy note: lookups go to public XRPL nodes, which can see the addresses queried; nothing is stored by this site.
+- Paste step More info: classic r-addresses only (X-addresses and destination tags not supported yet).
+- Copy-only change; tool logic unchanged. Service worker `b34n5-v37`; site version 0.3.9. Rollback: d355347.
+
 ## 2026-11-03 — BatchChecker v0 live (v0.3.8 / sw b34n5-v36)
 
 - New page `checker/batch/`: step flow — (1) Paste your list, (2) Results, (3) Download CSV.
