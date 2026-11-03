@@ -619,14 +619,9 @@
     if (tourBusy) return;
     tourBusy = true;
     document.body.classList.add("tour-open");
-    // Ensure Testnet + consent for a clean demo
+    // Ensure Testnet for a clean demo
     var tn = form.querySelector('input[name="net"][value="testnet"]');
     if (tn) { tn.checked = true; syncBanner(); }
-    var consent = document.getElementById("consent");
-    if (consent && !consent.checked) {
-      consent.checked = true;
-      try { consent.dispatchEvent(new Event("change", { bubbles: true })); } catch (_) {}
-    }
 
     tourSteps = [
       {
@@ -708,8 +703,150 @@
     n.addEventListener("click", endTour);
   });
 
+  // --- Sub tiles: open floating info panels (UI only; no lookup logic) ---
+  var subPanel = document.getElementById("batch-subfloat");
+  var subTitle = document.getElementById("batch-subfloat-title");
+  var subBody = document.getElementById("batch-subfloat-body");
+  var subClose = document.getElementById("batch-subfloat-close");
+  var subTiles = Array.prototype.slice.call(document.querySelectorAll(".batch-subtile[data-panel]"));
+  var subOpen = false;
+  var subActive = null;
+  var hoverTimer = null;
+  var leaveTimer = null;
+  var coarsePointer = false;
+  try {
+    coarsePointer = window.matchMedia("(pointer: coarse)").matches;
+  } catch (_) {}
+  var PANEL_TITLES = {
+    addresses: "Addresses",
+    network: "Network",
+    rate: "Rate limit",
+    results: "Results",
+    csv: "CSV use",
+    privacy: "Privacy",
+    disclaimer: "Disclaimer",
+    affiliate: "About"
+  };
+
+  function clearHoverTimers() {
+    if (hoverTimer) { clearTimeout(hoverTimer); hoverTimer = null; }
+    if (leaveTimer) { clearTimeout(leaveTimer); leaveTimer = null; }
+  }
+
+  function setExpanded(panelId, on) {
+    subTiles.forEach(function (btn) {
+      var match = btn.getAttribute("data-panel") === panelId;
+      btn.setAttribute("aria-expanded", on && match ? "true" : "false");
+    });
+  }
+
+  function fillPanel(panelId) {
+    var tpl = document.getElementById("panel-" + panelId);
+    if (!tpl || !subBody) return false;
+    subBody.innerHTML = "";
+    subBody.appendChild(tpl.content.cloneNode(true));
+    if (subTitle) subTitle.textContent = PANEL_TITLES[panelId] || panelId;
+    return true;
+  }
+
+  function openSubPanel(panelId, focusClose) {
+    if (!subPanel || !fillPanel(panelId)) return;
+    clearHoverTimers();
+    subOpen = true;
+    subActive = panelId;
+    setExpanded(panelId, true);
+    subPanel.hidden = false;
+    requestAnimationFrame(function () { subPanel.classList.add("open"); });
+    if (focusClose && subClose) {
+      try { subClose.focus(); } catch (_) {}
+    }
+  }
+
+  function closeSubPanel(returnFocus) {
+    if (!subPanel || !subOpen) {
+      clearHoverTimers();
+      return;
+    }
+    clearHoverTimers();
+    subOpen = false;
+    var was = subActive;
+    subActive = null;
+    setExpanded(null, false);
+    subPanel.classList.remove("open");
+    var finished = false;
+    var done = function () {
+      if (finished) return;
+      finished = true;
+      subPanel.hidden = true;
+      if (subBody) subBody.innerHTML = "";
+      subPanel.removeEventListener("transitionend", done);
+      if (returnFocus && was) {
+        var btn = document.querySelector('.batch-subtile[data-panel="' + was + '"]');
+        if (btn) try { btn.focus(); } catch (_) {}
+      }
+    };
+    subPanel.addEventListener("transitionend", done);
+    setTimeout(done, 420);
+  }
+
+  function toggleSubPanel(panelId) {
+    if (subOpen && subActive === panelId) closeSubPanel(false);
+    else openSubPanel(panelId, true);
+  }
+
+  subTiles.forEach(function (btn) {
+    var id = btn.getAttribute("data-panel");
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleSubPanel(id);
+    });
+    btn.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        toggleSubPanel(id);
+      }
+    });
+    if (!coarsePointer) {
+      btn.addEventListener("mouseenter", function () {
+        clearHoverTimers();
+        hoverTimer = setTimeout(function () { openSubPanel(id, false); }, 160);
+      });
+      btn.addEventListener("mouseleave", function () {
+        clearHoverTimers();
+        leaveTimer = setTimeout(function () {
+          if (!subPanel || !subPanel.matches(":hover")) closeSubPanel(false);
+        }, 220);
+      });
+    }
+  });
+
+  if (subClose) subClose.addEventListener("click", function () { closeSubPanel(true); });
+  if (subPanel && !coarsePointer) {
+    subPanel.addEventListener("mouseenter", clearHoverTimers);
+    subPanel.addEventListener("mouseleave", function () {
+      clearHoverTimers();
+      leaveTimer = setTimeout(function () { closeSubPanel(false); }, 220);
+    });
+  }
+  document.addEventListener("click", function (e) {
+    if (!subOpen) return;
+    if (subPanel && subPanel.contains(e.target)) return;
+    if (e.target.closest && e.target.closest(".batch-subtile")) return;
+    closeSubPanel(false);
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && subOpen) {
+      e.preventDefault();
+      closeSubPanel(true);
+    }
+  });
+
   // Expose for guided tour / walkthrough automation (no test-only node hooks)
   window.__batchChecker = {
+    openSubPanel: openSubPanel,
+    closeSubPanel: closeSubPanel,
+
     runBatch: runBatch,
     startTour: startTour,
     endTour: endTour,

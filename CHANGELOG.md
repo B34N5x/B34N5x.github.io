@@ -3,6 +3,17 @@
 All notable site updates are listed here. Each entry has a matching JSON summary under `updates/`.
 
 
+## 2026-11-03 — BatchChecker sub tiles (v0.3.10 / sw b34n5-v38)
+
+- BatchChecker main view trimmed to the three steps + **New to this?** only.
+- Explanatory copy (addresses, network, rate limit, results guide, CSV use, privacy, disclaimer, not-affiliated) moved into compact label-only **sub tiles**.
+- Tiles open the shared floating panel (`.sub-float` style); tap on phone, hover/click on desktop; Esc / click-off / × to close; keyboard accessible.
+- Footer uses a compact tile row; Adult supervision + licence/test-run links stay.
+- Removed the Terms consent checkbox (felt like a gate); replaced with a small muted line under Check: "By using this you agree to the Terms (not advice, no liability)." Check works without ticking anything.
+- Tool lookup / CSV logic unchanged. Service worker `b34n5-v38`; site version 0.3.10; CSS `?v=38`.
+- Rollback: revert to commit `cea72e4`.
+
+
 ## 2026-11-03 — BatchChecker safety notes (v0.3.9 / sw b34n5-v37)
 
 - Footer: "Not affiliated with Ripple or the XRPL Foundation."

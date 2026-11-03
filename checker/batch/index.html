@@ -17,7 +17,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="../../assets/img/favicon-192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="../../assets/img/apple-touch-icon-180.png">
 <meta name="theme-color" content="#07090b">
-<link rel="stylesheet" href="../../assets/style.css?v=36">
+<link rel="stylesheet" href="../../assets/style.css?v=38">
 </head>
 <body data-network="testnet">
 <header><div class="wrap"><nav><a class="brand" href="../../">B34N5x</a><a href="../../">Home</a><a href="../../tools/">Tools</a><a href="../../security/">Security</a></nav></div></header>
@@ -25,7 +25,6 @@
 <main class="wrap batch-page">
 <div class="hero">
   <h1>XRPL BatchChecker</h1>
-  <p>Check a list of public addresses or transactions in your browser. Read-only. Nothing is stored.</p>
 </div>
 
 <section class="batch-step" id="step1" data-step="1" aria-labelledby="step1-title">
@@ -35,24 +34,16 @@
   </div>
   <form id="f" autocomplete="off">
     <fieldset class="batch-net">
-      <legend>Network <button type="button" class="hint-btn" data-hint="net" aria-label="What is Testnet vs Mainnet?">?</button></legend>
-      <label><input type="radio" name="net" value="testnet" checked> Testnet <span class="hint-inline">(practice, free test XRP)</span></label>
-      <label><input type="radio" name="net" value="mainnet"> Mainnet <span class="hint-inline">(real XRP, still read-only)</span></label>
+      <legend>Network</legend>
+      <label><input type="radio" name="net" value="testnet" checked> Testnet</label>
+      <label><input type="radio" name="net" value="mainnet"> Mainnet</label>
     </fieldset>
-    <label for="list">Addresses or transaction hashes <span class="hint-inline">(one per line, up to 50)</span></label>
+    <label for="list">Addresses or transaction hashes</label>
     <textarea id="list" rows="7" placeholder="r…&#10;r…&#10;A1B2C3… (64 hex)" spellcheck="false"></textarea>
-    <details class="batch-more explainer">
-      <summary>More info</summary>
-      <p>Only public addresses (start with “r”) or 64-character transaction hashes. Never paste a seed or secret key.</p>
-      <p>Use classic r-addresses only (X-addresses and destination tags aren't supported yet).</p>
-      <p><strong>Rate limit:</strong> checks run one at a time with a short pause (~0.2s) so public nodes are not flooded. Max 50 lines per run.</p>
-      <p>If a node times out, the tool retries the next public node and marks the line if none answer.</p>
-      <p>Handy at tax time? Export a CSV for your own records. This is a read-only lookup helper only — not financial or tax advice, and it does not prepare a tax return.</p>
-    </details>
-    <label class="consent"><input type="checkbox" id="consent"> I've read and accept the <a href="../../terms/">Terms</a> · <a href="../../privacy/">Privacy</a> (not advice, no liability).</label>
     <div class="batch-actions">
       <button type="submit" id="btn">Check list</button>
     </div>
+    <p class="batch-terms muted small">By using this you agree to the <a href="../../terms/">Terms</a> (not advice, no liability).</p>
   </form>
 </section>
 
@@ -61,30 +52,32 @@
     <h2 id="step2-title"><span class="step-num">2</span> Results</h2>
   </div>
   <div id="out" class="result" role="status" aria-live="polite"></div>
-  <details class="batch-more explainer" id="results-help">
-    <summary>What do these numbers mean?</summary>
-    <p><strong>Balance</strong> — total XRP on that address.</p>
-    <p><strong>Reserve</strong> — XRP locked by the network so the account can exist (plus a bit per item it holds).</p>
-    <p><strong>Spendable</strong> — roughly balance minus reserve; what can usually be sent.</p>
-    <p>Figures come from public XRPL nodes and may be briefly delayed or wrong.</p>
-  </details>
 </section>
 
 <section class="batch-step is-idle" id="step3" data-step="3" aria-labelledby="step3-title" hidden>
   <div class="batch-step-head">
     <h2 id="step3-title"><span class="step-num">3</span> Download CSV</h2>
   </div>
-  <p class="batch-csv-note">Optional. Built in your browser — nothing is uploaded.</p>
   <button type="button" id="csv" disabled>Download CSV</button>
-  <p class="batch-privacy-inline" id="privacy-note">Nothing is stored by this site. Lookups go to public XRPL nodes, which can see the addresses queried.</p>
 </section>
+
+<nav class="batch-subrow" aria-label="More info tiles">
+  <button type="button" class="batch-subtile" data-panel="addresses" aria-expanded="false" aria-controls="batch-subfloat">Addresses</button>
+  <button type="button" class="batch-subtile" data-panel="network" aria-expanded="false" aria-controls="batch-subfloat">Network</button>
+  <button type="button" class="batch-subtile" data-panel="rate" aria-expanded="false" aria-controls="batch-subfloat">Rate limit</button>
+  <button type="button" class="batch-subtile" data-panel="results" aria-expanded="false" aria-controls="batch-subfloat">Results</button>
+  <button type="button" class="batch-subtile" data-panel="csv" aria-expanded="false" aria-controls="batch-subfloat">CSV use</button>
+  <button type="button" class="batch-subtile" data-panel="privacy" aria-expanded="false" aria-controls="batch-subfloat">Privacy</button>
+</nav>
 </main>
 
 <footer class="batch-footer">
   <div class="wrap">
-    <p class="disclaimer">Read-only. Not financial advice. Data from public XRPL nodes, may be delayed or wrong.</p>
-    <p class="disclaimer">Nothing is stored by this site. Lookups go to public XRPL nodes, which can see the addresses queried.</p>
-    <p class="disclaimer">Not affiliated with Ripple or the XRPL Foundation.</p>
+    <nav class="batch-subrow batch-footer-tiles" aria-label="Footer info">
+      <button type="button" class="batch-subtile" data-panel="disclaimer" aria-expanded="false" aria-controls="batch-subfloat">Disclaimer</button>
+      <button type="button" class="batch-subtile" data-panel="affiliate" aria-expanded="false" aria-controls="batch-subfloat">About</button>
+      <button type="button" class="batch-subtile" data-panel="privacy" aria-expanded="false" aria-controls="batch-subfloat">Privacy</button>
+    </nav>
     <p class="lobby-age">Adult supervision advised</p>
     <p class="batch-footer-links">
       <a href="tests/">See test runs</a> ·
@@ -95,6 +88,46 @@
     </p>
   </div>
 </footer>
+
+<aside class="sub-float batch-subfloat" id="batch-subfloat" hidden role="dialog" aria-modal="false" aria-labelledby="batch-subfloat-title">
+  <button type="button" class="sub-close" id="batch-subfloat-close" aria-label="Close">×</button>
+  <h2 class="sub-title" id="batch-subfloat-title">More</h2>
+  <div class="batch-subfloat-body" id="batch-subfloat-body"></div>
+</aside>
+
+<template id="panel-addresses">
+  <p>Only public addresses (start with “r”) or 64-character transaction hashes. Never paste a seed or secret key.</p>
+  <p>Use classic r-addresses only (X-addresses and destination tags aren't supported yet).</p>
+  <p>One per line, up to 50.</p>
+</template>
+<template id="panel-network">
+  <p><strong>Testnet</strong> — practice network with free test XRP (no real value). Default.</p>
+  <p><strong>Mainnet</strong> — the real ledger with real XRP. This tool stays read-only on both.</p>
+</template>
+<template id="panel-rate">
+  <p>Checks run one at a time with a short pause (~0.2s) so public nodes are not flooded. Max 50 lines per run.</p>
+  <p>If a node times out, the tool retries the next public node and marks the line if none answer.</p>
+</template>
+<template id="panel-results">
+  <p><strong>Balance</strong> — total XRP on that address.</p>
+  <p><strong>Reserve</strong> — XRP locked by the network so the account can exist (plus a bit per item it holds).</p>
+  <p><strong>Spendable</strong> — roughly balance minus reserve; what can usually be sent.</p>
+  <p>Figures come from public XRPL nodes and may be briefly delayed or wrong.</p>
+</template>
+<template id="panel-csv">
+  <p>Optional CSV is built in your browser — nothing is uploaded.</p>
+  <p>Handy at tax time? Export a CSV for your own records. This is a read-only lookup helper only — not financial or tax advice, and it does not prepare a tax return.</p>
+</template>
+<template id="panel-privacy">
+  <p>Nothing is stored by this site.</p>
+  <p>Lookups go to public XRPL nodes, which can see the addresses queried.</p>
+</template>
+<template id="panel-disclaimer">
+  <p>Read-only. Not financial advice. Data from public XRPL nodes, may be delayed or wrong.</p>
+</template>
+<template id="panel-affiliate">
+  <p>Not affiliated with Ripple or the XRPL Foundation.</p>
+</template>
 
 <div id="tour" class="tour" hidden aria-hidden="true">
   <div class="tour-backdrop" data-tour-skip></div>
@@ -112,7 +145,6 @@
 <div id="tour-spot" class="tour-spot" hidden></div>
 
 <script src="../../assets/vendor/xrpl-4.7.0.min.js"></script>
-<script src="../../assets/consent.js"></script>
 <script src="../../assets/batch-checker.js"></script>
 <script src="../../assets/matrix-bg.js"></script>
 <script src="../../assets/hud.js"></script>

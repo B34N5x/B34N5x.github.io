@@ -421,6 +421,24 @@ body[data-network=mainnet] textarea#list{border-color:#5a3f8a;background:#0a0612
 .batch-footer .disclaimer{margin:0 0 6px;color:var(--dim)}
 .batch-footer .lobby-age{margin:8px 0;color:#cbb6f5}
 .batch-footer-links{margin:10px 0 0;line-height:1.6}
+/* BatchChecker sub tiles — label-only chips that open .sub-float panels */
+.batch-page .hero{margin-bottom:12px}
+.batch-page .hero h1{margin:0 0 4px}
+.batch-subrow{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 18px;padding:0;border:0;background:transparent}
+.batch-footer-tiles{margin:0 0 10px}
+.batch-subtile{appearance:none;margin:0;padding:8px 12px;border-radius:999px;border:1px solid rgba(46,230,208,.22);background:linear-gradient(160deg,rgba(10,18,20,.92),rgba(6,12,14,.78));color:var(--teal);font-family:var(--mono);font-size:.78rem;font-weight:600;letter-spacing:.02em;cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,.28),0 1px 0 rgba(95,240,200,.06) inset;transition:border-color .2s,box-shadow .2s,background .2s;min-height:36px}
+.batch-subtile:hover,.batch-subtile:focus-visible{border-color:rgba(61,245,143,.45);box-shadow:0 10px 24px rgba(0,0,0,.4),0 0 0 1px rgba(61,245,143,.12),0 0 18px rgba(46,230,208,.1);outline:none}
+.batch-subtile[aria-expanded="true"]{border-color:rgba(61,245,143,.55);background:rgba(46,230,208,.14);color:var(--green)}
+.batch-subfloat .batch-subfloat-body{position:relative;z-index:1}
+.batch-subfloat .batch-subfloat-body p{margin:0 0 10px;color:#c3d4ce;line-height:1.5;font-size:.9rem}
+.batch-subfloat .batch-subfloat-body p:last-child{margin-bottom:0}
+.batch-subfloat .batch-subfloat-body strong{color:var(--green)}
+@media (max-width:600px){
+  .batch-subtile{padding:8px 11px;font-size:.74rem;min-height:40px}
+  .batch-subrow{gap:7px;margin:2px 0 14px}
+  .batch-page .hero{margin-bottom:10px}
+}
+@media (prefers-reduced-motion:reduce){.batch-subtile{transition:none}}
 .tour-start{appearance:none;border:1px solid var(--teal);background:rgba(46,230,208,.12);color:var(--teal);border-radius:999px;padding:6px 12px;font-size:.85rem;font-weight:600;cursor:pointer;box-shadow:0 0 0 1px rgba(46,230,208,.15),0 0 12px rgba(46,230,208,.2)}
 .tour-start:hover,.tour-start:focus{background:rgba(46,230,208,.22);outline:none}
 .tour{position:fixed;inset:0;z-index:80;display:flex;align-items:flex-end;justify-content:center;padding:16px;pointer-events:none}
@@ -445,10 +463,24 @@ body.tour-open{overflow:hidden}
 @media (max-width:800px){
   .batch-scroll{display:none}
   .batch-cards{display:flex}
-  .batch-actions button,.batch-step #csv,.tour-start{width:100%}
+  .batch-actions button,.batch-step #csv{width:100%}
+  .tour-start{width:auto;max-width:100%}
   .tour{align-items:flex-end}
 }
 
 .test-clip{display:block;width:min(412px,100%);max-height:520px;margin:10px 0 0;border-radius:8px;border:1px solid var(--line);background:#000}
 .test-run h2{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:1.05rem;margin:0 0 6px}
 .test-run .tag{font-size:.75rem;padding:2px 8px;border-radius:999px;background:#0d3a30;color:var(--teal);border:1px solid #2ee6d055;font-family:var(--mono)}
+
+/* BatchChecker sub-float: bottom sheet on phone (match carousel sub-sheet) */
+@media (max-width:768px),(pointer:coarse){
+  .batch-subfloat.sub-float{
+    left:0;right:0;bottom:0;width:auto;max-height:min(62dvh,62vh);
+    border-radius:18px 18px 0 0;transform:translateY(110%);
+    padding-bottom:max(16px,env(safe-area-inset-bottom,0px));
+  }
+  .batch-subfloat.sub-float.open{transform:translateY(0);opacity:1}
+  .batch-subfloat .sub-close{top:10px;right:12px;min-width:40px;min-height:40px}
+}
+
+.batch-terms{font-size:.78rem;opacity:.65;margin:.4rem 0 0;text-align:center}
