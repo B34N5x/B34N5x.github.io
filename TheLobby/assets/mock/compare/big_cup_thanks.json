@@ -1,0 +1,59 @@
+{
+  "name": " Big Cup of Thanks 136",
+  "description": "Experimental Generative Art Collection to reward holders of Byron's art on XRPL.",
+  "external_url": "",
+  "image": "shots/preview/compare/real-big-cup-thanks.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "entrance"
+    },
+    {
+      "trait_type": "frame",
+      "value": "rainbow"
+    },
+    {
+      "trait_type": "body",
+      "value": "polka dot"
+    },
+    {
+      "trait_type": "head attachments",
+      "value": "pink spikes"
+    },
+    {
+      "trait_type": "head",
+      "value": "purple"
+    },
+    {
+      "trait_type": "mouth",
+      "value": "bigger dark stache"
+    },
+    {
+      "trait_type": "left hand",
+      "value": "thumbs up"
+    },
+    {
+      "trait_type": "cup",
+      "value": "green cup"
+    },
+    {
+      "trait_type": "eyes",
+      "value": "red clown"
+    },
+    {
+      "trait_type": "decal",
+      "value": "grooving"
+    }
+  ],
+  "properties": {
+    "files": [
+      {
+        "uri": "-big-cup-of-thanks-136.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "image",
+    "creators": []
+  },
+  "compiler": "NFTexport.io"
+}

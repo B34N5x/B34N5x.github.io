@@ -1,0 +1,94 @@
+{
+  "date": "2026-11-04",
+  "timezone": "Australia/Sydney",
+  "title": "any-NFT trait taxonomy + abilities",
+  "branch": "preview-sec",
+  "preview_only": true,
+  "live_deploy": false,
+  "rollback": "f5b9632d0b6716449c249345bdcb0611422533d8",
+  "research": "/workspace/xrpl-academy/lobby-research/NFT_TRAIT_TAXONOMY.md",
+  "collections_studied": [
+    "XRPL Fuzzybear / Fuzzyverse-class (Background,Fur,Clothes,Eyes,Headwear,Aura)",
+    "XRPL Fuzzy pixel companion (Character,Hat,Accessory,Special)",
+    "XRPL BearableGuyClub / BEAR / Bored Apes XRP Club (animal/ape PFP slots)",
+    "XRPL Birdjpg / Animal Fam / robot-soldier / abstract (Tessera/North Star class)",
+    "Other-chain schemas: BAYC, CryptoPunks, Pudgy Penguins, Azuki (synonym coverage only)"
+  ],
+  "files_changed": [
+    "CHANGELOG.md",
+    "abilities.js",
+    "avatar3d.js",
+    "collections.json",
+    "index.html",
+    "main.js",
+    "parts.js",
+    "sw.js",
+    "traits.js",
+    "traits_map.json",
+    "package.json",
+    "test/abilities.js",
+    "test/taxonomy_traits.mjs",
+    "assets/mock/sample_*.json",
+    "updates/2026-11-04-nft-trait-taxonomy.json",
+    "shots/preview/taxonomy-*"
+  ],
+  "abilities": {
+    "hat": "visual only",
+    "laser_eyes": {
+      "ability": "laser",
+      "key": "KeyF",
+      "cooldown": 1.1
+    },
+    "wings": {
+      "ability": "flight",
+      "key": "KeyT",
+      "duration": 1.35,
+      "cooldown": 4.0
+    },
+    "horns": {
+      "ability": "charge",
+      "key": "KeyR",
+      "duration": 0.55,
+      "cooldown": 3.0
+    },
+    "aura": {
+      "ability": "aura",
+      "key": "KeyG",
+      "duration": 1.4,
+      "cooldown": 5.0
+    },
+    "weapon": {
+      "ability": "slash",
+      "key": "KeyV",
+      "duration": 0.4,
+      "cooldown": 2.5
+    }
+  },
+  "body_types_added": [
+    "alien",
+    "generic"
+  ],
+  "fallback": "palette / image-only / abstract \u2192 generic capsule; never crash; florist still queued",
+  "samples_note": "MADE-UP / mock only; never B34N5 collection ids or art",
+  "tests": {
+    "test:chars": "pass",
+    "test:taxonomy": "pass"
+  },
+  "screenshots": [
+    "shots/preview/taxonomy-abilities-412.png",
+    "shots/preview/taxonomy-abilities-1366.png",
+    "shots/preview/taxonomy_report.json"
+  ],
+  "cache": {
+    "sw": "lobby-shell-v34k",
+    "style": "v42",
+    "traits": "v30"
+  },
+  "summary": "Preview: any signed-in NFT maps via synonym taxonomy to body + parts + abilities; abstract/image-only get palette generic avatars; research note written; no keys/funds/wallet storage; no live deploy.",
+  "risks": [
+    "Preview branch only \u2014 do not promote to live without Beans sign-off",
+    "Ability keys F/T/R/G/V; avoid KeyC (front view)",
+    "Synonym map is best-effort across collections; odd custom trait names may need weekly tune-up"
+  ],
+  "commit": "8282df23d2ecfa12439faf981a439cfc14a70d32"
+}

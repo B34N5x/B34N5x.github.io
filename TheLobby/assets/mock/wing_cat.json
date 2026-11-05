@@ -1,0 +1,11 @@
+{
+ "name": "SAMPLE Wing Cat",
+ "description": "MADE-UP SAMPLE for trait ability preview. Not a real NFT.",
+ "collection": "Sample mock-up",
+ "attributes": [
+  { "trait_type": "Species", "value": "Cat" },
+  { "trait_type": "Fur", "value": "Orange" },
+  { "trait_type": "Back", "value": "White Wings" },
+  { "trait_type": "Tier", "value": "Rare" }
+ ]
+}

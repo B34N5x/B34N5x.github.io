@@ -1,0 +1,12 @@
+{
+ "name": "SAMPLE Cyber Fox",
+ "description": "MADE-UP SAMPLE for cyber-blue laser eyes effect preview. Not a real NFT.",
+ "collection": "Sample mock-up",
+ "attributes": [
+  { "trait_type": "Species", "value": "Fox" },
+  { "trait_type": "Fur", "value": "Silver" },
+  { "trait_type": "Eyes", "value": "Cyber Blue Beams" },
+  { "trait_type": "Aura", "value": "Electric" },
+  { "trait_type": "Tier", "value": "Rare" }
+ ]
+}

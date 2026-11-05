@@ -1,0 +1,71 @@
+{
+ "about": "Hand-verified corrections for the B34N5 profiles (checked by eye against the latest V11-standard art 01_origin_card_v13.jpg / the-lantern-path_v12h.jpg). These win over the auto pass, which reads sunset-lit felt as olive.",
+ "bodyType": "capsule",
+ "silhouette": {
+  "topBump": true,
+  "bodyAspect": 1.2
+ },
+ "colours": {
+  "body": "#8fbf38",
+  "band": "#efe5cf",
+  "strap": "#6b3f26",
+  "gloves": "#8fb6c8",
+  "shoes": "#f1ede2",
+  "shoeTrim": "#6fa58a",
+  "visor": "#0a0b0c",
+  "xMarks": "#4a2e22"
+ },
+ "features": {
+  "eyewear": "strapped shades",
+  "mask": "strapped sports mask (cream band, vents, green bean emblem)",
+  "gloves": "mitten gloves",
+  "shoes": "sneakers",
+  "emblem": "Bean (Rare) - green bean emblem on the mask band",
+  "xMarks": "two dark-brown stitched X marks on the lower band, under each lens"
+ },
+ "tier": "Legendary",
+ "tierNote": "CREATOR-DECLARED (Beans): the green bean emblem on the mask is B34N5's Rare trait. V11 metadata has no tiers yet.",
+ "style": "3d_art",
+ "styleNote": "Verified by eye: glossy felt/claymation 3D render. Auto heuristic said 3d_art (Origin) / realistic (Workbench, Lantern) at ~0.33 confidence.",
+ "mask": {
+  "coverage": "eyeband",
+  "shape": "rect",
+  "top": -0.12,
+  "bottom": 0.1,
+  "width": 0.95,
+  "puff": 0.4,
+  "cheekTuck": false,
+  "tint": "#f2e9d2",
+  "xMarks": {
+   "count": 2,
+   "size": "small",
+   "where": "below shades",
+   "y": 0.15,
+   "spread": 0.12,
+   "colour": "#4a2e22"
+  },
+  "emblem": true,
+  "vents": 0,
+  "straps": {
+   "count": 1,
+   "colour": "#6b3f26",
+   "buckle": true,
+   "width": 0.03,
+   "buckleSize": 1.3
+  },
+  "patches": [],
+  "trims": [
+   "stitched rim"
+  ],
+  "outline": "soft rounded band, wraps to the back",
+  "note": "Origin: cream eye band behind the shades, glowing bean emblem upper right, brown leather side strap with buckle, two tiny X marks on the body under the band",
+  "edgeColour": "#d9c9a3",
+  "edgeWidth": 0.022,
+  "stitchColour": "#8a6a44"
+ },
+ "detected": [],
+ "detectedNote": "hand-checked: no extra features beyond features/mask/wearables (auto image detections overridden)",
+ "traitTiers": {
+  "emblem": "Rare"
+ }
+}

@@ -1,0 +1,31 @@
+{
+  "name": "Mutant Apes XRP. #6616",
+  "description": "Apes Together Strong",
+  "image": "shots/preview/compare/test-grid-src/mutant-ape-6616.png",
+  "attributes": [
+    {
+      "trait_type": "BACKGROUND",
+      "value": "Gradient2"
+    },
+    {
+      "trait_type": "FUR",
+      "value": "Light Brown"
+    },
+    {
+      "trait_type": "EYES",
+      "value": "Normal"
+    },
+    {
+      "trait_type": "MOUTH",
+      "value": "Pizza Slice"
+    },
+    {
+      "trait_type": "OUTFIT",
+      "value": "Tongue Suit"
+    },
+    {
+      "trait_type": "HEAD",
+      "value": "Skull Hat"
+    }
+  ]
+}

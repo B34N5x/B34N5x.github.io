@@ -1,0 +1,19 @@
+{
+  "name": "BEAR #108",
+  "description": "From the BEAR Ultra Rare Collection.",
+  "image": "shots/preview/compare/test-grid-src/bear-108.png",
+  "attributes": [
+    {
+      "trait_type": "CHARACTER",
+      "value": "Average Bear"
+    },
+    {
+      "trait_type": "BACKGROUND",
+      "value": "Purple"
+    },
+    {
+      "trait_type": "CARD",
+      "value": "Clubs"
+    }
+  ]
+}

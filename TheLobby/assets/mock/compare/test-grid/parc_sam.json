@@ -1,0 +1,31 @@
+{
+  "name": "Sam Beer",
+  "description": "Pixel Ape Rowboat Club: Generations.",
+  "image": "shots/preview/compare/test-grid-src/parc-sam.png",
+  "attributes": [
+    {
+      "trait_type": "background",
+      "value": "Techno Violet"
+    },
+    {
+      "trait_type": "fur",
+      "value": "Light Gray"
+    },
+    {
+      "trait_type": "shirt",
+      "value": "Red Button Up Vest"
+    },
+    {
+      "trait_type": "mouth",
+      "value": "Bored"
+    },
+    {
+      "trait_type": "eyes",
+      "value": "Blue Eyes"
+    },
+    {
+      "trait_type": "head",
+      "value": "None"
+    }
+  ]
+}

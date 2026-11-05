@@ -1,0 +1,60 @@
+{
+  "date": "2026-11-04",
+  "timezone": "Australia/Sydney",
+  "title": "feel physics: paw grip, flight bank, laser debris",
+  "branch": "preview-sec",
+  "preview_only": true,
+  "live_deploy": false,
+  "rollback": "1b9ec9e4f13e69cc78dc2d2d396dc23b5ee328e7",
+  "files_changed": [
+    "feelphys.js",
+    "abilities.js",
+    "avatar3d.js",
+    "moves.js",
+    "main.js",
+    "wallet.js",
+    "index.html",
+    "sw.js",
+    "CHANGELOG.md",
+    "CREDITS.md",
+    "updates/2026-11-04-feel-physics.json",
+    "shots/preview/feel/*"
+  ],
+  "features": {
+    "paw_grip": "flat pads + toes + contact rings; diagonal gait plant/swing",
+    "secondary_motion": "spring-damper tails/ears/wings (lightweight ragdoll-ish)",
+    "flight": "bank/tilt, flap, momentum, soft land + dust",
+    "laser_impact": "scorch + pooled rock debris with gravity/bounce/friction/fade",
+    "quality": "physQuality() via __perf.low + prefers-reduced-motion; debris/scorch caps"
+  },
+  "cache": {
+    "sw": "lobby-shell-v34m",
+    "main": "v68",
+    "avatar3d": "v31",
+    "abilities": "v2",
+    "moves": "v2"
+  },
+  "tests": {
+    "test:keys": "pass",
+    "test:chars": "pass",
+    "test:taxonomy": "pass"
+  },
+  "screenshots": [
+    "shots/preview/feel/quad-walk-412.png",
+    "shots/preview/feel/quad-walk-1366.png",
+    "shots/preview/feel/flight-bank-1366.png",
+    "shots/preview/feel/laser-impact-1366.png"
+  ],
+  "clips": [
+    "shots/preview/feel/quad-walk.webm",
+    "shots/preview/feel/flight-land.webm",
+    "shots/preview/feel/laser-debris.webm"
+  ],
+  "summary": "Preview: noticeable natural-motion/physics \u2014 paw floor grip, flight banking, laser ground debris, spring secondary motion; phone-friendly caps; no live deploy.",
+  "risks": [
+    "Preview branch only \u2014 do not promote to live without Beans sign-off",
+    "Debris/scorch pools are capped; Lightweight mode reduces FX further",
+    "Procedural only \u2014 no GPL/SA motion weights shipped"
+  ],
+  "commit": "98c336d649bfb4b09772ea9e843eafec3127fa23"
+}

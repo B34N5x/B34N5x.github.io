@@ -1,0 +1,12 @@
+{
+ "name": "SAMPLE Alien Shades",
+ "description": "MADE-UP SAMPLE mimicking flat accessory lists / alien type (not a real NFT).",
+ "collection": "Sample mock-up",
+ "attributes": [
+  { "trait_type": "Type", "value": "Alien" },
+  { "trait_type": "Glasses", "value": "Small Shades" },
+  { "trait_type": "Hair/Hat", "value": "Pilot Helmet" },
+  { "trait_type": "Neck", "value": "Gold Chain" },
+  { "trait_type": "Special", "value": "Neon Aura" }
+ ]
+}

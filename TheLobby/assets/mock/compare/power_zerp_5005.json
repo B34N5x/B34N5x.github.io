@@ -1,0 +1,42 @@
+{
+  "schema": "ipfs://QmNpi8rcXEkohca8iXu7zysKKSJYqCvBJn3xJwga8jXqWU",
+  "nftType": "art.v0",
+  "external_url": "https://www.powerzerps.com",
+  "name": "Power Zerp #5005",
+  "description": "Power Zerp #5005 is part of Power Zerps Collection, created by Ekiserrepe (Ekiserrepe.com).",
+  "image": "shots/preview/compare/real-power-zerp-5005.png",
+  "collection": {
+    "name": "Power Zerps",
+    "family": "Power Zerps"
+  },
+  "attributes": [
+    {
+      "trait_type": "Helmet",
+      "value": "Champion"
+    },
+    {
+      "trait_type": "Body Armor",
+      "value": "Signal"
+    },
+    {
+      "trait_type": "Color",
+      "value": "Orange"
+    },
+    {
+      "trait_type": "Attack",
+      "value": "2"
+    },
+    {
+      "trait_type": "Defense",
+      "value": "3"
+    },
+    {
+      "trait_type": "Health",
+      "value": "5"
+    },
+    {
+      "trait_type": "Magic",
+      "value": "5"
+    }
+  ]
+}

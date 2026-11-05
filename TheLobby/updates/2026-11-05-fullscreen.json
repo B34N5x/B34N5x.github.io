@@ -1,0 +1,16 @@
+{
+  "name": "fullscreen",
+  "date": "2026-11-05",
+  "branch": "preview-sec",
+  "live_deploy": false,
+  "rollback_hash": "11063a8",
+  "files": [
+    "main.js",
+    "index.html",
+    "sw.js",
+    "package.json",
+    "test/fullscreen_btn.mjs"
+  ],
+  "verify": "PASS after wallet.js main.js?v=92 sync (was dual-renderer black canvas)",
+  "deploy_followup": "2026-11-05-fullscreen-deploy.json"
+}

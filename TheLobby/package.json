@@ -1,0 +1,29 @@
+{
+  "name": "b34n5-lobby",
+  "private": true,
+  "scripts": {
+    "autotest": "node tools/autotest.mjs",
+    "autotest:rooms": "node tools/autotest_rooms.mjs",
+    "test:rooms": "node server/rooms/unit_test.mjs",
+    "test:chars": "node test/character_routing.mjs",
+    "test:taxonomy": "node test/taxonomy_traits.mjs",
+    "test:keys": "node test/keymap_unique.mjs",
+    "test:verify": "node test/ability_effects.mjs && npm run test:keys && npm run test:chars && npm run test:taxonomy && npm run test:logged && npm run test:attire && npm run test:viewbtn && npm run test:arcade && npm run test:armour && node test/joy_unstuck.mjs && node test/guide_drag.mjs && node test/avatar_integrity.mjs && node test/envpass.mjs && node test/bonepile_ground.mjs && node test/npclife.mjs && node test/fullscreen_btn.mjs && node test/nft_picker.mjs && node test/arcade_floor.mjs && npm run test:interact",
+    "test:envpass": "node test/envpass.mjs",
+    "test:effects": "node test/ability_effects.mjs",
+    "test:joy": "node test/joy_unstuck.mjs",
+    "test:avatar": "node test/avatar_integrity.mjs",
+    "test:guide": "node test/guide_drag.mjs",
+    "test:bonepile": "node test/bonepile_ground.mjs",
+    "test:fluidity": "node test/fluidity_playtest.mjs",
+    "test:npclife": "node test/npclife.mjs && node test/fullscreen_btn.mjs",
+    "test:armour": "node test/armour_palette.mjs",
+    "test:logged": "node test/logged_scenarios.mjs",
+    "test:attire": "node test/attire_layers.mjs",
+    "test:arcade": "node test/arcade_session.mjs",
+    "test:arcade-floor": "node test/arcade_floor.mjs",
+    "test:viewbtn": "node test/view_btn.mjs",
+    "test:interact": "node test/interact_btn.mjs"
+  },
+  "type": "module"
+}

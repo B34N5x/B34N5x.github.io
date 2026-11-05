@@ -1,0 +1,16 @@
+/*.html
+  Cache-Control: no-cache
+/
+  Cache-Control: no-cache
+/*.js
+  Cache-Control: no-cache
+/*.css
+  Cache-Control: no-cache
+# Frame policy is applied in functions/_middleware.js (delete+set).
+# Do NOT set XFO/CSP on /* here — CF Pages accumulates matching rules and dual DENY+SAMEORIGIN blanked arcade iframes.
+/shooter/*
+  X-Frame-Options: SAMEORIGIN
+  Content-Security-Policy: frame-ancestors 'self'
+/fighter/*
+  X-Frame-Options: SAMEORIGIN
+  Content-Security-Policy: frame-ancestors 'self'

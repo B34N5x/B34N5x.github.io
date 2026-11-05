@@ -1,0 +1,12 @@
+{
+ "name": "SAMPLE Pixel Bird",
+ "description": "MADE-UP SAMPLE mimicking pixel bird PFP (not a real NFT).",
+ "collection": "Sample mock-up",
+ "attributes": [
+  { "trait_type": "Character", "value": "Bird" },
+  { "trait_type": "Style", "value": "Pixel" },
+  { "trait_type": "Hat", "value": "Beanie" },
+  { "trait_type": "Eyes", "value": "Laser Eyes" },
+  { "trait_type": "Background", "value": "Yellow" }
+ ]
+}

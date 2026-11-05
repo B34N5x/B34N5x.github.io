@@ -1,0 +1,120 @@
+{
+ "source": "01_origin_card_v13.jpg",
+ "method": "rembg isnet mask + hue k-means v2",
+ "framing": "full_body",
+ "height": 4.96,
+ "figureHeightFrac": 0.84,
+ "style": "3d_art",
+ "styleConfidence": 0.33,
+ "styleFeatures": {
+  "edge": 0.306,
+  "flat": 0.097,
+  "palette": 152,
+  "smooth": 0.408,
+  "inkLines": 0.023,
+  "skin": 0.174
+ },
+ "silhouette": {
+  "bbox01": [
+   0.11,
+   0.04,
+   0.55,
+   0.88
+  ],
+  "bodyAspect": 1.29,
+  "bodyFill": 0.65,
+  "topBump": true
+ },
+ "bodyType": "capsule",
+ "colours": {
+  "body": "#8e8d21",
+  "accents": [
+   "#556c6b",
+   "#65792e"
+  ],
+  "band": "#a19b8c"
+ },
+ "visor": {
+  "bbox01": [
+   0.18,
+   0.34,
+   0.79,
+   0.82
+  ],
+  "colour": "#0d100c",
+  "px": 306
+ },
+ "band": {
+  "bbox01": [
+   0.35,
+   0.06,
+   0.96,
+   0.92
+  ],
+  "colour": "#a19b8c",
+  "px": 27
+ },
+ "limbs": [
+  {
+   "colour": "#556c6b",
+   "where": "side",
+   "px": 613
+  },
+  {
+   "colour": "#65792e",
+   "where": "side",
+   "px": 738
+  }
+ ],
+ "accessoryHints": [
+  "eyewear: dark shades/visor",
+  "face band (mask)",
+  "one head bump",
+  "arms/gloves"
+ ],
+ "mask": {
+  "auto": true,
+  "coverage": "eyeband",
+  "shape": "round",
+  "top": -0.2,
+  "bottom": 0.1,
+  "width": 0.65,
+  "puff": 0.57,
+  "cheekTuck": false,
+  "tint": "#b5a085",
+  "xMarks": {
+   "count": 2,
+   "size": "small",
+   "y": 0.01,
+   "spread": 0.06,
+   "colour": "#302b22",
+   "where": "below shades"
+  },
+  "emblem": true,
+  "straps": {
+   "count": 1,
+   "colour": "#523d24"
+  },
+  "shades": [
+   0.38,
+   0.34,
+   0.69,
+   0.48
+  ]
+ },
+ "detected": [
+  {
+   "name": "cuffs/manacles (metal rings at both wrists)",
+   "slot": "wrists",
+   "tags": [
+    "ring",
+    "grey",
+    "metal"
+   ],
+   "colour": "#949e97",
+   "region": "wrists",
+   "px": 433
+  }
+ ],
+ "confidence": 0.65
+}

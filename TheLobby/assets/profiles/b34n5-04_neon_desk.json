@@ -1,0 +1,106 @@
+{
+ "source": "04_neon_desk_v13.jpg",
+ "method": "rembg isnet mask + hue k-means v2",
+ "framing": "full_body",
+ "height": 5.27,
+ "figureHeightFrac": 0.92,
+ "style": "realistic",
+ "styleConfidence": 0.33,
+ "styleFeatures": {
+  "edge": 0.315,
+  "flat": 0.045,
+  "palette": 303,
+  "smooth": 0.336,
+  "inkLines": 0.037,
+  "skin": 0.033
+ },
+ "silhouette": {
+  "bbox01": [
+   0.18,
+   0.06,
+   0.96,
+   0.97
+  ],
+  "bodyAspect": 0.49,
+  "bodyFill": 0.57,
+  "topBump": true
+ },
+ "bodyType": "unknown",
+ "colours": {
+  "body": "#386b23",
+  "accents": [
+   "#61574e",
+   "#6329a6",
+   "#1b2e3d"
+  ],
+  "band": null
+ },
+ "visor": null,
+ "band": null,
+ "limbs": [
+  {
+   "colour": "#61574e",
+   "where": "side",
+   "px": 4705
+  },
+  {
+   "colour": "#6329a6",
+   "where": "side",
+   "px": 3480
+  },
+  {
+   "colour": "#1b2e3d",
+   "where": "side",
+   "px": 2087
+  }
+ ],
+ "accessoryHints": [
+  "one head bump",
+  "arms/gloves"
+ ],
+ "mask": {
+  "auto": true,
+  "coverage": "eyeband",
+  "shape": "rect",
+  "top": -0.38,
+  "bottom": 0.16,
+  "width": 0.37,
+  "puff": 0.44,
+  "cheekTuck": false,
+  "tint": "#beaea1",
+  "xMarks": {
+   "count": 2,
+   "size": "small",
+   "y": -0.22,
+   "spread": 0.09,
+   "colour": "#201e19",
+   "where": "above shades"
+  },
+  "emblem": false,
+  "straps": {
+   "count": 0,
+   "colour": "#503528"
+  },
+  "shades": [
+   0.14,
+   -0.09,
+   0.55,
+   0.17
+  ]
+ },
+ "detected": [
+  {
+   "name": "cuff (metal ring at a wrist)",
+   "slot": "wrists",
+   "tags": [
+    "ring",
+    "grey",
+    "metal"
+   ],
+   "colour": "#b1b09d",
+   "region": "wrist",
+   "px": 52
+  }
+ ],
+ "confidence": 0.57
+}

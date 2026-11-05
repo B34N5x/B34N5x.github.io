@@ -1,0 +1,40 @@
+{
+  "date": "2026-11-05",
+  "zone": "Australia/Sydney",
+  "branch": "preview-sec",
+  "title": "NFT picker thumbs: cafe names + ipfs.xrp.cafe images",
+  "summary": "Blank/broken Power Zerp (and other) picker thumbs fixed. Cafe API for item_name; prefer original_media_url / IPFS via ipfs.xrp.cafe over CF-blocked cdn.xrp.cafe; lazyImg onerror \u2192 alt gateway \u2192 PLACEHOLDER.",
+  "root_cause": "resolveHeld only used pinata/ipfs.io/dweb (timeout/403); no onerror on picker imgs \u2192 broken icon when gateway URL failed",
+  "before_after": {
+    "address": "rNU9njtuQ1eMmHyczvbhKSTuNkwuWAZqMS",
+    "inventory": 13,
+    "placeholders_before": "5-8 blank/broken (Power Zerps + some IPFS)",
+    "placeholders_after": 0,
+    "power_zerp_thumbs_after": [
+      "#7415",
+      "#309",
+      "#9986",
+      "#10409",
+      "#5124"
+    ]
+  },
+  "cache": {
+    "main": "v103",
+    "wallet": "v31",
+    "sw": "lobby-shell-v35r"
+  },
+  "rollback": "80bb5aa",
+  "tests": "test/nft_picker.mjs (cafe fallback) + test:verify",
+  "shots": [
+    "shots/preview/form/nft-thumbs-cafe-412.png",
+    "shots/preview/form/nft-thumbs-cafe-1366.png"
+  ],
+  "deploy": {
+    "alias": "https://preview-sec.b34n5-lobby-test.pages.dev",
+    "branch": "preview-sec",
+    "project": "b34n5-lobby-test",
+    "deployment": "https://9795b501.b34n5-lobby-test.pages.dev"
+  },
+  "weak_spots": "NFTs with no cafe crawl and dead IPFS stay purple PLACEHOLDER; cafe CDN alone often CF-blocked off phone/datacenter",
+  "commit": "e29024c"
+}

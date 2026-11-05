@@ -1,0 +1,59 @@
+{
+  "date": "2026-11-02",
+  "timezone": "Australia/Sydney",
+  "title": "emotes-only + age notice",
+  "branch": "preview",
+  "files_changed": [
+    "CHANGELOG.md",
+    "README.md",
+    "agegate.js",
+    "groupcall.js",
+    "hudmenus.js",
+    "index.html",
+    "layout.js",
+    "main.js",
+    "rooms.js",
+    "rooms_core.js",
+    "server/rooms/chat_test.mjs",
+    "server/rooms/room.js",
+    "server/rooms/unit_test.mjs",
+    "style.css",
+    "tools/autotest_rooms.mjs",
+    "updates/2026-11-02-emotes-only.json",
+    "voice.js",
+    "wallet.js"
+  ],
+  "removed": [
+    "text chat UI/input",
+    "relay chat type",
+    "mic/call UI",
+    "getUserMedia voice paths",
+    "group call button"
+  ],
+  "kept": [
+    "allowlisted emotes",
+    "invite rooms",
+    "skins",
+    "gameplay"
+  ],
+  "age_gate": {
+    "type": "self-declaration",
+    "storage": "sessionStorage lobbyAgeOk",
+    "sent_to_server": false,
+    "wording": "Adult supervision advised"
+  },
+  "summary": "Lobby is emotes-only: chat and voice removed; relay rejects free text; session-only age notice; preview deploy only.",
+  "risks": [
+    "Old cached HTML may briefly show removed controls until hard refresh",
+    "Rooms worker must be redeployed for server-side chat rejection",
+    "Self-declaration is not strong age assurance under high-risk Phase 2 codes"
+  ],
+  "rollback": "b826d6f03ffe0e823c4e0b5ec0defcd6b9cf7b8d",
+  "legal": "/workspace/xrpl-academy/lobby-legal/AGE_AND_CHAT.md",
+  "usage_estimate_pct": 4,
+  "commit": "6d54f7d3748f3f05cbeed3df037ad779a87550c7",
+  "preview_url": "https://preview.b34n5-lobby-test.pages.dev",
+  "deployment_url": "https://e0de2eaf.b34n5-lobby-test.pages.dev",
+  "rooms_worker": "https://b34n5-rooms-preview.xrplwill-contact.workers.dev",
+  "rooms_worker_version": "5c61b006-92a1-4116-a732-591f20e08b9e"
+}

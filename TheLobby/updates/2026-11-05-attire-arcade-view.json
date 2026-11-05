@@ -1,0 +1,55 @@
+{
+  "date": "2026-11-05",
+  "zone": "Australia/Sydney",
+  "branch": "preview-sec",
+  "title": "Attire layers, arcade session, View HUD",
+  "summary": "Visible clothes layers; army/skull/cup face; purple eyemask; arcade iframe keeps memory session; #viewbtn HUD.",
+  "cache": {
+    "main": "v99",
+    "traits": "v34",
+    "avatar3d": "v50",
+    "abilities": "v10",
+    "style": "v55",
+    "sw": "lobby-shell-v35n"
+  },
+  "rollback": "a3daf2f",
+  "tests": "test:verify PASS (attire + arcade_session + viewbtn + logged + taxonomy)",
+  "logged_scenarios_verified": [
+    "Power Zerp upright armour (not bean)",
+    "upright only / no all-fours",
+    "body parts attached (anchors)",
+    "armour only when traits show armour",
+    "Skull Hat = skull_hat accessory RENDERED",
+    "hair != hat",
+    "v29 character beats object misclass",
+    "ground props clampAboveGround export",
+    "bean/capsule path intact",
+    "laser bear eyes trait",
+    "arcade memory session survives overlay",
+    "View HUD button beside special-move"
+  ],
+  "scores_before_after": {
+    "Power Zerp #5005": "8.5 -> 8.5",
+    "Power Zerp #377": "8.5 -> 8.5",
+    "Little Ledger #7962": "6.5 -> 8 (army helmet + overalls + purple glasses)",
+    "Big Cup of Thanks": "6.5 -> 8 (clown/stache/polka)",
+    "Mutant Apes #6616": "6.5 -> 7.5 (skull_hat mesh + jacket)",
+    "BEAR #108": "7 -> 8.5 (purple eyemask restored)",
+    "PARC Sam Beer": "6.5 -> 7.5 (vest layer, no false eyemask)",
+    "Pixel BEAR #668": "7.5 -> 8.5 (camo + satchel + red mask)"
+  },
+  "shots": [
+    "shots/preview/compare/test-grid.png",
+    "shots/preview/compare/test-grid-before-attire.png",
+    "shots/preview/form/viewbtn-1366.png",
+    "shots/preview/form/viewbtn-412.png"
+  ],
+  "deploy": {
+    "alias": "https://preview-sec.b34n5-lobby-test.pages.dev",
+    "project": "b34n5-lobby-test",
+    "branch": "preview-sec",
+    "deployment": "https://67556c89.b34n5-lobby-test.pages.dev"
+  },
+  "commit": "a5dcbd6",
+  "constraint": "wallet address / session token / sign-in data still memory-only (no localStorage/cookies/sessionStorage)"
+}

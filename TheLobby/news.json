@@ -1,0 +1,145 @@
+{
+ "generated": "2026-10-22 05:08 UTC",
+ "items": [
+  {
+   "title": "3.5.0-rc1",
+   "date": "2026-10-20",
+   "url": "https://github.com/XRPLF/rippled/releases/tag/3.5.0-rc1",
+   "source": "XRPL rippled releases (GitHub)",
+   "feed": "https://github.com/XRPLF/rippled/releases.atom"
+  },
+  {
+   "title": "v5.3.0b0",
+   "date": "2026-10-15",
+   "url": "https://github.com/XRPLF/xrpl-py/releases/tag/v5.3.0b0",
+   "source": "xrpl-py releases (GitHub)",
+   "feed": "https://github.com/XRPLF/xrpl-py/releases.atom"
+  },
+  {
+   "title": "3.4.1",
+   "date": "2026-10-10",
+   "url": "https://github.com/XRPLF/rippled/releases/tag/3.4.1",
+   "source": "XRPL rippled releases (GitHub)",
+   "feed": "https://github.com/XRPLF/rippled/releases.atom"
+  },
+  {
+   "title": "xrpl@2.15.0",
+   "date": "2026-10-08",
+   "url": "https://github.com/XRPLF/xrpl.js/releases/tag/xrpl%402.15.0",
+   "source": "xrpl.js releases (GitHub)",
+   "feed": "https://github.com/XRPLF/xrpl.js/releases.atom"
+  },
+  {
+   "title": "xrpl@4.7.0",
+   "date": "2026-10-02",
+   "url": "https://github.com/XRPLF/xrpl.js/releases/tag/xrpl%404.7.0",
+   "source": "xrpl.js releases (GitHub)",
+   "feed": "https://github.com/XRPLF/xrpl.js/releases.atom"
+  },
+  {
+   "title": "xrpl@3.2.0",
+   "date": "2026-10-02",
+   "url": "https://github.com/XRPLF/xrpl.js/releases/tag/xrpl%403.2.0",
+   "source": "xrpl.js releases (GitHub)",
+   "feed": "https://github.com/XRPLF/xrpl.js/releases.atom"
+  },
+  {
+   "title": "ripple-keypairs@1.4.0",
+   "date": "2026-10-02",
+   "url": "https://github.com/XRPLF/xrpl.js/releases/tag/ripple-keypairs%401.4.0",
+   "source": "xrpl.js releases (GitHub)",
+   "feed": "https://github.com/XRPLF/xrpl.js/releases.atom"
+  },
+  {
+   "title": "ripple-keypairs@2.1.0",
+   "date": "2026-10-02",
+   "url": "https://github.com/XRPLF/xrpl.js/releases/tag/ripple-keypairs%402.1.0",
+   "source": "xrpl.js releases (GitHub)",
+   "feed": "https://github.com/XRPLF/xrpl.js/releases.atom"
+  },
+  {
+   "title": "3.5.0-custom-2",
+   "date": "2026-09-29",
+   "url": "https://github.com/XRPLF/rippled/releases/tag/3.5.0-custom-2",
+   "source": "XRPL rippled releases (GitHub)",
+   "feed": "https://github.com/XRPLF/rippled/releases.atom"
+  },
+  {
+   "title": "3.5.0-custom-1",
+   "date": "2026-09-29",
+   "url": "https://github.com/XRPLF/rippled/releases/tag/3.5.0-custom-1",
+   "source": "XRPL rippled releases (GitHub)",
+   "feed": "https://github.com/XRPLF/rippled/releases.atom"
+  },
+  {
+   "title": "r186",
+   "date": "2026-09-24",
+   "url": "https://github.com/mrdoob/three.js/releases/tag/r186",
+   "source": "three.js releases (GitHub)",
+   "feed": "https://github.com/mrdoob/three.js/releases.atom"
+  },
+  {
+   "title": "3.4.0",
+   "date": "2026-09-17",
+   "url": "https://github.com/XRPLF/rippled/releases/tag/3.4.0",
+   "source": "XRPL rippled releases (GitHub)",
+   "feed": "https://github.com/XRPLF/rippled/releases.atom"
+  },
+  {
+   "title": "v5.2.0",
+   "date": "2026-09-16",
+   "url": "https://github.com/XRPLF/xrpl-py/releases/tag/v5.2.0",
+   "source": "xrpl-py releases (GitHub)",
+   "feed": "https://github.com/XRPLF/xrpl-py/releases.atom"
+  },
+  {
+   "title": "v5.2.0b0",
+   "date": "2026-09-11",
+   "url": "https://github.com/XRPLF/xrpl-py/releases/tag/v5.2.0b0",
+   "source": "xrpl-py releases (GitHub)",
+   "feed": "https://github.com/XRPLF/xrpl-py/releases.atom"
+  },
+  {
+   "title": "r185",
+   "date": "2026-09-04",
+   "url": "https://github.com/mrdoob/three.js/releases/tag/r185",
+   "source": "three.js releases (GitHub)",
+   "feed": "https://github.com/mrdoob/three.js/releases.atom"
+  },
+  {
+   "title": "r184",
+   "date": "2026-09-04",
+   "url": "https://github.com/mrdoob/three.js/releases/tag/r184",
+   "source": "three.js releases (GitHub)",
+   "feed": "https://github.com/mrdoob/three.js/releases.atom"
+  },
+  {
+   "title": "r183",
+   "date": "2026-09-04",
+   "url": "https://github.com/mrdoob/three.js/releases/tag/r183",
+   "source": "three.js releases (GitHub)",
+   "feed": "https://github.com/mrdoob/three.js/releases.atom"
+  },
+  {
+   "title": "v5.1.0",
+   "date": "2026-08-25",
+   "url": "https://github.com/XRPLF/xrpl-py/releases/tag/v5.1.0",
+   "source": "xrpl-py releases (GitHub)",
+   "feed": "https://github.com/XRPLF/xrpl-py/releases.atom"
+  },
+  {
+   "title": "v5.0.0",
+   "date": "2026-06-03",
+   "url": "https://github.com/XRPLF/xrpl-py/releases/tag/v5.0.0",
+   "source": "xrpl-py releases (GitHub)",
+   "feed": "https://github.com/XRPLF/xrpl-py/releases.atom"
+  },
+  {
+   "title": "r182",
+   "date": "2025-12-10",
+   "url": "https://github.com/mrdoob/three.js/releases/tag/r182",
+   "source": "three.js releases (GitHub)",
+   "feed": "https://github.com/mrdoob/three.js/releases.atom"
+  }
+ ]
+}

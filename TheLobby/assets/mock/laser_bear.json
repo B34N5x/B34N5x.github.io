@@ -1,0 +1,12 @@
+{
+ "name": "SAMPLE Laser Bear",
+ "description": "MADE-UP SAMPLE for trait ability preview. Not a real NFT.",
+ "collection": "Sample mock-up",
+ "attributes": [
+  { "trait_type": "Species", "value": "Bear" },
+  { "trait_type": "Fur", "value": "Brown" },
+  { "trait_type": "Head", "value": "Black Top Hat" },
+  { "trait_type": "Eyes", "value": "Laser Eyes" },
+  { "trait_type": "Tier", "value": "Rare" }
+ ]
+}

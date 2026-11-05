@@ -1,0 +1,4 @@
+Boxer Game Character by Raga2D
+Source: https://opengameart.org/content/boxer-game-character
+License: CC0 1.0 Universal (public domain) https://creativecommons.org/publicdomain/zero/1.0/
+Frames resized and packed into strips; recoloured in code (cyan / magenta).

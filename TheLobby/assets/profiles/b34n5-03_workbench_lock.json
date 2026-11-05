@@ -1,0 +1,103 @@
+{
+ "source": "02_workbench_lock_v13.jpg",
+ "method": "rembg isnet mask + hue k-means v2",
+ "framing": "full_body",
+ "height": 5.21,
+ "figureHeightFrac": 0.9,
+ "style": "realistic",
+ "styleConfidence": 0.33,
+ "styleFeatures": {
+  "edge": 0.408,
+  "flat": 0.038,
+  "palette": 164,
+  "smooth": 0.289,
+  "inkLines": 0.03,
+  "skin": 0.188
+ },
+ "silhouette": {
+  "bbox01": [
+   0.11,
+   0.04,
+   0.51,
+   0.94
+  ],
+  "bodyAspect": 0.79,
+  "bodyFill": 0.66,
+  "topBump": true
+ },
+ "bodyType": "unknown",
+ "colours": {
+  "body": "#9c856a",
+  "accents": [
+   "#6e843d",
+   "#3b4d0e",
+   "#688d93"
+  ],
+  "band": null
+ },
+ "visor": {
+  "bbox01": [
+   0.3,
+   0.21,
+   0.86,
+   0.41
+  ],
+  "colour": "#030301",
+  "px": 65
+ },
+ "band": null,
+ "limbs": [
+  {
+   "colour": "#6e843d",
+   "where": "side",
+   "px": 1649
+  },
+  {
+   "colour": "#3b4d0e",
+   "where": "side",
+   "px": 1618
+  },
+  {
+   "colour": "#688d93",
+   "where": "side",
+   "px": 822
+  }
+ ],
+ "accessoryHints": [
+  "eyewear: dark shades/visor",
+  "one head bump",
+  "arms/gloves"
+ ],
+ "mask": {
+  "auto": true,
+  "coverage": "full",
+  "shape": "round",
+  "top": -0.27,
+  "bottom": 0.49,
+  "width": 0.88,
+  "puff": 0.55,
+  "cheekTuck": true,
+  "tint": "#d2c0a7",
+  "xMarks": {
+   "count": 2,
+   "size": "small",
+   "y": 0.28,
+   "spread": 0.09,
+   "colour": "#473120",
+   "where": "below shades"
+  },
+  "emblem": true,
+  "straps": {
+   "count": 1,
+   "colour": "#503b21"
+  },
+  "shades": [
+   0.1,
+   0.2,
+   0.98,
+   0.49
+  ]
+ },
+ "detected": [],
+ "confidence": 0.66
+}

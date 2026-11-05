@@ -1,0 +1,71 @@
+{
+ "about": "Hand-verified against the 05_terminal_v13 art (by eye). Base B34N5 corrections + card-specific differences.",
+ "bodyType": "capsule",
+ "silhouette": {
+  "topBump": true,
+  "bodyAspect": 1.2
+ },
+ "colours": {
+  "body": "#7cc23a",
+  "band": "#efe5cf",
+  "strap": "#6b3f26",
+  "gloves": "#8fb6c8",
+  "shoes": "#f1ede2",
+  "shoeTrim": "#6fa58a",
+  "visor": "#0a0b0c",
+  "xMarks": "#2a2420"
+ },
+ "features": {
+  "eyewear": "strapped shades",
+  "mask": "strapped sports mask (cream band, vents, green bean emblem)",
+  "gloves": "mitten gloves",
+  "shoes": "sneakers",
+  "xMarks": "two large X marks on the lower mask",
+  "necklace": "chunky silver chain necklace"
+ },
+ "tierNote": "V11 metadata has no tier; Uncommon by default",
+ "style": "3d_art",
+ "styleNote": "Verified by eye: glossy felt/claymation 3D render. Auto heuristic said 3d_art (Origin) / realistic (Workbench, Lantern) at ~0.33 confidence.",
+ "maskStyle": "lower",
+ "mask": {
+  "coverage": "lower",
+  "shape": "rect",
+  "top": -0.02,
+  "bottom": 0.34,
+  "width": 0.7,
+  "puff": 0.45,
+  "cheekTuck": true,
+  "tint": "#d8ccb0",
+  "xMarks": {
+   "count": 2,
+   "size": "large",
+   "where": "below shades",
+   "y": 0.17,
+   "spread": 0.13,
+   "colour": "#2b2622",
+   "thick": 1.25
+  },
+  "emblem": false,
+  "vents": 0,
+  "straps": {
+   "count": 2,
+   "colour": "#5e3a22",
+   "buckle": true,
+   "width": 0.03,
+   "buckleSize": 1.5,
+   "buckleColour": "#b89a5a"
+  },
+  "patches": [],
+  "trims": [
+   "stitched rim"
+  ],
+  "outline": "padded muzzle from under the shades to the chin",
+  "note": "Terminal (base reference): padded cream lower mask, two large dark-brown X marks, two brown straps with buckles",
+  "edgeColour": "#a89878",
+  "edgeWidth": 0.026,
+  "seam": "centre",
+  "stitchColour": "#5a4a36"
+ },
+ "detected": [],
+ "detectedNote": "hand-checked: no extra features beyond features/mask/wearables (auto image detections overridden)"
+}

@@ -1,0 +1,37 @@
+{
+  "name": "fullscreen-deploy",
+  "date": "2026-11-05",
+  "timezone": "Australia/Sydney",
+  "branch": "preview-sec",
+  "preview_only": true,
+  "live_deploy": false,
+  "rollback_hash": "827d254",
+  "files": [
+    "wallet.js",
+    "CHANGELOG.md",
+    "docs/ERROR_LOG.md",
+    "updates/2026-11-05-fullscreen-deploy.json"
+  ],
+  "cause": "wallet.js main.js?v=91 vs index.html v=92 dual renderer black canvas",
+  "fix": "sync wallet.js to main.js?v=92",
+  "verify": "test:verify PASS; avatar_integrity laser mean~58; fullscreen_btn layout OK",
+  "notes": "Power Zerp trait-builder code unchanged this pass; comparison shots only (Task B)",
+  "commit": "d7e0851",
+  "deployment_url": "https://212ef117.b34n5-lobby-test.pages.dev",
+  "deploy_tip": "212ef117",
+  "preview_url": "https://preview-sec.b34n5-lobby-test.pages.dev",
+  "alias_url": "https://preview-sec.b34n5-lobby-test.pages.dev",
+  "compare_shots": [
+    "shots/preview/compare/side-by-side-power-zerp-5005.png",
+    "shots/preview/compare/side-by-side-little-ledger-7962.png",
+    "shots/preview/compare/side-by-side-big-cup-thanks.png",
+    "shots/preview/compare/side-by-side-sample-katana.png"
+  ],
+  "compare_findings": {
+    "power_zerp_5005": "type=generic fallback=palette \u2192 orange bean+helmet; real is orange Power-Ranger humanoid pixel art",
+    "little_ledger_7962": "type=robot \u2192 still yellow bean+hat; real is pixel humanoid with green X helmet",
+    "big_cup_thanks": "type=generic fallback \u2192 purple bean; real is cartoon creature with mug",
+    "sample_katana": "type=human from traits \u2192 still reads as beige bean+red hat (humanoid mapping weak)"
+  },
+  "power_zerp_status": "OPEN (comparisons only; builder not changed)"
+}

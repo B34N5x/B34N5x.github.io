@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Vault Run: Shooter</title>
+<link rel="stylesheet" href="shooter.css?v=4">
+<link rel="stylesheet" href="../theme.css?v=16">
+</head>
+<body>
+<canvas id="game"></canvas>
+<div id="top"><span>SCORE <b id="score">0</b></span><span>LIVES <b id="lives">3</b></span><span>#1 <b id="best">0</b></span><span id="pw"></span></div>
+<a id="back" class="btn small" href="../index.html?spawn=arcade">&larr; Lobby (Esc)</a>
+<div id="keys">Move: A/D, arrows or mouse &middot; Fire: Space / click (2 shots on screen) &middot; M: music &middot; Esc: lobby</div>
+<div id="panel"><div class="box"><h1 id="title">VAULT RUN</h1><p id="msg">Fixed shooter &middot; 3 lives &middot; enemy formations swoop in and dive &middot; divers score double &middot; clear the wave for the next stage</p><div id="ent" class="hidden">New high score! Initials: <input id="ini" maxlength="3" size="3"> <button id="save" class="btn">Save</button></div><p id="rules" class="rules"></p>
+<button id="play" class="btn">Start</button> <a class="btn" href="../index.html?spawn=arcade">Return to lobby</a></div></div>
+<script type="module" src="shooter.js?v=8"></script>
+<script type="module">import { gamePage, LAYOUTS } from '../touchpad.js?v=10'; gamePage(LAYOUTS.shooter);</script>
+<script>
+(function(){
+  const emb = new URLSearchParams(location.search).get('embed');
+  if (!emb && window.parent === window) return;
+  function back(e){ if(e) e.preventDefault(); try{ parent.postMessage({type:'lobby-back'},'*'); }catch(err){} }
+  document.querySelectorAll('a[href*="index.html"]').forEach(a=>{ a.addEventListener('click', back); a.href='#'; });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+ "name": "SAMPLE Katana Human",
+ "description": "MADE-UP SAMPLE mimicking humanoid headgear/offhand slots (not a real NFT).",
+ "collection": "Sample mock-up",
+ "attributes": [
+  { "trait_type": "Type", "value": "Human" },
+  { "trait_type": "Background", "value": "Red" },
+  { "trait_type": "Clothing", "value": "Kimono" },
+  { "trait_type": "Headgear", "value": "Headband" },
+  { "trait_type": "Eyes", "value": "Determined" },
+  { "trait_type": "Offhand", "value": "Katana" },
+  { "trait_type": "Special", "value": "Sparkle" }
+ ]
+}

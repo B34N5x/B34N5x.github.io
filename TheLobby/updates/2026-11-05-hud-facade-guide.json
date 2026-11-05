@@ -1,0 +1,69 @@
+{
+  "date": "2026-11-05",
+  "timezone": "Australia/Sydney",
+  "title": "HUD restore, whole-tile guide drag, facade textures, wisp blotch soften",
+  "branch": "preview-sec",
+  "preview_only": true,
+  "live_deploy": false,
+  "rollback": "0ed9328",
+  "user_ask": "Got no hud; drag prompt too big \u2014 whole tile drag + lock position; buildings need proper textures",
+  "root_causes": {
+    "hud": "#hudgear lived inside #hub #mmrow which declutter set display:none; debug #hud was intentionally hidden",
+    "guide": "labelled Drag handle instead of whole-tile grab; position memory-only (forgotten on reopen)",
+    "buildings": "Kenney meshes kept flat colormap; envpass only grime/posters not full-face Color",
+    "orb_blotch": "Drop wisp is intentional default; grey blotch = additive trail sprites near floor + hard contact; soft blob + trail Y clamp"
+  },
+  "features": {
+    "hud_restore": "#hudgear on body; CSS forces hmenu/skintag/wallet/minimap/joy/gear visible",
+    "guide_drag": "whole-tile drag, 8px tap threshold, localStorage lobbyGuidePos coords-only, resize clamp",
+    "facade_textures": "ambientCG Bricks076C/Plaster001/Asphalt025C shared mats + canvas windows; 4-face MeshBasic panels; phone MeshBasic",
+    "wisp_blotch": "soft LinearFilter blob; trail Y>=0.7; trail only while moving; size 0.12 on low"
+  },
+  "orb_verdict": "intentional Drop default (not a bug)",
+  "blotch_verdict": "softened; residual soft contact shadow intentional grounding; trail floor pile fixed",
+  "cache": {
+    "sw": "lobby-shell-v35b",
+    "main": "v87",
+    "guide": "v12",
+    "style": "v51",
+    "neon": "v14",
+    "envpass": "v3"
+  },
+  "tests": {
+    "test:verify": "PASS (guide_drag + envpass + prior suite)",
+    "frame_p95_regress": {
+      "412": -12.8,
+      "1366": -56.1,
+      "pre_412": 248.5,
+      "post_412": 216.7,
+      "pre_1366": 791.9,
+      "post_1366": 347.7,
+      "limit_pct": 15,
+      "method": "__paint(1) x90 vs envpass-after-ft"
+    }
+  },
+  "screenshots_read": [
+    "shots/preview/fix/hud-restore-412-port.png",
+    "shots/preview/fix/hud-restore-1366.png",
+    "shots/preview/fix/facade-textures-1366.png",
+    "shots/preview/fix/guide-drag-1366.png",
+    "shots/preview/fix/phone-hud-412-port.png",
+    "shots/preview/fix/phone-hud-412-land.png",
+    "shots/preview/fix/phone-hud-768.png",
+    "shots/preview/fix/phone-hud-1366.png",
+    "shots/preview/fix/wisp-ground-412.png",
+    "shots/preview/fix/envpass-after-412.png",
+    "shots/preview/fix/envpass-after-1366.png"
+  ],
+  "visual_notes_honest": [
+    "HUD chrome visible on 412p/1366: gear, Skin/Drop, Sign-in, hmenu, joy, jump, minimap (desktop)",
+    "Guide card: three-bar handle only, no Drag label; whole-tile drag + lobbyGuidePos verified by test",
+    "Facades: brick/plaster Color maps visible on street buildings; still Kenney low-poly silhouette not photoreal",
+    "Drop orb intentional; soft ground blob present; trail no longer piles grey pixels on floor when idle"
+  ],
+  "commit": "42f2a379cdac8729eb528948af52ea63530acd3c",
+  "preview_url": "https://preview-sec.b34n5-lobby-test.pages.dev",
+  "deployment_url": "https://96556588.b34n5-lobby-test.pages.dev",
+  "deploy_tip": "42f2a37",
+  "alias_url": "https://preview-sec.b34n5-lobby-test.pages.dev"
+}

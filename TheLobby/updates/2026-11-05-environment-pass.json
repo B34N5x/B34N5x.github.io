@@ -1,0 +1,50 @@
+{
+  "date": "2026-11-05",
+  "timezone": "Australia/Sydney",
+  "title": "environment pass \u2014 dusk denseness, phone-smooth props/FX",
+  "branch": "preview-sec",
+  "preview_only": true,
+  "live_deploy": false,
+  "rollback": "26d5ea4",
+  "user_ask": "Beans approved ENVIRONMENT PASS (1) after HUD/drag/playtest; AnyKit-inspired bake/MeshBasic/fake bloom/steam (no AnyKit licence)",
+  "features": {
+    "fog_aces_dusk": "FogExp2 + ACES + soft-light purple-orange grade",
+    "prop_scatter": "InstancedMesh kerbs/bollards/vents/pipes/bins/crates/cables/signs; paths/doors/Unstuck clear",
+    "weathered_facades": "grime/AO/posters/cracks MeshBasicMaterial",
+    "shake_debris": "laser/charge/heavy land; reduced-motion respected",
+    "blob_shadow": "single envBlobShadow",
+    "cheap_atmos": "fake bloom sprites + steam cards on low; composer bloom off",
+    "quality_toggle": "phones default low via coarse pointer"
+  },
+  "cache": {
+    "sw": "lobby-shell-v34x",
+    "main": "v85",
+    "envpass": "v1",
+    "perf": "v3",
+    "abilities": "v9"
+  },
+  "tests": {
+    "test:verify": "PASS incl test:envpass",
+    "frame_p95_regress": {
+      "412": -5.4,
+      "1366": 10.6,
+      "limit_pct": 15
+    }
+  },
+  "screenshots_read": [
+    "shots/preview/fix/envpass-before-1366.png",
+    "shots/preview/fix/envpass-after-1366.png",
+    "shots/preview/fix/envpass-before-412.png",
+    "shots/preview/fix/envpass-after-412.png"
+  ],
+  "visual_notes_honest": [
+    "After 1366: warmer dusk sky, denser edge props (crate/bin), grade overlay; buildings still Kenney low-poly",
+    "After 412: dusk peach sky + joy/jump HUD; SwiftShader not device FPS",
+    "p95 regress within 15% on low at both sizes"
+  ],
+  "commit": "55aaba5",
+  "preview_url": "https://preview-sec.b34n5-lobby-test.pages.dev",
+  "deployment_url": "https://8aa0cd77.b34n5-lobby-test.pages.dev",
+  "deploy_tip": "55aaba5",
+  "alias_url": "https://preview-sec.b34n5-lobby-test.pages.dev"
+}

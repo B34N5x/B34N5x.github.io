@@ -1,0 +1,75 @@
+{
+ "about": "Hand-verified against the the-lantern-path_v12h art (by eye). Base B34N5 corrections + card-specific differences.",
+ "bodyType": "capsule",
+ "silhouette": {
+  "topBump": true,
+  "bodyAspect": 1.2
+ },
+ "colours": {
+  "body": "#86c93a",
+  "band": "#efe5cf",
+  "strap": "#6b3f26",
+  "gloves": "#8fb6c8",
+  "shoes": "#f1ede2",
+  "shoeTrim": "#6fa58a",
+  "visor": "#0a0b0c",
+  "xMarks": "#2a2420"
+ },
+ "features": {
+  "eyewear": "strapped shades",
+  "mask": "strapped sports mask (cream band, vents, green bean emblem)",
+  "gloves": "mitten gloves",
+  "shoes": "sneakers",
+  "xMarks": "two large dark X marks on the lower mask"
+ },
+ "tierNote": "V11 metadata has no tier; traits all Uncommon by default (NFT.md #5)",
+ "style": "3d_art",
+ "styleNote": "Verified by eye: glossy felt/claymation 3D render. Auto heuristic said 3d_art (Origin) / realistic (Workbench, Lantern) at ~0.33 confidence.",
+ "maskStyle": "lower",
+ "heldItems": [
+  {
+   "item": "lantern",
+   "hand": "right",
+   "from": "Lantern Path: holds a glowing brass lantern"
+  }
+ ],
+ "mask": {
+  "coverage": "full",
+  "shape": "round",
+  "top": -0.26,
+  "bottom": 0.4,
+  "width": 0.78,
+  "puff": 0.12,
+  "cheekTuck": true,
+  "tint": "#d6bf94",
+  "xMarks": {
+   "count": 2,
+   "size": "large",
+   "where": "below shades",
+   "y": 0.2,
+   "spread": 0.17,
+   "colour": "#5a3a1e",
+   "thick": 1.6,
+   "len": 1.15
+  },
+  "emblem": false,
+  "vents": 0,
+  "straps": {
+   "count": 1,
+   "colour": "#4a3424",
+   "buckle": false,
+   "width": 0.02
+  },
+  "patches": [],
+  "trims": [
+   "stitched round edge"
+  ],
+  "outline": "round felt disc over the whole face, shades on top",
+  "note": "Lantern Path: flat round patch-like face piece, stitched edge, big brown X marks under the lenses, single strap at eye level",
+  "edgeColour": "#b89a6a",
+  "edgeWidth": 0.034,
+  "stitchColour": "#f4ead4"
+ },
+ "detected": [],
+ "detectedNote": "hand-checked: no extra features beyond features/mask/wearables (auto image detections overridden)"
+}

@@ -1,0 +1,96 @@
+{
+ "source": "06_book_staircase_v11.jpg",
+ "method": "rembg isnet mask + hue k-means v2",
+ "framing": "full_body",
+ "height": 4.96,
+ "figureHeightFrac": 0.84,
+ "style": "3d_art",
+ "styleConfidence": 0.29,
+ "styleFeatures": {
+  "edge": 0.341,
+  "flat": 0.019,
+  "palette": 125,
+  "smooth": 0.403,
+  "inkLines": 0.023,
+  "skin": 0.231
+ },
+ "silhouette": {
+  "bbox01": [
+   0.36,
+   0.09,
+   0.7,
+   0.92
+  ],
+  "bodyAspect": 1.41,
+  "bodyFill": 0.61,
+  "topBump": true
+ },
+ "bodyType": "capsule",
+ "colours": {
+  "body": "#837e26",
+  "accents": [],
+  "band": null
+ },
+ "visor": null,
+ "band": null,
+ "limbs": [],
+ "accessoryHints": [
+  "one head bump"
+ ],
+ "mask": {
+  "auto": true,
+  "coverage": "lower",
+  "shape": "round",
+  "top": -0.1,
+  "bottom": 0.25,
+  "width": 0.6,
+  "puff": 0.35,
+  "cheekTuck": false,
+  "tint": "#d1ba9e",
+  "xMarks": {
+   "count": 2,
+   "size": "large",
+   "y": 0.15,
+   "spread": 0.13,
+   "colour": "#3c2918",
+   "where": "below shades"
+  },
+  "emblem": false,
+  "straps": {
+   "count": 2,
+   "colour": "#715838"
+  },
+  "shades": [
+   0.39,
+   0.13,
+   0.75,
+   0.28
+  ]
+ },
+ "detected": [
+  {
+   "name": "necklace (gold band at neck)",
+   "slot": "neck",
+   "tags": [
+    "beads",
+    "gold"
+   ],
+   "colour": "#979336",
+   "region": "neck",
+   "px": 1005
+  },
+  {
+   "name": "cuff (metal ring at a wrist)",
+   "slot": "wrists",
+   "tags": [
+    "ring",
+    "grey",
+    "metal"
+   ],
+   "colour": "#d3c5bb",
+   "region": "wrist",
+   "px": 203
+  }
+ ],
+ "confidence": 0.61
+}

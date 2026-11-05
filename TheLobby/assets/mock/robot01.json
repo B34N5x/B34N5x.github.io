@@ -1,0 +1,27 @@
+{
+ "name": "Sample mock-up",
+ "description": "Fake sample for demos. Not a real NFT.",
+ "collection": "Sample mock-up",
+ "attributes": [
+  {
+   "trait_type": "Body",
+   "value": "Robot"
+  },
+  {
+   "trait_type": "Colour",
+   "value": "Orange"
+  },
+  {
+   "trait_type": "Headwear",
+   "value": "Hat"
+  },
+  {
+   "trait_type": "Mask",
+   "value": "Mask"
+  },
+  {
+   "trait_type": "Tier",
+   "value": "Legendary"
+  }
+ ]
+}

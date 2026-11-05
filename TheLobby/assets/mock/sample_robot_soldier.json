@@ -1,0 +1,13 @@
+{
+ "name": "SAMPLE Mech Blaster",
+ "description": "MADE-UP SAMPLE mimicking robot/soldier gear traits (not a real NFT).",
+ "collection": "Sample mock-up",
+ "attributes": [
+  { "trait_type": "Model", "value": "Robot" },
+  { "trait_type": "Colour", "value": "Silver" },
+  { "trait_type": "Helmet", "value": "Tactical Helmet" },
+  { "trait_type": "Weapon", "value": "Blaster" },
+  { "trait_type": "Aura", "value": "Electric" },
+  { "trait_type": "Tier", "value": "Epic" }
+ ]
+}

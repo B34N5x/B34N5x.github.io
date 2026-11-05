@@ -1,0 +1,14 @@
+{
+ "name": "SAMPLE Honey Cap Bear",
+ "description": "MADE-UP SAMPLE mimicking animal-PFP layered traits (not a real NFT).",
+ "collection": "Sample mock-up",
+ "attributes": [
+  { "trait_type": "Background", "value": "Teal" },
+  { "trait_type": "Fur", "value": "Honey" },
+  { "trait_type": "Clothes", "value": "Toga" },
+  { "trait_type": "Mouth", "value": "Smile" },
+  { "trait_type": "Eyes", "value": "X-Eyes" },
+  { "trait_type": "Headwear", "value": "Blue Cap" },
+  { "trait_type": "Species", "value": "Bear" }
+ ]
+}

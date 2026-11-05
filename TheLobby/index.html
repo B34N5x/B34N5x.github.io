@@ -1,17 +1,48 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>The Lobby — B34N5x</title>
-  <meta name="description" content="The Lobby — XRPL NFT hangout by B34N5x.">
-  <meta name="robots" content="noindex">
-  <!-- Branded path entry: game hosts on CF Pages (absolute /shooter|/fighter + SW need site root). -->
-  <meta http-equiv="refresh" content="0;url=https://b34n5-lobby-test.pages.dev/">
-  <link rel="canonical" href="https://b34n5-lobby-test.pages.dev/">
-  <script>location.replace('https://b34n5-lobby-test.pages.dev/');</script>
+<base href="/TheLobby/">
+<meta charset="utf-8">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#08041a">
+<link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script src="pwa.js?v=3-thelobby"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' blob:; connect-src 'self' https://ipfs.io https: wss://b34n5-rooms-preview.xrplwill-contact.workers.dev wss://s.altnet.rippletest.net:51233 wss://xrplcluster.com wss://s1.ripple.com; object-src 'none'; base-uri 'self'; form-action 'none'">
+<title>The Lobby</title>
+<meta name="lobby-net" content="testnet">
+<link rel="stylesheet" href="style.css?v=58">
+<link rel="stylesheet" href="theme.css?v=17-thelobby">
+<link rel="stylesheet" href="neon.css?v=14">
 </head>
-<body style="margin:0;min-height:100vh;display:grid;place-items:center;background:#07090b;color:#e8eaf0;font:16px/1.4 system-ui,sans-serif">
-  <p>Opening <a href="https://b34n5-lobby-test.pages.dev/" style="color:#22f0ff">The Lobby</a>…</p>
+<body>
+<script src="agegate.js?v=1"></script>
+<script src="intro_audio.js?v=1"></script>
+<script src="intro.js?v=14"></script>
+<div id="overlay"><div class="box"><h1 class="retro">The Lobby</h1><small class="copy">&copy; 2026 B34N5x. All rights reserved.</small><p class="trust">&#128274; No wallet connect. We never ask for seeds, keys or signatures. Paste a public address or play as a guest. Emotes only — no chat or voice. Adult supervision advised.</p><p>Click to enter</p>
+<p class="small">WASD / arrows to walk &middot; mouse to look &middot; Space to jump &middot; V to switch view &middot; C front view &middot; M HUD &middot; N sound &middot; E interact &middot; Esc to pause</p></div></div>
+<div id="hud">View: <span id="viewname">First-person</span> (V)</div>
+<div id="hub">
+<div id="mmrow"></div>
+<canvas id="minimap" width="180" height="180"></canvas>
+<label class="guide">Guide to:
+<select id="guide"><option value="">— off —</option><option value="shop">Arcade Shop</option><option value="arcade">Arcade Shop: Vault Run</option><option value="fighter">Arcade Shop: Escrow Clash</option><option value="gallery">Gallery &amp; Florist</option><option value="apartment">Escrow Palace</option><option value="kiosk">Kiosk</option></select></label>
+<div id="dist"></div><div id="tokens">Tokens: 0</div><button id="snd" type="button">Sound: off (N)</button><div class="keys">M hide HUD &middot; C front view</div>
+</div>
+<button id="skintag" type="button">Skin: Drop ▾</button><button id="aura" type="button" hidden aria-pressed="true">+1 AURA: ON</button><!-- stance retired 2026-11-05: all-fours broke assets --><button id="boost" class="hudtog" type="button" hidden aria-pressed="false">BOOST: OFF</button><button id="emote" class="hudtog" type="button" hidden>EMOTE</button><div id="abil" hidden></div><div id="skinpanel"></div>
+<div id="warp"></div><div id="bound"><div class="bstatic"></div><div class="bbox"><p class="btag">// PERIMETER ALERT //</p><h2>RETURN TO THE LEDGER</h2><p>Leaving the sandbox zone. Turn back or you will be recalled to Escrow Palace in</p><p id="boundn" class="bnum">7</p></div></div><div id="fade"></div>
+<div id="gallery"><div class="gtop"><h1>Lobby TV &middot; Collections</h1><button id="gclose" type="button">← Back to Lobby</button></div><div id="gbody"></div></div>
+<div id="gzoom"><img id="gzimg" alt=""><p id="gzcap"></p></div>
+<div id="tvhint"></div>
+<div id="news"><div class="gtop"><h1>Ledger News</h1><button id="nclose" type="button">← Back to Lobby</button></div><p id="ngen" class="gnote"></p><ul id="nlist"></ul><p class="gnote">Headlines and links only, from official public feeds. Sources credited on each line.</p></div>
+<div id="joy"><div id="knob"></div></div>
+<script type="module" src="main.js?v=104"></script>
+<div id="wallet" style="position:fixed;top:8px;right:8px;z-index:50;font:12px sans-serif;color:#fff;text-align:right"><button id="walletBtn">Sign in with Xaman</button><div id="walletInfo"></div></div>
+<script type="module" src="wallet.js?v=31"></script>
+<script type="module" src="layout.js?v=8"></script>
+<meta name="rooms-url" content="wss://b34n5-rooms-preview.xrplwill-contact.workers.dev">
+<script type="module" src="rooms.js?v=6"></script>
+<script type="module" src="guide.js?v=12"></script>
 </body>
 </html>

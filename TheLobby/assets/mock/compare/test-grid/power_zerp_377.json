@@ -1,0 +1,35 @@
+{
+  "name": "Power Zerp #377",
+  "description": "Power Zerp #377 is part of Power Zerps Collection, created by Ekiserrepe.",
+  "image": "shots/preview/compare/test-grid-src/power-zerp-377.png",
+  "attributes": [
+    {
+      "trait_type": "Helmet",
+      "value": "Shudder"
+    },
+    {
+      "trait_type": "Body Armor",
+      "value": "Sonic"
+    },
+    {
+      "trait_type": "Color",
+      "value": "Green"
+    },
+    {
+      "trait_type": "Attack",
+      "value": "4"
+    },
+    {
+      "trait_type": "Defense",
+      "value": "2"
+    },
+    {
+      "trait_type": "Health",
+      "value": "5"
+    },
+    {
+      "trait_type": "Magic",
+      "value": "5"
+    }
+  ]
+}

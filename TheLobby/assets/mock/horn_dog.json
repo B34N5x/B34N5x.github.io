@@ -1,0 +1,11 @@
+{
+ "name": "SAMPLE Horn Dog",
+ "description": "MADE-UP SAMPLE for trait ability preview. Not a real NFT.",
+ "collection": "Sample mock-up",
+ "attributes": [
+  { "trait_type": "Species", "value": "Dog" },
+  { "trait_type": "Fur", "value": "Tan" },
+  { "trait_type": "Head", "value": "Ram Horns" },
+  { "trait_type": "Tier", "value": "Uncommon" }
+ ]
+}

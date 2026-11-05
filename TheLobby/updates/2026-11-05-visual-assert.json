@@ -1,0 +1,63 @@
+{
+  "date": "2026-11-05",
+  "timezone": "Australia/Sydney",
+  "title": "visual-assert pass: side-on shots, real laser/quad pixels",
+  "branch": "preview-sec",
+  "preview_only": true,
+  "live_deploy": false,
+  "rollback": "1d114e6638fc08b19132bd227eca3789d7ac784b",
+  "prior_false_green": "3ac77939-43c4-4801-9160-0939b3bef23c",
+  "root_causes": [
+    "Tests asserted stanceA / ability timers / FX spawn, not torso long-axis, paw world Y, projected FX bbox, or pixel-diff",
+    "Captures left guide card up and used rear cam \u2014 shots could not prove quad lean or beam",
+    "Thin additive laser invisible on SwiftShader",
+    "All-fours tip without limb counter-rotation floated rear paws"
+  ],
+  "features": {
+    "capture": "noguide+sideCam+dismissOverlays; pin plaza during showcase shots",
+    "quad_pose": "LEAN 1.0 + limb counter-rotate -LEAN; pads world-down; crouch",
+    "laser": "NormalBlending thick core+ribbon; mid-effect pixel-diff gate",
+    "integrity": "visual asserts: long-axis, pads, frustum area, pixel-diff"
+  },
+  "cache": {
+    "sw": "lobby-shell-v34q",
+    "main": "v72",
+    "avatar3d": "v43",
+    "abilities": "v5",
+    "moves": "v5",
+    "traiteffects": "v2",
+    "showcase": "v1",
+    "style": "v44"
+  },
+  "tests": {
+    "test:verify": "required gate (run before this deploy)",
+    "test:avatar": "visual gates \u2014 long-axis, pads, laser area+pixel-diff"
+  },
+  "screenshots_side_on": [
+    "shots/preview/fix/tiger-quad-side-1366.png",
+    "shots/preview/fix/tiger-upright-side-1366.png",
+    "shots/preview/fix/tiger-quad-side-412.png",
+    "shots/preview/fix/bear-laser-side-1366.png",
+    "shots/preview/fix/showcase/tiger-quad-side-1366.png",
+    "shots/preview/fix/showcase/laser-bear-side-1366.png",
+    "shots/preview/fix/showcase/cyber-fox-side-1366.png",
+    "shots/preview/fix/showcase/wing-cat-side-1366.png",
+    "shots/preview/fix/showcase/bat-wing-cat-side-1366.png",
+    "shots/preview/fix/showcase/horn-dog-side-1366.png",
+    "shots/preview/fix/showcase/fire-horn-side-1366.png",
+    "shots/preview/fix/showcase/katana-side-1366.png",
+    "shots/preview/fix/showcase/mech-aura-side-1366.png",
+    "shots/preview/fix/showcase/abstract-side-1366.png"
+  ],
+  "visual_confirmation": {
+    "laser": "Read PNG \u2014 thick white/pink beam + bloom mid-effect; guide dismissed",
+    "quad": "Read PNG \u2014 torso tipped ~horizontal, limbs connected (counter-rotate), differs from upright side shot",
+    "remaining": "Bean silhouette is still stylized (not a photoreal animal); slash/aura mid-FX visible on katana/mech but smaller than laser"
+  },
+  "summary": "Preview redeploy after parent rejected state-only tests. Visual gates + real render fixes for quad limbs and laser. No live promote.",
+  "risks": [
+    "Preview branch only \u2014 do not promote to live without Beans sending 1",
+    "Showcase charge/slash still move the body briefly; shots pin pos to avoid perimeter"
+  ],
+  "commit": "7befa63e2424ad86f57a344c04412ddebba0a859"
+}

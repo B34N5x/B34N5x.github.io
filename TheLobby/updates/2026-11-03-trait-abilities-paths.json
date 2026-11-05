@@ -1,0 +1,102 @@
+{
+  "date": "2026-11-03",
+  "timezone": "Australia/Sydney",
+  "title": "trait abilities + spaced lobby paths",
+  "branch": "preview-sec",
+  "preview_only": true,
+  "live_deploy": false,
+  "rollback": "44a3c2b8794eae32cbe87ff642963db6aa8c3646",
+  "files_changed": [
+    "CHANGELOG.md",
+    "abilities.js",
+    "assets/mock/horn_dog.json",
+    "assets/mock/laser_bear.json",
+    "assets/mock/wing_cat.json",
+    "boundary.js",
+    "collections.json",
+    "index.html",
+    "main.js",
+    "parts.js",
+    "props.js",
+    "style.css",
+    "sw.js",
+    "test/abilities.html",
+    "test/abilities.js",
+    "traits.js",
+    "traits_map.json",
+    "updates/2026-11-03-trait-abilities-paths.json",
+    "world3.js",
+    "world4.js",
+    "world6.js"
+  ],
+  "abilities": {
+    "hat": "visual only",
+    "laser_eyes": {
+      "ability": "laser",
+      "key": "KeyF"
+    },
+    "wings": {
+      "ability": "flight",
+      "key": "KeyT"
+    },
+    "horns": {
+      "ability": "charge",
+      "key": "KeyR"
+    }
+  },
+  "layout": {
+    "arcade_lot_z": [
+      -29,
+      -20
+    ],
+    "florist_lot_x": [
+      22,
+      28.5
+    ],
+    "apt_z": [
+      28,
+      38
+    ],
+    "apartment_ring_dist": "42+(k%3)*8",
+    "ZONE": {
+      "x0": -32,
+      "x1": 36,
+      "z0": -36,
+      "z1": 44
+    },
+    "HOME": {
+      "x": 0,
+      "z": 26.2
+    },
+    "footpaths": [
+      "plaza rim 15.5 -> arcade",
+      "-> florist",
+      "-> escrow palace",
+      "hub disc"
+    ]
+  },
+  "samples": [
+    "SAMPLE Laser Bear",
+    "SAMPLE Wing Cat",
+    "SAMPLE Horn Dog"
+  ],
+  "samples_note": "MADE-UP / mock only; never B34N5 collection ids",
+  "screenshots": [
+    "shots/preview/abilities-412.png",
+    "shots/preview/lobby-paths-412.png",
+    "shots/preview/lobby-paths-1366.png",
+    "shots/preview/abilities_report.json"
+  ],
+  "cache": {
+    "sw": "lobby-shell-v34j",
+    "style": "v41"
+  },
+  "summary": "Preview: map public NFT traits to 3D parts + abilities (hat/laser/flight/charge); space lobby buildings and add plaza footpaths; phone-checked; no keys/funds.",
+  "risks": [
+    "Preview branch only \u2014 do not promote to live without Beans sign-off",
+    "Ability keys F/T/R; avoid KeyC (front view)",
+    "Old SW may need hard refresh for #abil HUD"
+  ],
+  "usage_estimate_pct": null,
+  "commit": "9d29dcec090ddbc8efe2905d54975f8cf111ad05"
+}

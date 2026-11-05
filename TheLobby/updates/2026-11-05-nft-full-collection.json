@@ -1,0 +1,37 @@
+{
+  "date": "2026-11-05",
+  "zone": "Australia/Sydney",
+  "branch": "preview-sec",
+  "title": "Full NFT collection picker (Power Zerps listed) + E next to Jump",
+  "summary": "account_nfts marker pagination; resolveHeld keeps no-URI/no-image (placeholder); Xaman path loads full held; picker N>2 selectable. E/Interact always next to Jump on #tpad desktop+phone.",
+  "root_cause": "Xaman done() skipped resolveHeld; matches() empty B34N5 items; URI+slice(24)+drop-no-image; lookup 6s cap mid-pagination",
+  "before_after": {
+    "picker_cap_before": 2,
+    "picker_mock_after": 28,
+    "power_zerp_placeholders_kept": true
+  },
+  "cache": {
+    "main": "v102",
+    "wallet": "v30",
+    "style": "v58",
+    "touchpad": "v10",
+    "sw": "lobby-shell-v35q"
+  },
+  "rollback": "cdb1933",
+  "tests": "test/nft_picker.mjs + test/interact_btn.mjs + test:verify",
+  "shots": [
+    "shots/preview/form/nft-picker-full-412.png",
+    "shots/preview/form/nft-picker-full-1366.png",
+    "shots/preview/form/nft-picker-412.png",
+    "shots/preview/form/nft-picker-1366.png",
+    "shots/preview/form/interact-e-jump-412.png",
+    "shots/preview/form/interact-e-jump-1366.png"
+  ],
+  "deploy": {
+    "alias": "https://preview-sec.b34n5-lobby-test.pages.dev",
+    "deployment": "https://c66253c5.b34n5-lobby-test.pages.dev",
+    "branch": "preview-sec",
+    "project": "b34n5-lobby-test"
+  },
+  "commit": "9f457d5"
+}

@@ -1,0 +1,46 @@
+{
+  "date": "2026-11-05",
+  "zone": "Australia/Sydney",
+  "branch": "preview-sec",
+  "title": "Power Zerp armour humanoid + opt-in voxel",
+  "summary": "Upright space-armour for Power Zerp #5005; opt-in NFT-pixel InstancedMesh voxel riding the armour rig; three-way compare PNG.",
+  "cache": {
+    "main": "v93",
+    "traits": "v31",
+    "avatar3d": "v47",
+    "sw": "lobby-shell-v35h"
+  },
+  "rollback": "0df2ea4",
+  "tests": "test:verify PASS (taxonomy includes Power Zerp->armour)",
+  "metrics": {
+    "armour_avatar_drawables": 36,
+    "voxel_instanced_meshes": 1,
+    "voxel_instances": 7024,
+    "voxel_drawCalls": 1,
+    "armour_frameMs_p50_p95_swiftshader": [
+      670.2,
+      709
+    ],
+    "voxel_frameMs_p50_p95_swiftshader": [
+      865.5,
+      992.8
+    ],
+    "note": "SwiftShader frame times are not device production numbers; avatar-local drawable counts are the meaningful compare."
+  },
+  "shots": [
+    "shots/preview/compare/three-way-power-zerp.png",
+    "shots/preview/compare/side-by-side-power-zerp-5005.png",
+    "shots/preview/compare/builder-power-zerp-5005-1366.png",
+    "shots/preview/compare/builder-power-zerp-5005-412.png",
+    "shots/preview/compare/builder-power-zerp-5005-voxel-1366.png",
+    "shots/preview/compare/builder-power-zerp-5005-voxel-412.png"
+  ],
+  "queued_next": "own-collection scrollable NFT picker (memory-only after wallet sign-in)",
+  "commit": "c17993e",
+  "deploy": {
+    "deployment": "https://a9896b7b.b34n5-lobby-test.pages.dev",
+    "alias": "https://preview-sec.b34n5-lobby-test.pages.dev",
+    "project": "b34n5-lobby-test",
+    "branch": "preview-sec"
+  }
+}

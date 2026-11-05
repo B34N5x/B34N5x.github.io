@@ -1,0 +1,20 @@
+{
+  "date": "2026-11-05",
+  "zone": "Australia/Sydney",
+  "branch": "preview-sec",
+  "title": "View button beside special-move + full regress",
+  "summary": "#abil row; viewbtn static beside LASER; non-black viewbtn shots; full 1366/412 preview regress ALL PASS",
+  "cache": {
+    "main": "v101",
+    "abilities": "v11",
+    "style": "v56",
+    "sw": "lobby-shell-v35o"
+  },
+  "rollback": "a5dcbd6",
+  "commit": "83df5b8",
+  "deploy": {
+    "alias": "https://preview-sec.b34n5-lobby-test.pages.dev",
+    "deployment": "https://3adc7385.b34n5-lobby-test.pages.dev"
+  },
+  "regress": "shots/preview/form/regress/summary.json ALL PASS"
+}

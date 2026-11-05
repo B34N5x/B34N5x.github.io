@@ -1,0 +1,27 @@
+{
+ "name": "Sample tiger mock-up",
+ "description": "Fake head-and-shoulders tiger PFP for demos. Not a real NFT.",
+ "collection": "Sample mock-up",
+ "attributes": [
+  {
+   "trait_type": "Body",
+   "value": "Tiger"
+  },
+  {
+   "trait_type": "Fur",
+   "value": "Orange with black stripes"
+  },
+  {
+   "trait_type": "Eyes",
+   "value": "Green"
+  },
+  {
+   "trait_type": "Background",
+   "value": "Navy"
+  },
+  {
+   "trait_type": "Tier",
+   "value": "Rare"
+  }
+ ]
+}

@@ -1,0 +1,45 @@
+{
+  "date": "2026-11-04",
+  "timezone": "Australia/Sydney",
+  "title": "ability keys: no overlaps + HUD spacing",
+  "branch": "preview-sec",
+  "preview_only": true,
+  "live_deploy": false,
+  "rollback": "7e8d5a867724593771ef6cc51f2eff6ed4b405b1",
+  "conflicts_found": [
+    "KeyV: view toggle (main.js) vs weapon slash-dash (traits_map.json)",
+    "All 5 ability HUD buttons rendered on top of each other (position:fixed from .hudtog)",
+    "412 portrait: ability buttons overlapped joystick; Invite bar overlapped touch pad",
+    "Phone landscape: minimap hub overlapped touch pad"
+  ],
+  "key_map": {
+    "Digit1": "laser_eyes",
+    "Digit2": "wings flight",
+    "Digit3": "horns charge",
+    "Digit4": "aura pulse",
+    "Digit5": "weapon slash-dash"
+  },
+  "files_changed": [
+    "traits_map.json",
+    "abilities.js",
+    "style.css",
+    "package.json",
+    "README.md",
+    "CHANGELOG.md",
+    "test/keymap_unique.mjs",
+    "tools/shot_ability_keys.mjs"
+  ],
+  "screenshots": [
+    "shots/preview/keys/ability-keys-phone-412.png",
+    "shots/preview/keys/ability-keys-phone-land.png",
+    "shots/preview/keys/ability-keys-tablet-768.png",
+    "shots/preview/keys/ability-keys-desktop-1366.png"
+  ],
+  "tests": [
+    "test:keys",
+    "test:chars",
+    "test:taxonomy",
+    "tools/shot_ability_keys.mjs"
+  ],
+  "commit": "f1a8034fc3fb08dcfe23e615b6d96f9f8306742c"
+}

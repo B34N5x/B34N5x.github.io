@@ -1,0 +1,61 @@
+{
+  "date": "2026-11-05",
+  "timezone": "Australia/Sydney",
+  "title": "draggable first-run guide, phone HUD declutter, fluidity playtest",
+  "branch": "preview-sec",
+  "preview_only": true,
+  "live_deploy": false,
+  "rollback": "c36eb46e97af328cc944524bc8a4f2852298b31f",
+  "user_ask": "Draggable guide (pt2123u) + phone HUD from laser-bear-phone-412; fluidity playtest; then Beans approved environment pass (gated after this round verified)",
+  "features": {
+    "guide_drag": "ghandle pointer capture; clamp off joy/abil/tpad; session mem only; buttons work",
+    "guide_clamp_fixed": "no offsetParent check for fixed HUD",
+    "phone_hud": "hide N/M/C/V/E; Settings gets View/Front/HUD; hub chrome-less; compact minimap; laser glow 0.17",
+    "hmenu_portrait": "top clears wallet Sign-in",
+    "jump": "immediate when grounded/coyote",
+    "unstuck_cd": "wall-clock 2.5s via performance.now",
+    "fluidity_playtest": "412p/412l/1366 scripted; docs/PLAYTEST-2026-11-05.md",
+    "dual_main_fix": "wallet.js main.js?v= matches index.html",
+    "rec_paint": "__paint/__stepN await composer.render via __paintDone"
+  },
+  "cache": {
+    "sw": "lobby-shell-v34w",
+    "main": "v84",
+    "guide": "v11",
+    "style": "v50",
+    "neon": "v13",
+    "hudmenus": "v8",
+    "touchpad": "v9",
+    "abilities": "v8",
+    "wallet": "v28"
+  },
+  "tests": {
+    "test:verify": "PASS (effects + keys + chars + taxonomy + joy_unstuck + guide_drag + avatar_integrity)",
+    "test:fluidity": "0 high findings after jump/guide/unstuck/hmenu fixes",
+    "laser_pixel_diff": "mean 57+, hotFrac 0.26"
+  },
+  "screenshots_read": [
+    "shots/preview/fix/guide-drag-1366.png",
+    "shots/preview/fix/phone-hud-412-port.png",
+    "shots/preview/fix/phone-hud-412-land.png",
+    "shots/preview/fix/phone-hud-768.png",
+    "shots/preview/fix/phone-hud-1366.png",
+    "shots/preview/fix/fluidity-412p.png",
+    "shots/preview/fix/fluidity-412l.png",
+    "shots/preview/fix/fluidity-1366.png",
+    "shots/preview/fix/tiger-upright-side-1366.png",
+    "shots/preview/fix/bear-laser-side-1366.png",
+    "shots/preview/fix/laser-bear-phone-412.png"
+  ],
+  "visual_notes_honest": [
+    "Guide DRAG handle visible; card clear of joy after drag",
+    "Phone 412p: joy + jump, no N/M/C/V, Sign-in top-right with menu column below",
+    "Laser beam visible mid-cast; upright tiger; SwiftShader fps not device proof"
+  ],
+  "commit": "26d5ea4",
+  "preview_url": "https://preview-sec.b34n5-lobby-test.pages.dev",
+  "deployment_url": "https://5c0eefac.b34n5-lobby-test.pages.dev",
+  "deploy_tip": "26d5ea4",
+  "next": "ENVIRONMENT PASS (Beans approved 1) after this deploy",
+  "alias_url": "https://preview-sec.b34n5-lobby-test.pages.dev"
+}

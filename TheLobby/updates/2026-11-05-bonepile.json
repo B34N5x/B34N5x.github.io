@@ -1,0 +1,17 @@
+{
+  "date": "2026-11-05",
+  "timezone": "Australia/Sydney",
+  "title": "BONE PILE sits on top of the ground",
+  "branch": "preview-sec",
+  "preview_only": true,
+  "live_deploy": false,
+  "rollback": "26bdd6d",
+  "commit": "487a2fd305b0e6963ca8271aba585ec6ad11d06f",
+  "root_cause": "moves.js startPile used absolute world y 0.04-0.12 for bone targets; plaza FLOOR is 0.35 and targets are mesh origins, so bones sank 0.62-0.74 below the surface. floorAt was passed by main.js but dropped by setupMoves.",
+  "fix": "floorAt-based target y + per-frame clampAboveGround (world bbox min.y >= ground + 0.012)",
+  "cache": { "moves": "v8", "main": "v88", "sw": "lobby-shell-v35c" },
+  "tests": { "test:verify": "PASS (clean worktree at 487a2fd)", "test:bonepile": "before FAIL -0.62/-0.74, after PASS +0.012 at 1366 and 412" },
+  "screenshots": ["shots/preview/fix/bonepile-before-1366.png", "shots/preview/fix/bonepile-after-1366.png", "shots/preview/fix/bonepile-before-412.png", "shots/preview/fix/bonepile-after-412.png"],
+  "preview_url": "https://preview-sec.b34n5-lobby-test.pages.dev",
+  "deployment_url": "https://a2043bd8.b34n5-lobby-test.pages.dev"
+}

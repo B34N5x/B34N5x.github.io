@@ -1,0 +1,235 @@
+Third-party credits and licences
+(Original B34N5x work: all rights reserved, see LICENSE.)
+
+# Credits
+
+| Asset | Used for | Licence | Link |
+|---|---|---|---|
+| three.js r169 (`lib/three.module.js`, unmodified) | 3D engine | MIT, (c) 2010-2024 Three.js Authors | https://github.com/mrdoob/three.js |
+| three.js r169 add-ons in `lib/addons/` (EffectComposer, RenderPass, UnrealBloomPass, OutputPass, Pass, ShaderPass, MaskPass, CopyShader, LuminosityHighPassShader, OutputShader) | Neon bloom glow | MIT, (c) Three.js Authors | https://github.com/mrdoob/three.js/tree/r169/examples/jsm |
+| three.js r169 `RoundedBoxGeometry` (`lib/addons/geometries/`) | Rounded apartment blocks, balconies, AC units | MIT, (c) Three.js Authors | https://github.com/mrdoob/three.js/tree/r169/examples/jsm/geometries |
+
+Everything else is original and made in code by B34N5x (All rights reserved, see LICENSE): rolling ground, plaza,
+neon grid shader, night sky, stars, data particles, dark towers, window and billboard textures (original text: LEDGER, B34N5, XRPL//, NODE 11, glyphs), data platforms, crystal trees, portal rings and swirl shader, kiosk,
+and the "Default Ledger Player" avatar (built from three.js shapes, based on our own concept art
+`concepts/default_ledger_player.jpg`).
+No third-party models, textures, fonts or sounds yet. Kenney / Quaternius (CC0) will be listed here if added.
+
+Note: the add-on files are unmodified except their `from 'three'` import line, changed to a relative path so no build step or import map is needed.
+
+Step 2 additions, all original code/art by B34N5x: HUD mini-map/radar/guide (canvas 2D + CSS), apartment blocks, window/sign textures (sign text: LEDGER 24h, B34N5 NOODLE, NODE CAFE, DATA, XRPL//BAR, PIXEL INN), wet-street puddle shader, cables, warp transition (CSS), and the `shooter/` mini-game 'Vault Run' (canvas 2D drawings of the ship, pilot and glitch drones). No third-party art, fonts or sounds.
+
+## Step 3 additions
+All original procedural code by B34N5x (All rights reserved): building trim (window frames, sills, ledges, pipes, awnings, roof tanks), instanced street clutter (pots, plants, bins, crates, bikes, lanterns, vending machines), the enterable ESCROW PALACE apartment (stairwell, room, furniture), wet plaza tile texture and dusk reflection map, arcade cabinets, art easels, gallery and news overlays. No third-party models, textures, fonts or sounds.
+
+B34N5 art in `assets/tv/` (ch1-6.jpg): Beans's own NFT art (latest V11-standard final set: Origin v13, Lantern Path v12h, Workbench Lock v13, Neon Desk v13, Terminal v13, Book Staircase v11), resized copies, all rights reserved by B34N5x. Not covered by the MIT licence.
+
+## Ledger News sources (headline, date and link only; no article text copied)
+Fetched at build time by `tools/fetch_news.py` into `news.json`:
+| Source | Feed |
+|---|---|
+| XRPLF rippled releases (GitHub) | https://github.com/XRPLF/rippled/releases.atom |
+| XRPLF xrpl.js releases (GitHub) | https://github.com/XRPLF/xrpl.js/releases.atom |
+| XRPLF xrpl-py releases (GitHub) | https://github.com/XRPLF/xrpl-py/releases.atom |
+| three.js releases (GitHub) | https://github.com/mrdoob/three.js/releases.atom |
+Note: no public RSS feed was found for the xrpl.org blog (tried /blog/feed.xml, /blog.rss and others: 404), so it is not included.
+
+## Step 4 additions (third-party, vendored in `assets/kenney/`, licence files copied alongside)
+| Asset | Used for | Licence | Link |
+|---|---|---|---|
+| Kenney "Space Shooter Remastered" (player ship, 3 enemies, meteor, lasers, power-ups, darkPurple background) | `shooter/` Vault Run v2 | CC0 1.0 | https://kenney.nl/assets/space-shooter-remastered |
+| Kenney "Platformer Characters" (Player + Soldier poses), recoloured in code with canvas hue filters | `fighter/` Escrow Clash fighters NODE and VOLT | CC0 1.0 | https://kenney.nl/assets/platformer-characters |
+| Kenney "Digital Audio" (laser4, powerUp2, lowDown, phaserUp3) | Shooter + fighter SFX | CC0 1.0 | https://kenney.nl/assets/digital-audio |
+| Kenney "Impact Sounds" (impactPunch_medium_000, impactPunch_heavy_001, impactGeneric_light_002) | Fighter hits/blocks, shooter explosions | CC0 1.0 | https://kenney.nl/assets/impact-sounds |
+| Kenney "Music Jingles" (jingles_NES03, jingles_NES10) | Fighter win jingle | CC0 1.0 | https://kenney.nl/assets/music-jingles |
+
+Original code by B34N5x (All rights reserved): Escrow Clash game logic, CPU AI, hit sparks, procedural neon stage (skyline, signs XRPL// NODE 11 LEDGER, grid floor), fighter names NODE / VOLT and specials Hash Bolt / Surge Dash; Vault Run v2 logic, power-ups, localStorage high score, and the shooter music loop (synthesised live with WebAudio, no audio file); lobby ESCROW CLASH cabinet marquee. No names, characters, sprites or audio from any commercial fighting game.
+
+## Step 5 additions (third-party, all CC0 / public domain, vendored locally with licence files)
+| Asset | Used for | Licence | Link | Local licence file |
+|---|---|---|---|---|
+| Kenney City Kit (Commercial) 2.1 - 12 buildings, 3 skyscrapers, awnings, parasol + colormap | Street buildings, plaza parasols | CC0 1.0 | https://kenney.nl/assets/city-kit-commercial | assets/kenney/city-commercial/License.txt |
+| Kenney City Kit (Suburban) 2.0 - trees, planter, fence | Plaza greenery | CC0 1.0 | https://kenney.nl/assets/city-kit-suburban | assets/kenney/city-suburban/License.txt |
+| Kenney Furniture Kit - bed, sofa, desk, chair, lamps, bookcase, rug, coffee table, TV cabinet, plant, monitor | ESCROW PALACE room | CC0 1.0 | https://kenney.nl/assets/furniture-kit | assets/kenney/furniture/License.txt |
+| ambientCG Asphalt025C, Bricks076C, Plaster001, WoodFloor051 (1K JPG, recompressed) | Wet asphalt, brick exterior, plaster walls, wood floor | CC0 1.0 | https://ambientcg.com | assets/textures/LICENSE-ambientCG.txt |
+| "Boxer Game Character" by Raga2D (frames resized into strips, recoloured in code) | Escrow Clash fighters NODE / VOLT | CC0 1.0 | https://opengameart.org/content/boxer-game-character | assets/boxer/LICENSE.txt |
+| three.js r169 GLTFLoader + BufferGeometryUtils (import line made relative) | Loading glTF models | MIT | https://github.com/mrdoob/three.js/tree/r169/examples/jsm | - |
+
+Original (All rights reserved, B34N5x): digital wisp avatar, locked cabinets + padlock hologram, easter-egg decals, step-5 integration code. Crystal trees removed.
+
+## Step 6 additions (vendored, licence files copied alongside)
+| Asset | Used for | Licence | Link |
+|---|---|---|---|
+| Kenney "Nature Kit" (flower_red/yellow/purple A-B, plant_bush, plant_bushSmall, pot_small, pot_large) in `assets/kenney/nature/` | Florist flower buckets, planters | CC0 1.0 | https://kenney.nl/assets/nature-kit |
+| Kenney "City Kit (Roads)" (light-curved, dumpster, electricity-pole, construction-cone + colormap) in `assets/kenney/city-roads/` | Street lamps, alley dumpster | CC0 1.0 | https://kenney.nl/assets/city-kit-roads |
+| Kenney "Furniture Kit" extra models (bench, kitchenBar, kitchenBarEnd, lampWall, rugRounded, trashcan, speaker, etc.) | Benches, bins, prize counter, door lamp, doormat | CC0 1.0 | https://kenney.nl/assets/furniture-kit |
+
+Original code by B34N5x (All rights reserved): LEDGER ARCADE shop (glass front, neon sign, confetti carpet texture, ceiling panels, prize shelf), PETAL & PIXEL gallery/florist storefront, chalk menu boards, ESCROW PALACE letterboxes + intercom + stoop, procedural sleeping cat, birds, vent steam sprites, overhead wires, puddle decals, the ambient sound (procedural WebAudio noise/hum, no audio file), `arcade.js` tokens + leaderboards, Escrow Clash's limb-rigged fighters (drawn in code, no sprites), Vault Run v3 fixed-shooter mechanics.
+Note: the Raga2D boxer sprites in `assets/boxer/` are no longer used by the game (kept only for history; CC0).
+Quaternius (CC0) packs were tried but only distribute via Google Drive folder links that cannot be fetched from the build box, so none are included.
+
+## Step 7 look polish
+- world7.js (lighting regrade, lamp pool, window neon, haze shafts, steam, attract screens): original code by B34N5x, **All rights reserved** (see LICENSE). No new third-party assets.
+- Step 7 add-ons: digital rain glyph streams (instanced shader, fades near player), dark glassy light-bridge plaza veins shader, calm indigo/teal sky: original code by B34N5x, **All rights reserved**.
+
+- Space Grotesk (variable, latin) by Florian Karsten, SIL Open Font License 1.1 - lib/fonts/SpaceGrotesk-var.woff2 (via Fontsource).
+
+Trait builder item classifier (step 23, offline build tool only, not shipped to browsers):
+- CLIP ViT-B/32 (OpenAI) - MIT License. ONNX export: Xenova/clip-vit-base-patch32 (Hugging Face).
+- onnxruntime (MIT), Hugging Face tokenizers (Apache-2.0).
+
+## AI assistance
+
+**AI assistance:** The Lobby was designed and directed by B34N5x. AI assistants (Grok Bot) helped write code, run tests and draft visuals under his direction. Third-party assets and open-source tools are credited in CREDITS.md.
+
+## Beta teaser music
+- "The Lobby Beta Teaser (synthwave bed)" — original track synthesised procedurally by bgxrp (Python/numpy + ffmpeg), Oct 2026. No third-party samples or film music. Licence: CC0 / owned by the project.
+- Teaser footage: AI-generated (Grok Imagine), no B34N5 NFT art.
+
+## Other shipped files (audit Oct 2026)
+- `assets/icons/icon-192.png`, `icon-512.png` (PWA app icons): made in-project for the v34e install-app update, B34N5x, all rights reserved.
+- `assets/mock/robot01.*`, `tiger01.*` ("Sample mock-up", labelled "Fake sample for demos. Not a real NFT."): demo samples made in-project (v15b/v16), not third-party NFT art.
+- Lobby intro sound (`intro_audio.js`): synthesised live with WebAudio, no audio file.
+- Xaman: name used only as a text label for the read-only wallet lookup; no Xaman logo files are shipped. Xaman is a trademark of its owner (XRPL Labs).
+
+
+## Unity-feel polish (preview, Nov 2026)
+Original code by B34N5x (All rights reserved): `unityfeel.js` (load progress bar, CSS vignette, eased UI panels, responsive joystick chrome, softer FollowCam damping), `motion.js` (procedural ambient light ribbons + mote drift; respects prefers-reduced-motion and Lightweight mode).
+| Asset | Used for | Licence | Link |
+|---|---|---|---|
+| Kenney Impact Sounds `impactGeneric_light_002.ogg` (already vendored) | Lobby footstep SFX | CC0 1.0 | https://kenney.nl/assets/impact-sounds |
+| Kenney Digital Audio `lowDown.ogg` (already vendored) | HUD / UI click SFX | CC0 1.0 | https://kenney.nl/assets/digital-audio |
+Idea reference only (no code copied): MotionSites skill post https://x.com/viktoroddy/status/2114684257109254434
+No Scenario, Mixamo, ThreeJS Assets, Quaternius, Hunyuan, or B34N5 NFT demo art added this pass.
+
+
+----------------------------------------------------------------------
+three.js licence (applies to lib/three.module.js and lib/addons/)
+
+The MIT License
+
+Copyright (c) 2010-2024 Three.js Authors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+----------------------------------------------------------------------
+Space Grotesk licence (applies to lib/fonts/SpaceGrotesk-var.woff2)
+Source: https://github.com/floriankarsten/space-grotesk/blob/master/OFL.txt
+
+Copyright 2020 The Space Grotesk Project Authors (https://github.com/floriankarsten/space-grotesk)
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+http://scripts.sil.org/OFL
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded, 
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+"Font Software" refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+"Reserved Font Name" refers to any names specified as such after the
+copyright statement(s).
+
+"Original Version" refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+"Modified Version" refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+"Author" refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION & CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.
+
+Intro music ("track 1"): original procedural WebAudio chiptune + dubstep wub by B34N5x/bgxrp (intro_audio.js). No samples or third-party audio.
+
+Trait builder item classifier (step 23, offline build tool only, not shipped to browsers):
+- CLIP ViT-B/32 (OpenAI) - MIT License. ONNX export: Xenova/clip-vit-base-patch32 (Hugging Face).
+- onnxruntime (MIT), Hugging Face tokenizers (Apache-2.0).
+
+Environment pass 2026-11-05: procedural denseness by B34N5x; reuses Kenney/ambientCG CC0 already listed. No Fab/GPL/LGPL/CC-BY-SA.

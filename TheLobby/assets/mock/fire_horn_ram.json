@@ -1,0 +1,11 @@
+{
+ "name": "SAMPLE Fire Horn Ram",
+ "description": "MADE-UP SAMPLE for fire-horn charge embers. Not a real NFT.",
+ "collection": "Sample mock-up",
+ "attributes": [
+  { "trait_type": "Species", "value": "Dog" },
+  { "trait_type": "Fur", "value": "Charcoal" },
+  { "trait_type": "Head", "value": "Flame Ram Horns" },
+  { "trait_type": "Tier", "value": "Epic" }
+ ]
+}

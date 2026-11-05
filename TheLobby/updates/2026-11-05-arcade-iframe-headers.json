@@ -1,0 +1,29 @@
+{
+  "date": "2026-11-05",
+  "zone": "Australia/Sydney",
+  "branch": "preview-sec",
+  "title": "Arcade iframe: allow same-origin framing for shooter/fighter",
+  "summary": "Preview arcades blank because sitewide frame-ancestors none / XFO DENY blocked #arcadeov iframe. Allow self framing only on /shooter/* and /fighter/*; middleware applyFramePolicy; keep DENY elsewhere.",
+  "root_cause": "_headers /* DENY + frame-ancestors none blocks same-origin iframes; local arcade test did not apply those headers",
+  "before_after": {
+    "deny_repro": "CSP Framing violates frame-ancestors none; contentDocument null",
+    "after": "VAULT RUN / ESCROW CLASH panels visible in #arcadeov at 1366 and 412"
+  },
+  "cache": "headers/middleware only (no JS bump)",
+  "rollback": "d591ef3",
+  "tests": "test:arcade (headers + iframe load) + test:verify",
+  "shots": [
+    "shots/preview/form/arcade-shooter-1366.png",
+    "shots/preview/form/arcade-shooter-412.png",
+    "shots/preview/form/arcade-fighter-1366.png",
+    "shots/preview/form/arcade-fighter-412.png"
+  ],
+  "deploy": {
+    "alias": "https://preview-sec.b34n5-lobby-test.pages.dev",
+    "branch": "preview-sec",
+    "project": "b34n5-lobby-test",
+    "deployment": "https://3ca1af69.b34n5-lobby-test.pages.dev"
+  },
+  "weak_spots": "If CF Pages merges overlapping /* DENY after path rules, middleware override is the backstop; Basic-auth 401 responses still DENY (intentional)",
+  "commit": "470e284"
+}

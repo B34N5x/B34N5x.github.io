@@ -1,0 +1,51 @@
+{
+  "date": "2026-11-05",
+  "timezone": "Australia/Sydney",
+  "title": "revert all-fours; trait FX on existing samples; Unstuck + joy release",
+  "branch": "preview-sec",
+  "preview_only": true,
+  "live_deploy": false,
+  "rollback": "7befa63e2424ad86f57a344c04412ddebba0a859",
+  "user_ask": "Revert all-fours (broke assets); no showcase strip \u2014 put trait effects on existing lobby samples; Unstuck + stuck joystick fix",
+  "features": {
+    "quad_retired": "upright pose; stance/isQuad stubs false; no pads/ALL-FOURS UI",
+    "showcase_removed": "showcase.js deleted; #showcase hidden; FX on mockup-demo Skin samples only (never B34N5)",
+    "animal_upright": "ear-only springs; species GAIT; pounce; fading paw prints",
+    "laser": "look-dir charge; ~50% less bloom (opacity 0.28); pooled FX",
+    "joystick": "pointer capture + cancel/leave/blur \u2192 __joyRecentre",
+    "unstuck": "Settings menu + KeyU; clear input; abil.cancel(); nearest PLAZA_SAFE; 2.5s CD",
+    "hud": "declutter minimap/abil/safe-area",
+    "fluidity": "accel/decel/coyote/buffer/turn/camera; land hitStop"
+  },
+  "cache": {
+    "sw": "lobby-shell-v34s",
+    "main": "v74",
+    "avatar3d": "v45",
+    "moves": "v7",
+    "abilities": "v7",
+    "hudmenus": "v7",
+    "style": "v46"
+  },
+  "tests": {
+    "test:verify": "effects + keys + chars + taxonomy + joy_unstuck + avatar_integrity",
+    "test:joy": "release clears jv; Unstuck parks on plaza + cooldown; KeyU unique",
+    "test:avatar": "upright stanceA===0, no showcase, laser pixel-diff, 9 existing samples"
+  },
+  "screenshots_read": [
+    "shots/preview/fix/tiger-upright-side-1366.png",
+    "shots/preview/fix/bear-laser-side-1366.png",
+    "shots/preview/fix/sample-laser-bear-side-1366.png",
+    "shots/preview/fix/sample-wing-cat-side-1366.png",
+    "shots/preview/fix/laser-bear-phone-412.png"
+  ],
+  "visual_notes_honest": [
+    "Tiger upright bipedal on plaza; no ALL-FOURS / showcase strip; Settings menu present for Unstuck",
+    "Laser bear: thick pink-red horizontal beam from muzzle; bloom moderated; upright + top hat",
+    "Wing cat: upright mid-motion with foot particles / pooled FX; FLIGHT HUD timer visible",
+    "Phone 412: upright laser bear, joystick bottom-left, compact top-right menu cluster, no showcase"
+  ],
+  "commit": "57747a3fac11ffe1723308622bfd265ad1786de2",
+  "preview_url": "https://preview-sec.b34n5-lobby-test.pages.dev",
+  "deployment_url": "https://8a28c60c.b34n5-lobby-test.pages.dev",
+  "deploy_tip": "ef2b7e5"
+}

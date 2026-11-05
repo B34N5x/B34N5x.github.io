@@ -1,0 +1,76 @@
+{
+ "about": "Hand-verified against the 06_book_staircase_v11 art (by eye). Base B34N5 corrections + card-specific differences.",
+ "bodyType": "capsule",
+ "silhouette": {
+  "topBump": true,
+  "bodyAspect": 1.2
+ },
+ "colours": {
+  "body": "#9cc84a",
+  "band": "#efe5cf",
+  "strap": "#6b3f26",
+  "gloves": "#8fb6c8",
+  "shoes": "#f1ede2",
+  "shoeTrim": "#6fa58a",
+  "visor": "#0a0b0c",
+  "xMarks": "#2a2420"
+ },
+ "features": {
+  "eyewear": "strapped shades",
+  "mask": "strapped sports mask (cream band, vents, green bean emblem)",
+  "gloves": "mitten gloves",
+  "shoes": "sneakers",
+  "xMarks": "two large X marks on the lower mask"
+ },
+ "tierNote": "V11 metadata has no tier; Uncommon by default",
+ "style": "3d_art",
+ "styleNote": "Verified by eye: glossy felt/claymation 3D render. Auto heuristic said 3d_art (Origin) / realistic (Workbench, Lantern) at ~0.33 confidence.",
+ "maskStyle": "lower",
+ "mask": {
+  "coverage": "lower",
+  "shape": "round",
+  "top": 0.02,
+  "bottom": 0.4,
+  "width": 0.74,
+  "puff": 0.85,
+  "cheekTuck": true,
+  "tint": "#c9b083",
+  "xMarks": {
+   "count": 2,
+   "size": "large",
+   "where": "below shades",
+   "y": 0.2,
+   "spread": 0.15,
+   "colour": "#4a2e18",
+   "thick": 1.5,
+   "len": 1.1
+  },
+  "emblem": false,
+  "vents": 0,
+  "straps": {
+   "count": 1,
+   "colour": "#6b4424",
+   "buckle": false,
+   "width": 0.034,
+   "tilt": 0.35
+  },
+  "patches": [
+   {
+    "colour": "#a88a5c"
+   },
+   {
+    "colour": "#b89c6c"
+   }
+  ],
+  "trims": [
+   "stitched rim"
+  ],
+  "outline": "puffy tan muzzle tucked into the cheeks",
+  "note": "Book Staircase: puffy tan lower mask, big brown X marks, one brown strap, slightly worn",
+  "edgeColour": "#8f6f45",
+  "edgeWidth": 0.028,
+  "stitchColour": "#4a3020"
+ },
+ "detected": [],
+ "detectedNote": "hand-checked: no extra features beyond features/mask/wearables (auto image detections overridden)"
+}

@@ -1,0 +1,13 @@
+{
+ "name": "SAMPLE Wing Penguin",
+ "description": "MADE-UP SAMPLE mimicking penguin-style Head/Body slots (not a real NFT).",
+ "collection": "Sample mock-up",
+ "attributes": [
+  { "trait_type": "Skin", "value": "Black" },
+  { "trait_type": "Head", "value": "Flower Crown" },
+  { "trait_type": "Body", "value": "Penguin" },
+  { "trait_type": "Face", "value": "Cute" },
+  { "trait_type": "Background", "value": "Ice" },
+  { "trait_type": "Back", "value": "White Wings" }
+ ]
+}

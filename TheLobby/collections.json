@@ -1,0 +1,139 @@
+{
+ "about": "Opt-in collection registry. A collection is listed ONLY when its creator opts in. Nothing is shown by default; players choose one in the Collections gallery. Testnet build: one demo entry.",
+ "collections": [
+  {
+   "id": "b34n5",
+   "name": "B34N5",
+   "creator": "B34N5x",
+   "optIn": true,
+   "holdersOnly": true,
+   "network": "mainnet",
+   "issuer": "rNU9njtuQ1eMmHyczvbhKSTuNkwuWAZqMS",
+   "taxon": 0,
+   "note": "HOLDERS ONLY: never in the gallery, sample or default skins. Applied only to NFTs a looked-up address actually holds (issuer+taxon match). Settings only, no images.",
+   "items": [],
+   "profileVerified": "assets/profiles/b34n5.verified.json",
+   "collectionProfile": {
+    "note": "B34N5-ONLY signature: leashed portable bench-desk with laptop + Legendary.",
+    "tier": "Legendary",
+    "signatureHeldItems": [
+     {
+      "item": "chain",
+      "hand": "right",
+      "attach": "desk",
+      "from": "B34N5 signature (Origin v13): right glove holds a chain pulling a small wooden 4-wheel portable cart-desk with a grey laptop, X on screen"
+     }
+    ]
+   }
+  },
+  {
+   "id": "mockup-demo",
+   "name": "Sample mock-up",
+   "creator": "demo",
+   "optIn": true,
+   "network": "testnet-demo",
+   "note": "Fake mock-up for demos and trait-ability preview. Not a real NFT, not on any ledger. Never uses B34N5 art.",
+   "items": [
+    {
+     "name": "Sample mock-up",
+     "src": "assets/mock/robot01.png",
+     "meta": "assets/mock/robot01.json",
+     "seed": "mockup-01"
+    },
+    {
+     "name": "Sample tiger mock-up",
+     "src": "assets/mock/tiger01.png",
+     "meta": "assets/mock/tiger01.json",
+     "seed": "mockup-tiger-01"
+    },
+    {
+     "name": "SAMPLE Laser Bear",
+     "src": "assets/mock/tiger01.png",
+     "meta": "assets/mock/laser_bear.json",
+     "seed": "sample-laser-bear"
+    },
+    {
+     "name": "SAMPLE Wing Cat",
+     "src": "assets/mock/robot01.png",
+     "meta": "assets/mock/wing_cat.json",
+     "seed": "sample-wing-cat"
+    },
+    {
+     "name": "SAMPLE Horn Dog",
+     "src": "assets/mock/tiger01.png",
+     "meta": "assets/mock/horn_dog.json",
+     "seed": "sample-horn-dog"
+    },
+    {
+     "name": "SAMPLE Honey Cap Bear",
+     "src": "assets/mock/tiger01.png",
+     "meta": "assets/mock/sample_fuzzy_style.json",
+     "seed": "sample-fuzzy-style"
+    },
+    {
+     "name": "SAMPLE Laser Ape",
+     "src": "assets/mock/tiger01.png",
+     "meta": "assets/mock/sample_ape_style.json",
+     "seed": "sample-ape-style"
+    },
+    {
+     "name": "SAMPLE Alien Shades",
+     "src": "assets/mock/robot01.png",
+     "meta": "assets/mock/sample_punk_style.json",
+     "seed": "sample-punk-style"
+    },
+    {
+     "name": "SAMPLE Wing Penguin",
+     "src": "assets/mock/robot01.png",
+     "meta": "assets/mock/sample_penguin_style.json",
+     "seed": "sample-penguin-style"
+    },
+    {
+     "name": "SAMPLE Katana Human",
+     "src": "assets/mock/robot01.png",
+     "meta": "assets/mock/sample_azuki_style.json",
+     "seed": "sample-azuki-style"
+    },
+    {
+     "name": "SAMPLE Mech Blaster",
+     "src": "assets/mock/robot01.png",
+     "meta": "assets/mock/sample_robot_soldier.json",
+     "seed": "sample-robot-soldier"
+    },
+    {
+     "name": "SAMPLE Pixel Bird",
+     "src": "assets/mock/tiger01.png",
+     "meta": "assets/mock/sample_pixel_bird.json",
+     "seed": "sample-pixel-bird"
+    },
+    {
+     "name": "SAMPLE Abstract Dusk",
+     "src": "assets/mock/robot01.png",
+     "meta": "assets/mock/sample_abstract_palette.json",
+     "seed": "sample-abstract"
+    },
+    {
+     "name": "SAMPLE Image Only",
+     "src": "assets/mock/robot01.png",
+     "meta": "assets/mock/sample_image_only.json",
+     "seed": "sample-image-only"
+    },
+    {
+     "name": "SAMPLE Cyber Fox",
+     "src": "assets/mock/robot01.png",
+     "meta": "assets/mock/cyber_fox.json"
+    },
+    {
+     "name": "SAMPLE Bat Wing Cat",
+     "src": "assets/mock/tiger01.png",
+     "meta": "assets/mock/bat_wing_cat.json"
+    },
+    {
+     "name": "SAMPLE Fire Horn Ram",
+     "src": "assets/mock/tiger01.png",
+     "meta": "assets/mock/fire_horn_ram.json"
+    }
+   ]
+  }
+ ]
+}

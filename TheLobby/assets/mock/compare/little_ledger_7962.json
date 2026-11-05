@@ -1,0 +1,38 @@
+{
+  "schema": "ipfs://QmNpi8rcXEkohca8iXu7zysKKSJYqCvBJn3xJwga8jXqWU",
+  "nftType": "art.v0",
+  "external_url": "https://xrpl.love",
+  "name": "Little Ledger #7962",
+  "description": "Little Ledgers is a collection by XRPL.Love to crowdfund an XRPL Discord Bot for the community.",
+  "image": "shots/preview/compare/real-little-ledger-7962.png",
+  "attributes": [
+    {
+      "trait_type": "Head",
+      "value": "Soldier"
+    },
+    {
+      "trait_type": "Glasses",
+      "value": "Retro Glasses"
+    },
+    {
+      "trait_type": "Body",
+      "value": "Gym Leotard"
+    },
+    {
+      "trait_type": "Face",
+      "value": "Normal"
+    },
+    {
+      "trait_type": "Color",
+      "value": "Yellow"
+    },
+    {
+      "trait_type": "Background",
+      "value": "White"
+    }
+  ],
+  "collection": {
+    "name": "Little Ledgers",
+    "family": "XRPL.Love Collections"
+  }
+}

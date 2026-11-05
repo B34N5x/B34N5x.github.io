@@ -1,0 +1,40 @@
+{
+  "date": "2026-11-05",
+  "zone": "Australia/Sydney",
+  "branch": "preview-sec",
+  "title": "Sharp armour + helmet colour from art",
+  "summary": "Hard-bevelled armour plates; helmet/visor follow Color trait and black-helmet art sampling; voxel remains opt-in unused by default.",
+  "cache": {
+    "main": "v95",
+    "traits": "v32",
+    "avatar3d": "v48",
+    "sw": "lobby-shell-v35j"
+  },
+  "rollback": "69df1f7",
+  "tests": "test:verify PASS (taxonomy helmet colour + test:armour)",
+  "metrics": {
+    "armour_avatar_meshes": 48,
+    "scene_drawCalls_sample": 1,
+    "frameMs_p50_p95_swiftshader": [
+      634.6,
+      695.4
+    ],
+    "prior_armour_p95": 709,
+    "p95_regression_pct": -1.92,
+    "note": "SwiftShader frame times are not device production numbers; avatar mesh count is the meaningful compare."
+  },
+  "shots": [
+    "shots/preview/compare/side-by-side-power-zerp-5005.png",
+    "shots/preview/compare/armour-before-after-power-zerp.png",
+    "shots/preview/compare/builder-power-zerp-5005-1366.png",
+    "shots/preview/compare/test-grid.png"
+  ],
+  "voxel": "opt-in unchanged; default unused",
+  "deploy": {
+    "alias": "https://preview-sec.b34n5-lobby-test.pages.dev",
+    "project": "b34n5-lobby-test",
+    "branch": "preview-sec",
+    "deployment": "https://ab2bddeb.b34n5-lobby-test.pages.dev"
+  },
+  "commit": "7ad64b1"
+}

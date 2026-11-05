@@ -1,0 +1,1053 @@
+{
+  "about": "Data-driven trait keyword map (taxonomy 2026-11-04). Add a body type or feature by adding keywords here; no code change needed. Matching: trait values, then trait_type category synonyms, then name/description/collection. Fuzzy whole-word + light stem. Never stores wallet data.",
+  "types": {
+    "capsule": [
+      "bean",
+      "beans",
+      "capsule",
+      "pod",
+      "mascot"
+    ],
+    "skeleton": [
+      "skeleton",
+      "bone",
+      "bones",
+      "undead",
+      "zombie",
+      "skel"
+    ],
+    "robot": [
+      "robot",
+      "bot",
+      "android",
+      "mech",
+      "cyborg",
+      "droid",
+      "soldier",
+      "automaton"
+    ],
+    "tiger": [
+      "tiger",
+      "tigress"
+    ],
+    "cat": [
+      "cat",
+      "kitty",
+      "kitten",
+      "feline",
+      "neko"
+    ],
+    "bear": [
+      "bear",
+      "panda",
+      "grizzly",
+      "teddy",
+      "fuzzybear",
+      "bears"
+    ],
+    "dog": [
+      "dog",
+      "puppy",
+      "pup",
+      "shiba",
+      "doge",
+      "wolf",
+      "fox"
+    ],
+    "ape": [
+      "ape",
+      "monkey",
+      "gorilla",
+      "chimp",
+      "orangutan",
+      "apes",
+      "mutant ape",
+      "mutant apes"
+    ],
+    "bird": [
+      "bird",
+      "owl",
+      "parrot",
+      "crow",
+      "penguin",
+      "duck",
+      "phoenix"
+    ],
+    "frog": [
+      "frog",
+      "toad",
+      "pepe"
+    ],
+    "human": [
+      "human",
+      "man",
+      "woman",
+      "person",
+      "punk",
+      "boy",
+      "girl",
+      "male",
+      "female"
+    ],
+    "armour": [
+      "armour",
+      "armor",
+      "ranger",
+      "zerp",
+      "sentai",
+      "tokusatsu",
+      "power zerp",
+      "space armour",
+      "space armor",
+      "armoured",
+      "armored",
+      "mecha suit",
+      "power ranger"
+    ],
+    "snail": [
+      "snail",
+      "slug",
+      "escargot"
+    ],
+    "alien": [
+      "alien",
+      "extraterrestrial",
+      "ufo",
+      "martian",
+      "xenomorph"
+    ],
+    "generic": [
+      "generic",
+      "figure",
+      "character",
+      "avatar",
+      "npc"
+    ],
+    "bean": [
+      "bean",
+      "beans",
+      "b34n5"
+    ]
+  },
+  "features": {
+    "headwear": {
+      "hat": [
+        "hat",
+        "fedora",
+        "beanie",
+        "tophat",
+        "top hat",
+        "bowler",
+        "cowboy",
+        "party hat",
+        "bucket hat",
+        "sombrero",
+        "wizard hat",
+        "knit",
+        "knitted"
+      ],
+      "cap": [
+        "cap",
+        "snapback",
+        "baseball",
+        "backwards hat",
+        "flat cap"
+      ],
+      "crown": [
+        "crown",
+        "tiara",
+        "laurel",
+        "king",
+        "queen",
+        "royal"
+      ],
+      "helmet": [
+        "helmet",
+        "viking",
+        "pilot helmet",
+        "motorcycle helmet",
+        "prussian",
+        "camo helmet",
+        "biker helmet",
+        "hard hat",
+        "champion",
+        "signal",
+        "visor helmet",
+        "space helmet",
+        "ranger helmet",
+        "soldier",
+        "military helmet",
+        "army helmet",
+        "combat helmet",
+        "shudder"
+      ],
+      "hair_spiky": [
+        "spiky",
+        "spikes",
+        "spike",
+        "spiked hair",
+        "pink spikes",
+        "spiky hair"
+      ],
+      "hair_afro": [
+        "afro",
+        "fro"
+      ],
+      "hair_mohawk": [
+        "mohawk",
+        "mohican"
+      ],
+      "hair_long": [
+        "long hair",
+        "ponytail",
+        "braid",
+        "braids",
+        "flowing hair"
+      ],
+      "hair_buns": [
+        "buns",
+        "space buns",
+        "double bun",
+        "odango"
+      ],
+      "hair_tufts": [
+        "tuft",
+        "tufts",
+        "fur tufts",
+        "ear tufts"
+      ],
+      "skull_hat": [
+        "skull hat",
+        "skullhat",
+        "skull cap hat",
+        "bone hat"
+      ],
+      "headband": [
+        "headband",
+        "head band",
+        "sweatband"
+      ],
+      "headwrap": [
+        "headwrap",
+        "head wrap",
+        "turban",
+        "durag",
+        "do-rag"
+      ],
+      "bandana": [
+        "bandana",
+        "bandanna"
+      ],
+      "ears": [
+        "animal ears",
+        "cat ears",
+        "bunny ears",
+        "bear ears",
+        "fox ears"
+      ],
+      "halo": [
+        "halo",
+        "angel halo"
+      ],
+      "goggles": [
+        "goggles",
+        "ski goggles",
+        "pilot goggles"
+      ],
+      "eyemask": [
+        "eye mask",
+        "eyemask",
+        "domino mask",
+        "hero mask",
+        "red mask"
+      ]
+    },
+    "neckwear": {
+      "scarf": [
+        "scarf",
+        "bandana",
+        "neckerchief",
+        "shawl",
+        "choker"
+      ],
+      "chain": [
+        "chain",
+        "cuban",
+        "bling",
+        "gold chain",
+        "silver chain"
+      ],
+      "necklace": [
+        "necklace",
+        "pendant",
+        "pearl",
+        "locket",
+        "amulet",
+        "medallion",
+        "earring"
+      ]
+    },
+    "eyewear": {
+      "sunglasses": [
+        "sunglasses",
+        "shades",
+        "glasses",
+        "wayfarer",
+        "aviator",
+        "visor",
+        "nerd glasses",
+        "3d glasses",
+        "vr",
+        "eye patch",
+        "goggles",
+        "welding"
+      ]
+    },
+    "wings": {
+      "wings": [
+        "wings",
+        "wing",
+        "winged",
+        "angel wings",
+        "bat wings",
+        "feathered"
+      ]
+    },
+    "mask": {
+      "mask": [
+        "mask",
+        "balaclava",
+        "respirator",
+        "medical mask",
+        "face mask",
+        "full mask"
+      ],
+      "eyemask": [
+        "eye mask",
+        "eyemask",
+        "red mask",
+        "domino",
+        "hero mask",
+        "purple mask"
+      ],
+      "bandana": [
+        "bandana",
+        "bandanna"
+      ]
+    },
+    "eyes": {
+      "laser": [
+        "laser",
+        "lasers",
+        "laser eyes",
+        "lasereyes",
+        "beam",
+        "beams",
+        "laser eye"
+      ]
+    },
+    "horns": {
+      "horns": [
+        "horn",
+        "horns",
+        "antler",
+        "antlers",
+        "ram",
+        "devil horns",
+        "demon horns"
+      ]
+    },
+    "aura": {
+      "glow": [
+        "aura",
+        "glow",
+        "glowing",
+        "sparkle",
+        "sparkles",
+        "neon",
+        "flame",
+        "radiant",
+        "halo aura"
+      ],
+      "element": [
+        "fire",
+        "electric",
+        "lightning",
+        "plasma",
+        "toxic",
+        "energy"
+      ]
+    },
+    "weapon": {
+      "blade": [
+        "sword",
+        "blade",
+        "katana",
+        "dagger",
+        "axe",
+        "scythe",
+        "saber",
+        "sabre"
+      ],
+      "staff": [
+        "staff",
+        "wand",
+        "scepter",
+        "sceptre",
+        "cane",
+        "baton"
+      ],
+      "ranged": [
+        "blaster",
+        "gun",
+        "laser gun",
+        "bow",
+        "crossbow",
+        "rifle",
+        "pistol"
+      ]
+    },
+    "clothes": {
+      "cape": [
+        "cape",
+        "cloak",
+        "robe",
+        "kimono"
+      ],
+      "armor": [
+        "armor",
+        "armour",
+        "body armor",
+        "body armour",
+        "plate armor",
+        "plate armour",
+        "spacesuit",
+        "space suit",
+        "power suit",
+        "battle suit"
+      ],
+      "vest": [
+        "vest",
+        "button up vest",
+        "button-up vest",
+        "waistcoat",
+        "gilet"
+      ],
+      "jacket": [
+        "jacket",
+        "coat",
+        "hoodie",
+        "bomber",
+        "blazer",
+        "tongue suit"
+      ],
+      "shirt": [
+        "shirt",
+        "tee",
+        "t-shirt",
+        "tshirt",
+        "polo",
+        "blouse"
+      ],
+      "striped": [
+        "striped",
+        "stripe",
+        "stripes",
+        "striped shirt"
+      ],
+      "camo": [
+        "camo",
+        "camouflage",
+        "army",
+        "army shirt",
+        "military shirt",
+        "fatigue",
+        "uniform",
+        "army uniform",
+        "military uniform",
+        "fatigues",
+        "combat uniform"
+      ],
+      "suit": [
+        "suit",
+        "tuxedo",
+        "onesie"
+      ],
+      "overalls": [
+        "overalls",
+        "overall",
+        "dungarees",
+        "jumpsuit",
+        "gym leotard",
+        "leotard",
+        "coveralls"
+      ]
+    },
+    "accessories": {
+      "backpack": [
+        "backpack",
+        "bag",
+        "pack",
+        "jetpack"
+      ],
+      "tail": [
+        "tail",
+        "tails",
+        "spiked tail"
+      ],
+      "satchel": [
+        "satchel",
+        "messenger bag",
+        "side bag",
+        "shoulder bag",
+        "army bag"
+      ]
+    }
+  },
+  "colours": {
+    "purple": "#8a4fd8",
+    "violet": "#7b3fe4",
+    "red": "#d8383a",
+    "blue": "#3a6fd8",
+    "green": "#3fae5a",
+    "yellow": "#f2c53d",
+    "gold": "#e0b040",
+    "orange": "#ef8a2e",
+    "pink": "#ef7fb4",
+    "black": "#26262c",
+    "white": "#f2f2ee",
+    "grey": "#8a8d93",
+    "gray": "#8a8d93",
+    "brown": "#8a5a36",
+    "teal": "#2fb3a8",
+    "cyan": "#3fe0f0",
+    "silver": "#c0c6cc",
+    "cream": "#efe2c4",
+    "tan": "#c89a66",
+    "navy": "#1e3a6e",
+    "honey": "#d4a017",
+    "lavender": "#b57edc",
+    "mint": "#7dcea0",
+    "crimson": "#c41e3a",
+    "aqua": "#00ffff",
+    "magenta": "#d946ef",
+    "beige": "#d8c3a5",
+    "ivory": "#fffff0",
+    "dusk": "#5a4a7a",
+    "dawn": "#e8a878",
+    "neon": "#39ff14",
+    "rainbow": "#ff6bcb",
+    "olive": "#5a7a3a",
+    "olive green": "#5a7a3a",
+    "army": "#4f6b3a",
+    "khaki": "#6b7a45",
+    "maroon": "#7a1f2a"
+  },
+  "tiers": [
+    "common",
+    "uncommon",
+    "rare",
+    "epic",
+    "legendary",
+    "mythic"
+  ],
+  "defaults": {
+    "bear": "#7a5232",
+    "tiger": "#e8892e",
+    "cat": "#9a9aa0",
+    "dog": "#c9a070",
+    "ape": "#5a4636",
+    "bird": "#4fa8e0",
+    "frog": "#5fbf4f",
+    "skeleton": "#ecebe4",
+    "robot": "#9aa4b0",
+    "human": "#e0b090",
+    "capsule": "#b07a4a",
+    "alien": "#7dffb3",
+    "generic": "#6a7ad8",
+    "snail": "#c9a070",
+    "armour": "#ef8a2e"
+  },
+  "bodyTraits": [
+    "fur",
+    "skin",
+    "body",
+    "colour",
+    "color",
+    "base",
+    "coat",
+    "palette"
+  ],
+  "movement": {
+    "about": "Step 13e: creature movement profiles (data-driven). Multipliers on the controller defaults. quad = four-legged (STANCE toggle). boost = Legendary-only cosmetic lobby boost (HUD toggle).",
+    "default": {
+      "speed": 1,
+      "jump": 1,
+      "gravity": 1,
+      "glide": 0,
+      "stride": 1,
+      "weight": 1
+    },
+    "capsule": {
+      "speed": 1,
+      "jump": 1,
+      "stride": 1.1,
+      "weight": 1,
+      "boost": {
+        "name": "BEAN BOUNCE",
+        "speed": 1.35,
+        "jump": 1.25,
+        "fx": "gold"
+      }
+    },
+    "snail": {
+      "speed": 0.45,
+      "jump": 0.5,
+      "glide": 0.6,
+      "stride": 0.4,
+      "weight": 1.1,
+      "boost": {
+        "name": "TURBO",
+        "speed": 2.6,
+        "fx": "slime"
+      }
+    },
+    "bird": {
+      "speed": 1.05,
+      "jump": 1.1,
+      "gravity": 0.6,
+      "glide": 0.7,
+      "stride": 1.3,
+      "weight": 0.6,
+      "boost": {
+        "name": "GLIDE BOOST",
+        "speed": 1.5,
+        "glide": 0.9,
+        "fx": "feathers"
+      }
+    },
+    "frog": {
+      "speed": 0.95,
+      "jump": 1.55,
+      "gravity": 1.1,
+      "stride": 0.8,
+      "weight": 0.9,
+      "boost": {
+        "name": "MEGA LEAP",
+        "jump": 1.4,
+        "fx": "ripple"
+      }
+    },
+    "bear": {
+      "speed": 0.9,
+      "jump": 0.8,
+      "gravity": 1.25,
+      "stride": 0.75,
+      "weight": 1.6,
+      "quad": true,
+      "boost": {
+        "name": "CHARGE",
+        "speed": 1.6,
+        "fx": "dust"
+      }
+    },
+    "tiger": {
+      "speed": 1.15,
+      "jump": 1.05,
+      "stride": 0.9,
+      "weight": 1.2,
+      "quad": true,
+      "boost": {
+        "name": "POUNCE DASH",
+        "speed": 1.8,
+        "jump": 1.2,
+        "fx": "streak"
+      }
+    },
+    "cat": {
+      "speed": 1.1,
+      "jump": 1.2,
+      "gravity": 0.9,
+      "stride": 1.1,
+      "weight": 0.8,
+      "quad": true,
+      "boost": {
+        "name": "POUNCE DASH",
+        "speed": 1.7,
+        "jump": 1.25,
+        "fx": "streak"
+      }
+    },
+    "dog": {
+      "speed": 1.15,
+      "jump": 1,
+      "stride": 1.1,
+      "weight": 1,
+      "quad": true,
+      "boost": {
+        "name": "ZOOMIES",
+        "speed": 1.8,
+        "fx": "dust"
+      }
+    },
+    "ape": {
+      "speed": 1,
+      "jump": 1.1,
+      "stride": 0.9,
+      "weight": 1.3,
+      "quad": true,
+      "boost": {
+        "name": "KNUCKLE RUN",
+        "speed": 1.5,
+        "fx": "dust"
+      }
+    },
+    "robot": {
+      "speed": 0.95,
+      "jump": 0.9,
+      "gravity": 1.2,
+      "stride": 0.8,
+      "weight": 1.5,
+      "boost": {
+        "name": "THRUSTERS",
+        "speed": 1.5,
+        "glide": 0.5,
+        "fx": "sparks"
+      }
+    },
+    "skeleton": {
+      "speed": 1,
+      "jump": 1,
+      "stride": 1.05,
+      "weight": 0.7,
+      "boost": {
+        "name": "RATTLE RUSH",
+        "speed": 1.5,
+        "fx": "dust"
+      }
+    },
+    "human": {
+      "speed": 1,
+      "jump": 1,
+      "stride": 1,
+      "weight": 1,
+      "boost": {
+        "name": "SPRINT",
+        "speed": 1.4,
+        "fx": "streak"
+      }
+    },
+    "alien": {
+      "speed": 1.05,
+      "jump": 1.15,
+      "gravity": 0.85,
+      "glide": 0.25,
+      "stride": 1.05,
+      "weight": 0.85,
+      "boost": {
+        "name": "HOVER",
+        "speed": 1.45,
+        "glide": 0.6,
+        "fx": "neon"
+      }
+    },
+    "generic": {
+      "speed": 1,
+      "jump": 1,
+      "stride": 1,
+      "weight": 1,
+      "boost": {
+        "name": "SPRINT",
+        "speed": 1.4,
+        "fx": "streak"
+      }
+    },
+    "armour": {
+      "speed": 1,
+      "jump": 1,
+      "stride": 1,
+      "weight": 1.15,
+      "boost": {
+        "name": "SUIT BOOST",
+        "speed": 1.45,
+        "fx": "streak"
+      }
+    }
+  },
+  "emotes": {
+    "about": "Step 13e: data-driven creature emotes (key + HUD button, cosmetic).",
+    "skeleton": [
+      {
+        "id": "bonepile",
+        "name": "BONE PILE",
+        "key": "KeyB",
+        "kind": "collapse"
+      }
+    ]
+  },
+  "abilities": {
+    "about": "Preview: NFT trait keywords -> visual part id + lobby ability. Data-driven. Keys are KeyboardEvent.code. Cooldowns/durations in seconds. Never stores wallet data.",
+    "hat": {
+      "id": "hat",
+      "label": "HAT",
+      "keys": [
+        "hat",
+        "fedora",
+        "beanie",
+        "tophat",
+        "bowler",
+        "helmet",
+        "crown",
+        "cap",
+        "tiara",
+        "cowboy",
+        "viking"
+      ],
+      "part": "tophat",
+      "ability": null
+    },
+    "laser_eyes": {
+      "id": "laser_eyes",
+      "label": "LASER",
+      "keys": [
+        "laser",
+        "lasers",
+        "laser eyes",
+        "lasereyes",
+        "beam",
+        "beams",
+        "laser eye"
+      ],
+      "part": "laser_eyes",
+      "ability": "laser",
+      "key": "Digit1",
+      "cooldown": 1.1,
+      "color": "#ff3a5a"
+    },
+    "wings": {
+      "id": "wings",
+      "label": "FLIGHT",
+      "keys": [
+        "wing",
+        "wings",
+        "winged",
+        "angel wings",
+        "bat wings"
+      ],
+      "part": "wings",
+      "ability": "flight",
+      "key": "Digit2",
+      "duration": 1.35,
+      "cooldown": 4.0,
+      "boostY": 6.2
+    },
+    "horns": {
+      "id": "horns",
+      "label": "CHARGE",
+      "keys": [
+        "horn",
+        "horns",
+        "antler",
+        "antlers",
+        "ram",
+        "devil",
+        "demon"
+      ],
+      "part": "horns",
+      "ability": "charge",
+      "key": "Digit3",
+      "duration": 0.55,
+      "cooldown": 3.0,
+      "speed": 2.4
+    },
+    "aura": {
+      "id": "aura",
+      "label": "AURA",
+      "keys": [
+        "aura",
+        "glow",
+        "glowing",
+        "sparkle",
+        "neon",
+        "flame",
+        "fire",
+        "electric",
+        "lightning",
+        "energy",
+        "radiant",
+        "plasma"
+      ],
+      "part": "aura_ring",
+      "ability": "aura",
+      "key": "Digit4",
+      "duration": 1.4,
+      "cooldown": 5.0,
+      "speed": 1.55,
+      "color": "#7dffd8"
+    },
+    "weapon": {
+      "id": "weapon",
+      "label": "SLASH",
+      "keys": [
+        "sword",
+        "blade",
+        "katana",
+        "dagger",
+        "axe",
+        "staff",
+        "wand",
+        "blaster",
+        "weapon",
+        "scythe",
+        "saber"
+      ],
+      "part": "held",
+      "ability": "slash",
+      "key": "Digit5",
+      "duration": 0.4,
+      "cooldown": 2.5,
+      "speed": 2.0
+    }
+  },
+  "categories": {
+    "about": "Maps trait_type synonyms -> Lobby category. Used for fuzzy slot targeting before value keyword match.",
+    "body": [
+      "species",
+      "type",
+      "character",
+      "body",
+      "model",
+      "base",
+      "race",
+      "class",
+      "form"
+    ],
+    "headwear": [
+      "hat",
+      "headwear",
+      "head",
+      "headgear",
+      "hair",
+      "helmet",
+      "hats",
+      "hair/hat",
+      "head gear",
+      "head attachments",
+      "head attachment"
+    ],
+    "eyes": [
+      "eyes",
+      "eye",
+      "eyewear",
+      "glasses",
+      "ocular"
+    ],
+    "wings": [
+      "wings",
+      "wing",
+      "back",
+      "back accessory",
+      "backwear"
+    ],
+    "horns": [
+      "horns",
+      "horn"
+    ],
+    "weapon": [
+      "weapon",
+      "weapons",
+      "offhand",
+      "held",
+      "hand",
+      "gear",
+      "tool"
+    ],
+    "aura": [
+      "aura",
+      "special",
+      "effect",
+      "element",
+      "power",
+      "energy",
+      "fx"
+    ],
+    "accessories": [
+      "accessory",
+      "accessories",
+      "earring",
+      "jewelry",
+      "jewellery",
+      "props"
+    ],
+    "neckwear": [
+      "neck",
+      "necklace",
+      "neckwear",
+      "collar"
+    ],
+    "clothes": [
+      "clothes",
+      "clothing",
+      "outfit",
+      "shirt",
+      "wear",
+      "armor",
+      "armour",
+      "body armor",
+      "body armour",
+      "suit",
+      "vest",
+      "jacket"
+    ],
+    "mask": [
+      "mask",
+      "face",
+      "facewear"
+    ],
+    "background": [
+      "background",
+      "bg",
+      "scene",
+      "backdrop"
+    ],
+    "colour": [
+      "fur",
+      "skin",
+      "coat",
+      "colour",
+      "color",
+      "palette",
+      "pattern",
+      "base colour",
+      "base color"
+    ],
+    "eyewear": [
+      "glasses",
+      "goggles",
+      "shades",
+      "sunglasses"
+    ],
+    "held": [
+      "cup",
+      "mug",
+      "held",
+      "left hand",
+      "right hand",
+      "hand"
+    ]
+  },
+  "fallback": {
+    "about": "When no species maps, use generic capsule. Palette/background colour words tint body. Image-only gets default colours.",
+    "type": "generic",
+    "colours": {
+      "body": "#6a7ad8",
+      "accent": "#7dffd8"
+    },
+    "paletteDefaults": [
+      "#6a7ad8",
+      "#7dffd8",
+      "#ef7fb4",
+      "#f2c53d"
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Escrow Clash</title>
+<link rel="stylesheet" href="fighter.css?v=3">
+<link rel="stylesheet" href="../theme.css?v=16">
+</head>
+<body>
+<canvas id="game"></canvas>
+<div id="hud"><div class="bar"><div id="hp1"></div><span id="n1">XRP (you)</span><i id="w1"></i><em class="meter"><u id="m1"></u></em></div><b id="timer">60</b><div class="bar r"><div id="hp2"></div><span id="n2">THE REGULATOR</span><i id="w2"></i><em class="meter r"><u id="m2"></u></em></div></div>
+<div id="call"></div>
+<div id="keys">A/D move &middot; W jump &middot; S crouch &middot; J punch &middot; K kick &middot; L block &middot; U special &middot; Esc lobby</div>
+
+<div id="panel"><div class="box"><h1 id="title">ESCROW CLASH</h1><p id="msg">1v1 vs CPU &middot; best of 3 rounds &middot; 60s each<br>Your special: Hash Bolt (projectile) &middot; The Regulator: Surge Dash, and Paperwork Storm when his meter is full</p>
+<div id="ent" class="hidden">New high score! Initials: <input id="ini" maxlength="3" size="3"> <button id="save" class="btn small2">Save</button></div><p id="rules" class="rules"></p>
+<button id="play" class="btn">Fight</button> <a class="btn" href="../index.html?spawn=fighter">Return to lobby</a></div></div>
+<script type="module" src="fighter.js?v=4"></script>
+<script type="module">import { gamePage, LAYOUTS } from '../touchpad.js?v=10'; gamePage(LAYOUTS.fighter);</script>
+<script>
+(function(){
+  const emb = new URLSearchParams(location.search).get('embed');
+  if (!emb && window.parent === window) return;
+  function back(e){ if(e) e.preventDefault(); try{ parent.postMessage({type:'lobby-back'},'*'); }catch(err){} }
+  document.querySelectorAll('a[href*="index.html"]').forEach(a=>{ a.addEventListener('click', back); a.href='#'; });
+})();
+</script>
+</body>
+</html>

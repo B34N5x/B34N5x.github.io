@@ -1,0 +1,26 @@
+{
+  "date": "2026-11-05",
+  "zone": "Australia/Sydney",
+  "branch": "preview-sec",
+  "title": "Own-collection scrollable NFT picker",
+  "summary": "Skin panel lists player wallet NFTs in a touch-friendly horizontal strip + vertical grid after sign-in; lazy thumbs; memory-only; no showcase.",
+  "cache": {
+    "main": "v94",
+    "style": "v54",
+    "wallet": "v29",
+    "sw": "lobby-shell-v35i"
+  },
+  "rollback": "c17993e",
+  "tests": "test/nft_picker.mjs + test:verify",
+  "shots": [
+    "shots/preview/form/nft-picker-412.png",
+    "shots/preview/form/nft-picker-1366.png"
+  ],
+  "commit": "da6c8ae",
+  "deploy": {
+    "alias": "https://preview-sec.b34n5-lobby-test.pages.dev",
+    "project": "b34n5-lobby-test",
+    "branch": "preview-sec",
+    "deployment": "https://2c539d6e.b34n5-lobby-test.pages.dev"
+  }
+}

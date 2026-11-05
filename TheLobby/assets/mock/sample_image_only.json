@@ -1,0 +1,6 @@
+{
+ "name": "SAMPLE Image Only",
+ "description": "MADE-UP SAMPLE with no attributes (image-only metadata). Not a real NFT.",
+ "collection": "Sample mock-up",
+ "image": "assets/mock/robot01.png"
+}

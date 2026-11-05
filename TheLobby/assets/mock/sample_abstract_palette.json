@@ -1,0 +1,10 @@
+{
+ "name": "SAMPLE Abstract Dusk",
+ "description": "MADE-UP SAMPLE abstract / generative swirls with palette only (not a real NFT).",
+ "collection": "Sample mock-up",
+ "attributes": [
+  { "trait_type": "Palette", "value": "Dusk" },
+  { "trait_type": "Pattern", "value": "Swirl" },
+  { "trait_type": "Background", "value": "Violet" }
+ ]
+}

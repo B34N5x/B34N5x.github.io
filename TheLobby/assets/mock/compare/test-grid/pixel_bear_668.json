@@ -1,0 +1,27 @@
+{
+  "name": "Pixel BEAR #668",
+  "description": "BEAR Pixel Collection",
+  "image": "shots/preview/compare/test-grid-src/pixel-bear-668.png",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Orange"
+    },
+    {
+      "trait_type": "Skin",
+      "value": "Bear"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Happy"
+    },
+    {
+      "trait_type": "Eyes",
+      "value": "Red Mask & Green Eyes"
+    },
+    {
+      "trait_type": "Clothes",
+      "value": "Army"
+    }
+  ]
+}

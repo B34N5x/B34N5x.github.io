@@ -1,0 +1,112 @@
+{
+ "source": "the-lantern-path_v12h.jpg",
+ "method": "rembg isnet mask + hue k-means v2",
+ "framing": "full_body",
+ "height": 4.93,
+ "figureHeightFrac": 0.83,
+ "style": "realistic",
+ "styleConfidence": 0.34,
+ "styleFeatures": {
+  "edge": 0.382,
+  "flat": 0.043,
+  "palette": 220,
+  "smooth": 0.28,
+  "inkLines": 0.021,
+  "skin": 0.154
+ },
+ "silhouette": {
+  "bbox01": [
+   0.17,
+   0.06,
+   0.55,
+   0.89
+  ],
+  "bodyAspect": 1.44,
+  "bodyFill": 0.56,
+  "topBump": false
+ },
+ "bodyType": "unknown",
+ "colours": {
+  "body": "#7d7a1f",
+  "accents": [
+   "#466414",
+   "#6a833a",
+   "#63676d"
+  ],
+  "band": "#e1d8c5"
+ },
+ "visor": {
+  "bbox01": [
+   0.26,
+   0.1,
+   0.72,
+   0.85
+  ],
+  "colour": "#141c05",
+  "px": 27
+ },
+ "band": {
+  "bbox01": [
+   0.46,
+   0.26,
+   0.67,
+   0.88
+  ],
+  "colour": "#e1d8c5",
+  "px": 37
+ },
+ "limbs": [
+  {
+   "colour": "#466414",
+   "where": "side",
+   "px": 1271
+  },
+  {
+   "colour": "#6a833a",
+   "where": "side",
+   "px": 1241
+  },
+  {
+   "colour": "#63676d",
+   "where": "side",
+   "px": 1012
+  }
+ ],
+ "accessoryHints": [
+  "eyewear: dark shades/visor",
+  "face band (mask)",
+  "arms/gloves"
+ ],
+ "mask": {
+  "auto": true,
+  "coverage": "lower",
+  "shape": "round",
+  "top": -0.14,
+  "bottom": 0.28,
+  "width": 0.7,
+  "puff": 0.65,
+  "cheekTuck": true,
+  "tint": "#b09e93",
+  "xMarks": {
+   "count": 2,
+   "size": "large",
+   "y": 0.15,
+   "spread": 0.13,
+   "colour": "#3e301c",
+   "where": "below shades"
+  },
+  "emblem": false,
+  "straps": {
+   "count": 1,
+   "colour": "#6c5439"
+  },
+  "shades": [
+   0.44,
+   0.02,
+   0.94,
+   0.19
+  ]
+ },
+ "detected": [],
+ "confidence": 0.56
+}

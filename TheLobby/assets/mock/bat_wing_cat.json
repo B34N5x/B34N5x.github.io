@@ -1,0 +1,11 @@
+{
+ "name": "SAMPLE Bat Wing Cat",
+ "description": "MADE-UP SAMPLE for bat-wing flight smoke trail. Not a real NFT.",
+ "collection": "Sample mock-up",
+ "attributes": [
+  { "trait_type": "Species", "value": "Cat" },
+  { "trait_type": "Fur", "value": "Black" },
+  { "trait_type": "Back", "value": "Bat Wings" },
+  { "trait_type": "Tier", "value": "Rare" }
+ ]
+}

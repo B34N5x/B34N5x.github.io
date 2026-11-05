@@ -1,0 +1,51 @@
+/* (c) B34N5 - shared red neon panel theme (from kiosk Coming soon board) */
+:root{--neon:#ff2a4d;--neon-glow:0 0 12px #ff2a4d77,inset 0 0 8px #ff2a4d33;--neon-bg:rgba(18,15,36,.92)}
+.neon-panel,#overlay .box,#skintag,#hud,#skinpanel,.hmp,#wallet,#roomchat,#news,#gallery,#callpop,#introSkip,#hmenu button,.hudtog{border:2px solid var(--neon)!important;box-shadow:var(--neon-glow)!important}
+#hub{border:0!important;box-shadow:none!important;background:transparent!important}
+.neon-panel,#skinpanel,.hmp,#roomchat,#news,#callpop{background:var(--neon-bg)!important;color:#e9e6ff}
+#hud,#hmenu button,.hudtog,#introSkip{color:#fff!important}
+#skinsel,#roomchat input{border-color:var(--neon)!important}
+body.lw .neon-panel,body.lw #overlay .box,body.lw #skintag,body.lw #hud,body.lw #skinpanel,body.lw .hmp,body.lw #wallet,body.lw #roomchat,body.lw #news,body.lw #gallery,body.lw #callpop,body.lw #hmenu button,body.lw .hudtog{box-shadow:none!important}
+#hub:empty,#wallet:empty{border:0!important;box-shadow:none!important}
+/* v28 guide */
+#hguide{position:fixed;left:50%;bottom:max(12px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:9000;width:min(92vw,420px);box-sizing:border-box;padding:14px 16px;background:rgba(8,6,24,.92);border:2px solid #22f0ff;border-radius:14px;box-shadow:0 0 18px #22f0ff88,inset 0 0 12px #ff3df044;color:#fff;font:15px/1.35 system-ui,sans-serif}
+#hguide h3{margin:0 0 4px;color:#22f0ff;text-shadow:0 0 8px #22f0ff;font-size:18px}#hguide p{margin:0 0 8px}
+#hguide .gnav{display:flex;gap:8px}#hguide .gnav button{flex:1;min-height:44px;min-width:44px;font:700 16px system-ui;color:#fff;background:#1a0f3a;border:2px solid #ff3df0;border-radius:10px}
+#hguide #gnext{background:#ff3df0;color:#120020}#hguide button:disabled{opacity:.4}
+.gmock{margin:4px 0 8px;padding:8px;border:1px dashed #7affb0;border-radius:8px;font:14px monospace;color:#7affb0}.gcur{animation:gbl 1s steps(2) infinite}@keyframes gbl{50%{opacity:0}}
+.gtiles{display:flex;gap:8px}.gtiles i{width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,#22f0ff,#ff3df0);opacity:.5}.gtiles i.on{opacity:1;outline:3px solid #7affb0;animation:gpu 1s infinite}
+.ghl{outline:3px solid #7affb0!important;outline-offset:3px;animation:gpu 1s infinite;position:relative}@keyframes gpu{50%{box-shadow:0 0 18px #7affb0}}
+#garrow{position:fixed;z-index:9001;font-size:54px;color:#7affb0;text-shadow:0 0 12px #7affb0;pointer-events:none}
+#hmG{min-width:44px;min-height:44px}
+#hguide .gcount{float:right;color:#ff3df0;font-weight:700}.gin{animation:gfade .25s ease-out}@keyframes gfade{from{opacity:0;transform:translateY(6px)}}
+.ghl::after{content:'➜';position:absolute;right:100%;top:50%;transform:translateY(-50%);margin-right:6px;font-size:28px;color:#7affb0;text-shadow:0 0 10px #7affb0;pointer-events:none}
+#hguide #gnext{color:#120020!important;background:#ff3df0!important;text-shadow:none!important}#hguide .gnav button{color:#fff}.ghl{outline-color:#7affb0!important}
+/* v31: Xaman sign-in pinned top-right, compact; hub drops below it; results small and clear of the avatar/aura (centre) */
+#wallet{position:fixed!important;top:calc(env(safe-area-inset-top,0px) + 8px)!important;right:calc(env(safe-area-inset-right,0px) + 8px)!important;bottom:auto!important;left:auto!important;transform:none!important;text-align:right!important;z-index:50;max-width:min(260px,34vw);padding:0!important;background:none!important;border:0!important;box-shadow:none!important}
+#walletBtn{border:2px solid var(--neon)!important;box-shadow:var(--neon-glow)!important;padding:6px 12px!important;font:600 12px 'Space Grotesk',system-ui,sans-serif!important;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis;min-height:36px}
+.lay-touch #walletBtn{min-height:44px!important;min-width:44px!important}
+#walletInfo{max-width:min(240px,34vw);margin-left:auto}#walletInfo .wpick{width:auto;max-width:min(240px,34vw);max-height:42vh;overflow:auto;box-sizing:border-box;margin-left:auto}
+#wallet #tnbadge{display:none!important}
+#hub{top:calc(env(safe-area-inset-top,0px) + 62px)!important;right:calc(env(safe-area-inset-right,0px) + 10px)!important}
+@media (pointer:coarse){#walletBtn{min-height:44px!important;min-width:44px!important}}
+@media (orientation:portrait){#hub{top:calc((env(safe-area-inset-top,0px) + 62px) / (var(--hud-scale,1) * .8))!important;right:calc((env(safe-area-inset-right,0px) + 10px) / (var(--hud-scale,1) * .8))!important}}
+@media (max-height:500px){#hub{zoom:1!important;transform:scale(.75)!important;transform-origin:top right!important;top:calc(env(safe-area-inset-top,0px) + 58px)!important}}
+@media (max-width:480px){#wallet{max-width:46vw!important}#walletBtn{padding:6px 10px!important}}
+
+/* v32 desktop: sign-in above canvas/overlay, real clicks, full opacity, no debug outlines */
+#wallet{z-index:1000!important;pointer-events:auto!important}#wallet *{pointer-events:auto}
+#walletBtn{opacity:1!important;cursor:pointer}
+#wallet,#walletBtn,#walletInfo,#minimap,#mmrow{outline:none!important}
+#walletInfo:not(:empty){display:block;max-height:50vh;overflow:auto;margin-top:6px}
+#overlay .ainote{display:block;max-width:min(560px,86vw);margin:0 auto .8em;font-size:11px;line-height:1.35;opacity:.8;overflow-wrap:anywhere}#overlay .ainote a{color:inherit}
+#hmSp .ainote{display:block;max-width:min(260px,80vw);white-space:normal;font-size:11px;line-height:1.35;margin-top:6px;opacity:.85;overflow-wrap:anywhere}#hmSp .ainote a{color:inherit}#hmSp{max-height:70vh;overflow:auto}
+
+/* v33 draggable guide handle */
+#hguide{touch-action:none;user-select:none;-webkit-user-select:none}
+#hguide{cursor:grab}
+#hguide .ghandle{display:flex;align-items:center;justify-content:center;gap:4px;min-height:10px;margin:-4px -8px 6px;padding:4px 8px 2px;pointer-events:none;border-radius:12px 12px 0 0;background:linear-gradient(180deg,rgba(34,240,255,.12),transparent);border-bottom:1px solid rgba(34,240,255,.18)}
+#hguide .ghandle i{display:block;width:14px;height:2px;border-radius:2px;background:rgba(34,240,255,.55)}
+#hguide .ghandle-lbl{display:none!important} /* Drag button removed — whole tile is the handle */
+#hguide.dragging{opacity:.96;box-shadow:0 0 28px #22f0ffcc,inset 0 0 12px #ff3df066;cursor:grabbing}
+#hguide .gnav,#hguide .gbody{touch-action:manipulation;user-select:text;-webkit-user-select:text}
+#hguide .gnav button{cursor:pointer}

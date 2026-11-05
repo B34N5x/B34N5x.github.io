@@ -1,0 +1,60 @@
+{
+  "date": "2026-11-05",
+  "timezone": "Australia/Sydney",
+  "title": "Lobby life: seats, upright wander NPCs, arcade players",
+  "branch": "preview-sec",
+  "preview_only": true,
+  "live_deploy": false,
+  "rollback": "ab6d134",
+  "user_ask": "Random seats\u2026 npc animals\u2026 ups playing arcade\u2026",
+  "features": {
+    "seats": "InstancedMesh benches/stools/planters/cones; isClearSpot/PLAZA_R/SAFE_SPOTS",
+    "animals": "lite shared-geo upright wanderers; walk/ear/tail/sit/sniff; avoid buildings/player/props",
+    "arcade": "2-3 lite players at Ledger Arcade cabinets; mash bob + glow",
+    "caps": "low 3+2 / hi 5+3; setLow scene.remove (invisible still counted)",
+    "hud_412": "hudgear top 10px; skintag top 58px on max-width 520"
+  },
+  "cache": {
+    "main": "v91",
+    "npclife": "v3",
+    "envpass": "v4",
+    "style": "v52",
+    "hudmenus": "v9",
+    "unityfeel": "v2",
+    "sw": "lobby-shell-v35f"
+  },
+  "tests": {
+    "test:verify": "PASS (envpass + bonepile_ground + npclife)",
+    "draw_budget": {
+      "total": 1305,
+      "budget": 1400,
+      "ok": true
+    },
+    "frame_p95_regress": {
+      "412": -38.1,
+      "1366": -43.2,
+      "pre_412": 349.5,
+      "post_412": 216.3,
+      "pre_1366": 656.6,
+      "post_1366": 373.2,
+      "ok": true
+    }
+  },
+  "screenshots_read": [
+    "shots/preview/fix/lobbylife-arcade-1366.png",
+    "shots/preview/fix/lobbylife-animal-close-1366.png",
+    "shots/preview/fix/lobbylife-plaza-1366.png",
+    "shots/preview/fix/lobbylife-plaza-412.png"
+  ],
+  "visual_notes_honest": {
+    "arcade": "two lite NPCs visible through Ledger Arcade glass at cabinets",
+    "animal_close": "upright tan animal near Petal & Pin with street seats",
+    "plaza": "seats/planters on rim; wanderers often off-frame in wide shot",
+    "hud_412": "HUD gear above Skin with gap \u2014 no overlap"
+  },
+  "commit": "3ee4092c1ccf20ef52df0a8e1569aa962a79f197",
+  "preview_url": "https://preview-sec.b34n5-lobby-test.pages.dev",
+  "deployment_url": "https://f5b32525.b34n5-lobby-test.pages.dev",
+  "deploy_tip": "f5b32525",
+  "alias_url": "https://preview-sec.b34n5-lobby-test.pages.dev"
+}

@@ -1,0 +1,113 @@
+{
+ "about": "Hand-verified against 02_workbench_lock_v13.jpg (final upload set, V11 standard). Auto pass got aspect 0.79 -> 'unknown'; corrected to capsule.",
+ "bodyType": "capsule",
+ "silhouette": {
+  "topBump": true,
+  "bodyAspect": 1.1
+ },
+ "tier": "Legendary",
+ "tierNote": "CREATOR-DECLARED (second-brain NFT.md, V11 standards #5): Workbench Lock has two Legendary traits, 'Glowing Brass Time Lock' and 'Master Workbench'. Not in local metadata (no local JSON for this card).",
+ "legendaryTraits": [
+  "Glowing Brass Time Lock",
+  "Master Workbench"
+ ],
+ "maskStyle": "lower",
+ "colours": {
+  "body": "#7fcf3a",
+  "band": "#efe3cf",
+  "strap": "#e8ddc8",
+  "gloves": "#8fbcd6",
+  "shoes": "#f1ebd8",
+  "shoeTrim": "#4f9a4a",
+  "visor": "#0a0b0c",
+  "xMarks": "#4a2e22"
+ },
+ "features": {
+  "eyewear": "strapped shades",
+  "mask": "strapped sports mask over lower face (cream, white side straps, XRP-logo X's instead of vent holes)",
+  "xMarks": "two dark-brown X marks centre of the mask",
+  "gloves": "mitten gloves",
+  "shoes": "sneakers"
+ },
+ "wearables": {
+  "about": "Generic 'scene props -> wearable accessories' mapping. slot: belt (hangs from a tool belt), charm (hangs at the front buckle). Items picked by eye from 02_workbench_lock_v13.jpg.",
+  "belt": {
+   "from": "Legendary trait 'Master Workbench'",
+   "colour": "#6b4528",
+   "buckle": "#c9a24a"
+  },
+  "items": [
+   {
+    "item": "wrench",
+    "slot": "belt",
+    "from": "open-end spanners on the pegboard",
+    "colour": "#b8bec6"
+   },
+   {
+    "item": "screwdriver",
+    "slot": "belt",
+    "from": "red-handled screwdriver on the pegboard",
+    "colour": "#c8342c"
+   },
+   {
+    "item": "pliers",
+    "slot": "belt",
+    "from": "pliers on the pegboard",
+    "colour": "#2a2b30"
+   }
+  ]
+ },
+ "heldItems": [
+  {
+   "item": "chain",
+   "hand": "right",
+   "attach": "timelock",
+   "from": "Workbench Lock v13: both gloves hold the chain to the cart with the brass time lock (no laptop in this art)"
+  }
+ ],
+ "heldItemsNote": "Generic rule: anything the character HOLDS in the art becomes a held prop; on Legendary cards held props get a gold aura.",
+ "style": "3d_art",
+ "styleNote": "Verified by eye: glossy felt/claymation 3D render. Auto heuristic said 3d_art (Origin) / realistic (Workbench, Lantern) at ~0.33 confidence.",
+ "mask": {
+  "coverage": "lower",
+  "shape": "round",
+  "top": 0.0,
+  "bottom": 0.34,
+  "width": 0.98,
+  "puff": 1.0,
+  "cheekTuck": true,
+  "tint": "#faf7ef",
+  "xMarks": {
+   "count": 2,
+   "size": "small",
+   "where": "below shades",
+   "y": 0.32,
+   "spread": 0.05,
+   "colour": "#2a1e16",
+   "thick": 0.8,
+   "len": 0.8
+  },
+  "emblem": false,
+  "vents": 0,
+  "straps": {
+   "count": 1,
+   "colour": "#e9e1cf",
+   "buckle": true,
+   "width": 0.028,
+   "buckleSize": 0.9,
+   "buckleColour": "#d9d2c0"
+  },
+  "patches": [],
+  "trims": [],
+  "outline": "big pillowy muzzle wrapping both cheeks",
+  "note": "Workbench Lock: very puffy off-white lower mask tucked round the cheeks, cream side strap with buckle, two tiny dark X stitches low",
+  "edgeColour": "#efe8d8",
+  "edgeWidth": 0.03
+ },
+ "detected": [],
+ "detectedNote": "hand-checked: no extra features beyond features/mask/wearables (auto image detections overridden)",
+ "traitTiers": {
+  "belt": "Legendary",
+  "lock": "Legendary"
+ }
+}

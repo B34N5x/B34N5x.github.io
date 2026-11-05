@@ -1,0 +1,312 @@
+html,body{margin:0;height:100%;overflow:hidden;background:#0a0820;font-family:system-ui,sans-serif}
+canvas{display:block}
+#overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.45);color:#fff;cursor:pointer;z-index:10}
+#overlay.hidden{display:none}
+.box{text-align:center;background:rgba(20,30,60,.8);padding:24px 36px;border-radius:12px;border:3px solid #6cf}
+.box h1{margin:0 0 8px}.small{font-size:13px;opacity:.85}
+#hud{position:fixed;left:10px;top:10px;color:#fff;background:rgba(0,0,0,.4);padding:4px 10px;border-radius:6px;font-size:14px;z-index:5}
+#joy{position:fixed;left:24px;bottom:24px;width:110px;height:110px;border-radius:50%;background:rgba(255,255,255,.25);display:none;z-index:6;touch-action:none}
+#knob{position:absolute;left:35px;top:35px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.7)}
+body.touch #joy{display:block}
+
+#hub{position:fixed;right:14px;top:14px;width:190px;display:flex;flex-direction:column;align-items:center;gap:6px;z-index:5;color:#bff9ff;font-size:13px}
+#minimap{width:180px;height:180px;border-radius:50%;filter:drop-shadow(0 0 8px #ff3df0)}
+.guide{display:flex;flex-direction:column;align-items:center;gap:4px;text-shadow:0 0 6px #22f0ff}
+#guide{background:#120a2a;color:#7ff8ff;border:2px solid #22f0ff;border-radius:999px;padding:5px 12px;font:600 13px system-ui;box-shadow:0 0 10px #22f0ff88;outline:none;cursor:pointer}
+#guide option{background:#120a2a}
+#dist{min-height:16px;font-weight:600;color:#ff9af7;text-shadow:0 0 6px #ff3df0}
+.keys{opacity:.6;font-size:11px}
+body.hudoff #hub{display:none}
+#hud{background:rgba(10,6,30,.6);border:1px solid #22f0ff;color:#bff9ff}
+#warp{position:fixed;inset:0;pointer-events:none;opacity:0;z-index:20;background:repeating-conic-gradient(from 0deg,rgba(34,240,255,.0) 0deg 4deg,rgba(34,240,255,.55) 4deg 5deg,rgba(255,61,240,.0) 5deg 9deg,rgba(255,61,240,.5) 9deg 10deg);-webkit-mask:radial-gradient(circle,transparent 8%,#000 60%);mask:radial-gradient(circle,transparent 8%,#000 60%)}
+#warp.on{animation:warp .9s ease-in forwards}
+@keyframes warp{0%{opacity:0;transform:scale(1.6) rotate(0)}70%{opacity:1}100%{opacity:1;transform:scale(.6) rotate(25deg);background-color:#fff}}
+
+#gallery{position:fixed;inset:0;z-index:20;display:none;overflow:auto;background:rgba(8,4,20,.94);color:#eaf6ff;font-family:system-ui,sans-serif;padding:24px 32px}
+#gallery.on{display:block}
+#gallery .gtop{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #ff3df0;padding-bottom:10px}
+#gallery h1{margin:0;font-size:22px;color:#7ff8ff}
+#gallery h2{color:#ffb35c;margin:22px 0 4px}
+#gclose{background:#22f0ff;color:#08041a;border:0;border-radius:8px;padding:8px 14px;font-weight:700;cursor:pointer}
+.gnote{opacity:.7;margin:0 0 12px;font-size:13px}
+.ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.ggrid figure{margin:0;background:#140c2a;border:1px solid #3a2a6a;border-radius:10px;overflow:hidden;cursor:zoom-in}
+.ggrid figure:hover{border-color:#22f0ff}
+.ggrid img{width:100%;display:block}
+.ggrid figcaption{padding:8px 10px;font-size:14px}
+#gzoom{position:fixed;inset:0;z-index:30;display:none;background:rgba(0,0,0,.9);flex-direction:column;align-items:center;justify-content:center;cursor:zoom-out}
+#gzoom.on{display:flex}
+#gzoom img{max-width:92vw;max-height:84vh;border-radius:8px}
+#gzoom p{color:#fff;font-family:system-ui;margin-top:10px}
+#tvhint{position:fixed;left:50%;bottom:60px;transform:translateX(-50%);display:none;background:rgba(10,6,30,.8);color:#ffd09a;padding:8px 14px;border-radius:8px;font-family:system-ui}
+#tvhint.on{display:block}
+
+#news{position:fixed;inset:0;z-index:20;display:none;overflow:auto;background:rgba(6,10,20,.95);color:#eaf6ff;font-family:system-ui,sans-serif;padding:24px 32px}
+#news.on{display:block}
+#news .gtop{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #22f0ff;padding-bottom:10px}
+#news h1{margin:0;color:#ffd09a}
+#nclose{background:#ffb35c;color:#120a04;border:0;border-radius:8px;padding:8px 14px;font-weight:700;cursor:pointer}
+#nlist{list-style:none;padding:0;max-width:900px}
+#nlist li{padding:10px 0;border-bottom:1px solid #223}
+#nlist a{color:#7ff8ff;font-size:17px;text-decoration:none}
+#nlist a:hover{text-decoration:underline}
+.nmeta{display:block;font-size:12px;opacity:.65;margin-top:3px}
+
+#tokens{color:#ffd23d;font-weight:700;text-shadow:0 0 6px #ffd23d}
+#snd{background:#0a0620;color:#bff9ff;border:1px solid #22f0ff;border-radius:12px;padding:3px 10px;font-size:12px;cursor:pointer}
+.gpick{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:6px 0 12px}.gpick button{background:#140c2a;color:#dff;border:1px solid #22f0ff;border-radius:14px;padding:5px 12px;cursor:pointer}.gpick button.on{background:#22f0ff;color:#08041a}
+#skintag{position:fixed;left:14px;top:48px;z-index:6;background:rgba(10,6,32,.85);color:#bff9ff;border:1px solid #22f0ff;border-radius:16px;padding:6px 14px;font-size:13px;cursor:pointer;box-shadow:0 0 12px #22f0ff88;animation:tagf 3s ease-in-out infinite}@keyframes tagf{50%{transform:translateY(-4px)}}
+#skinpanel{display:none;position:fixed;left:14px;top:86px;z-index:6;width:330px;background:rgba(10,6,32,.94);border:1px solid #22f0ff;border-radius:12px;padding:10px;color:#dff}#skinpanel.on{display:block}#skinpanel p{margin:0 0 6px;font-size:13px}#skinsel{width:100%;padding:5px;background:#140c2a;color:#fff;border:1px solid #22f0ff;border-radius:8px}
+.skingrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}.skintile{background:#140c2a;border:1px solid #444;border-radius:8px;padding:3px;color:#cfe;font-size:10px;cursor:pointer}.skintile img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:6px;display:block}.skintile:hover{border-color:#22f0ff}
+/* step 12: boundary warning (original design) */
+#bound{position:fixed;inset:0;pointer-events:none;opacity:0;transition:opacity .25s;z-index:40;--k:0}
+#bound.on{opacity:1}
+#bound::before{content:"";position:absolute;inset:0;box-shadow:inset 0 0 calc(80px + 120px * var(--k)) rgba(255,70,40,.55);}
+#bound .bstatic{position:absolute;inset:0;opacity:calc(.15 + .35 * var(--k));background:repeating-linear-gradient(0deg,rgba(255,255,255,.08) 0 1px,transparent 1px 3px),repeating-linear-gradient(90deg,rgba(255,90,60,.06) 0 2px,transparent 2px 5px);-webkit-mask:radial-gradient(ellipse at center,transparent 45%,#000 85%);mask:radial-gradient(ellipse at center,transparent 45%,#000 85%);animation:bst .12s steps(2) infinite}
+@keyframes bst{0%{background-position:0 0,0 0}50%{background-position:0 2px,3px 0}100%{background-position:0 1px,1px 0}}
+#bound .bbox{position:absolute;top:18%;left:50%;transform:translateX(-50%);text-align:center;color:#ffe2d6;font:600 14px/1.3 monospace;letter-spacing:.12em;text-shadow:0 0 8px rgba(255,80,50,.8);background:rgba(20,6,6,.45);border:1px solid rgba(255,110,80,.6);padding:10px 22px}
+#bound h2{margin:4px 0;font-size:26px;color:#fff}#bound .btag{margin:0;color:#ff8a6a;font-size:11px}#bound .bnum{font-size:44px;margin:4px 0 0;color:#fff}
+#fade{position:fixed;inset:0;background:#000;opacity:0;pointer-events:none;z-index:45}
+#aura{position:fixed;left:14px;top:96px;z-index:30;padding:5px 12px;border-radius:14px;border:1px solid #ffcc55;background:rgba(40,28,6,.6);color:#ffe2a0;font:600 12px sans-serif;letter-spacing:.08em;text-shadow:0 0 6px #ffb030;cursor:pointer}
+#aura[aria-pressed="false"]{opacity:.6;border-color:#8a7a50;text-shadow:none}
+
+.hudtog{position:fixed;left:14px;z-index:30;padding:5px 12px;border-radius:14px;border:1px solid #7fe0ff;background:rgba(6,24,40,.6);color:#cfefff;font:600 12px sans-serif;letter-spacing:.08em;cursor:pointer}
+#boost{top:128px;border-color:#ffcc55;color:#ffe2a0}#emote{top:160px}.hudtog[aria-pressed="false"]{opacity:.65}
+#mic{top:224px}#calltest{top:256px;opacity:.7}
+#callpop{position:fixed;left:50%;top:18%;transform:translateX(-50%);z-index:40;background:rgba(8,20,34,.92);border:1px solid #7fe0ff;border-radius:14px;padding:14px 18px;color:#e6f6ff;font:14px sans-serif;text-align:center;box-shadow:0 0 24px rgba(127,224,255,.35)}
+#callpop .callnote{font-size:11px;opacity:.75;margin:4px 0 10px}#callpop button{margin:0 6px;padding:6px 16px;border-radius:10px;border:1px solid #7fe0ff;background:#123;color:#fff;cursor:pointer}#callaccept{background:#1f6b3a!important}#calldecline{background:#6b1f2a!important}
+#callstate{position:fixed;left:50%;top:10px;transform:translateX(-50%);z-index:40;padding:5px 12px;border-radius:12px;border:1px solid #6fe39a;background:rgba(10,40,20,.8);color:#cfffe0;font:12px sans-serif;cursor:pointer}
+
+/* v13: mic+sound row on top of minimap */
+#mmrow{display:flex;gap:6px;justify-content:center;margin-bottom:-6px;z-index:6}
+#mmrow button,#mmrow #mic{position:static;padding:3px 9px;font-size:12px;border-radius:12px;min-height:28px}
+/* v13: touch action buttons */
+#hub{top:40px}
+
+/* v13b: controller layout */
+@media (max-height:500px){body.touch #hub{right:190px;top:34px;transform:scale(.72);transform-origin:top right}}
+/* v16 compact HUD menus */
+#hmenu{position:fixed;top:40px;left:50%;transform:translateX(-50%);z-index:55;display:flex;gap:6px;align-items:flex-start;font:600 13px system-ui}
+#hmenu button{min-height:44px;min-width:44px;padding:0 12px;border-radius:12px;border:1px solid rgba(120,240,255,.6);background:rgba(12,10,30,.82);color:#e6fbff;font:inherit;cursor:pointer}
+.hm{position:relative}.hmp{display:none;position:absolute;left:50%;transform:translateX(-50%);top:50px;flex-direction:column;gap:6px;padding:8px;background:rgba(8,6,24,.94);border:1px solid rgba(120,240,255,.4);border-radius:14px;min-width:170px;max-height:60vh;overflow:auto}
+.hmp.on{display:flex}.hmp button{width:100%;text-align:left}
+.hmp #snd,.hmp #mic{position:static!important;margin:0!important;width:100%;display:block!important;visibility:visible!important}
+@media (max-width:700px){#hmenu .lbl{display:none}}@media (max-width:700px) and (orientation:portrait){#hmenu{top:calc(56px + env(safe-area-inset-top,0px));bottom:auto;left:auto;right:6px;transform:none;flex-direction:column;max-height:min(46vh,420px);overflow:auto}.hmp{left:auto;right:52px;top:0;transform:none}}
+#ebubble{position:fixed;left:50%;top:34%;transform:translate(-50%,-50%) scale(.6);opacity:0;pointer-events:none;z-index:40;background:#fff;color:#111;font:800 20px system-ui;padding:10px 16px;border-radius:18px;box-shadow:0 4px 18px #0008;transition:transform .2s,opacity .2s}
+#ebubble::after{content:'';position:absolute;left:50%;bottom:-10px;margin-left:-8px;border:8px solid transparent;border-top-color:#fff;border-bottom:0}
+#ebubble.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
+body.noinfo .keys,body.noinfo #keys,body.noinfo #tvhint,body.noinfo .gnote,body.noinfo #hud,body.noinfo #dist,body.noinfo .hint,body.noinfo small{display:none!important}
+@media (orientation:landscape) and (max-height:500px){.hmp{max-height:calc(100vh - 150px)}}
+/* v16b: TEST CALL is dev-only; hidden on every public build */#calltest{display:none!important}
+#groupcall{position:fixed;left:calc(8px + env(safe-area-inset-left));top:104px;z-index:52;min-height:44px;min-width:44px;padding:0 14px;border-radius:12px;border:1px solid rgba(120,240,255,.6);background:rgba(12,10,30,.82);color:#e6fbff;font:600 13px system-ui}
+#gctoast{position:fixed;left:50%;bottom:22%;transform:translateX(-50%);background:rgba(10,6,30,.92);color:#e6fbff;padding:10px 16px;border-radius:12px;font:600 14px system-ui;opacity:0;pointer-events:none;transition:opacity .4s;z-index:60}#gctoast.on{opacity:1}
+@media (max-width:700px) and (orientation:portrait){#groupcall{left:auto;right:6px;top:auto;bottom:calc(50vh + 140px)}}
+/* v17 compact hudmenus only; touch keeps >=44px */
+#hmenu{gap:4px;font-size:11px}#hmenu button{min-height:32px;min-width:32px;padding:0 9px;font-size:11px;border-radius:10px}.hmp{min-width:150px;padding:6px;gap:4px;top:38px}
+.hmp button{font-size:12px;white-space:nowrap}
+@media (pointer:coarse){#hmenu button,.hmp button{min-height:44px}#hmenu button{min-width:44px}}
+/* TESTNET notice: small, inside the sign-in area under the Xaman button; never hidden by Info */
+#wallet #tnbadge{position:static!important;left:auto!important;top:auto!important;transform:none!important;display:inline-block!important;margin-top:4px;font-size:10px!important;padding:2px 8px!important;opacity:.75;pointer-events:none}
+
+/* v17 skin tab pulse (box-shadow/outline only: no layout shift) */
+@keyframes skPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(120,220,255,0); } 50% { box-shadow: 0 0 0 5px rgba(120,220,255,.95), 0 0 24px 10px rgba(120,220,255,.7); } }
+#skintag.sk-flash, #skintag.sk-still { opacity: 1 !important; border-color: #7fe6ff !important; }
+#skintag.sk-flash { animation: skPulse 1s ease-in-out 3 !important; }
+#skintag.sk-still { outline: 3px solid rgba(120,220,255,.95); outline-offset: 2px !important; box-shadow: 0 0 12px 3px rgba(120,220,255,.7) !important; }
+
+/* copyright line on the click-to-enter overlay only */
+#overlay .copy{position:fixed;left:0;right:0;bottom:max(8px,env(safe-area-inset-bottom));text-align:center;font-size:11px;opacity:.6;pointer-events:none}
+/* v18 intro overlay (above the enter screen, no layout impact) */
+#intro{position:fixed;inset:0;z-index:9999;background:#05030f;transition:opacity .4s}
+#intro canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+#introSkip{position:absolute;top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right));min-width:88px;min-height:44px;padding:0 16px;border-radius:22px;border:1px solid #22f0ff;background:rgba(10,6,32,.8);color:#bff9ff;font:600 15px system-ui,sans-serif;cursor:pointer;z-index:1}
+/* v18b retro title: original outlined serif with red neon stroke, thin bars above/below (system serif, no web font) */
+#overlay h1.retro{font:700 clamp(34px,9vw,84px)/1.05 Georgia,"Times New Roman",serif;letter-spacing:.06em;text-transform:uppercase;color:transparent;-webkit-text-stroke:2px #ff2a3d;text-shadow:0 0 6px rgba(255,42,61,.9),0 0 22px rgba(255,42,61,.55);padding:.18em .2em;margin:0 auto .3em;max-width:100%;border-top:2px solid #ff2a3d;border-bottom:2px solid #ff2a3d;box-shadow:0 -6px 12px -8px #ff2a3d,0 6px 12px -8px #ff2a3d;display:inline-block;animation:retroGlow 2.4s ease-out both}
+@keyframes retroGlow{from{opacity:0;text-shadow:none;filter:blur(2px)}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){#overlay h1.retro{animation:none}}
+#overlay .copy{position:static!important;display:block;margin:-.2em 0 .8em;font-size:11px;opacity:.55}
+/* v18c title: chrome->orange/red gradient, italic skew, speed streaks (original; built-in heavy sans) */
+#overlay h1.retro{font:900 italic clamp(34px,9vw,84px)/1.05 Impact,"Arial Black","Helvetica Neue",Arial,sans-serif;letter-spacing:.04em;-webkit-text-stroke:0;color:transparent;background:linear-gradient(180deg,#f4f7fb 0%,#b9c3cf 38%,#ffb347 52%,#ff5a1f 72%,#c8102e 100%);-webkit-background-clip:text;background-clip:text;text-shadow:none;filter:drop-shadow(0 0 6px rgba(255,42,61,.55)) drop-shadow(0 0 16px rgba(255,42,61,.3));transform:skewX(-10deg);border:0;box-shadow:none;position:relative;padding:.1em .25em .35em}
+#overlay h1.retro::after{content:"";position:absolute;left:18%;right:-6%;bottom:.08em;height:.26em;background:linear-gradient(90deg,transparent,#ff5a1f 30%,transparent) 0 0/100% 2px no-repeat,linear-gradient(90deg,transparent,#ffb347 40%,transparent) 12% 50%/88% 2px no-repeat,linear-gradient(90deg,transparent,#c8102e 50%,transparent) 26% 100%/74% 2px no-repeat;pointer-events:none}
+#roombar{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:31;display:flex;gap:8px}
+.rbtn{min-height:40px;min-width:44px;padding:8px 14px;border-radius:14px;border:1px solid #7fe0ff;background:rgba(6,24,40,.75);color:#cfefff;font:600 14px sans-serif;cursor:pointer}
+#roomchat{position:fixed;left:50%;transform:translateX(-50%);bottom:70px;width:min(420px,46vw);z-index:31;background:rgba(6,18,30,.8);border:1px solid #2a6a80;border-radius:12px;padding:8px;color:#e6f7ff;font:14px/1.35 sans-serif}
+#roomchat .rlog{max-height:140px;overflow-y:auto;word-break:break-word;margin-bottom:6px}#roomchat .sys{color:#8fd0e0;font-style:italic}
+#roomchat form{display:flex;gap:6px}#roomchat input{flex:1;min-width:0;min-height:40px;border-radius:10px;border:1px solid #2a6a80;background:#031019;color:#fff;padding:0 10px;font-size:16px}
+#roomchat .rhide{margin-top:6px;width:100%}
+@media (max-width:500px){#roomchat{width:calc(100vw - 24px);bottom:auto;top:110px}#roombar{bottom:150px}}
+@media (max-height:500px){#roomchat{width:40vw;bottom:auto;top:8px}#roomchat .rlog{max-height:70px}#roombar{bottom:12px}}
+
+/* v24 touch targets: >=44px on coarse pointers; hub children compensate for hub scale (--hk) */
+.lay-touch #skintag,.lay-touch #walletBtn,.lay-touch .rbtn,.lay-touch .hudtog,.lay-touch #snd,.lay-touch #texit{min-height:44px!important;min-width:44px!important}
+/* v26: hub buttons keep natural (proportional) visuals; an invisible ::after pads the tap area to >=44 screen px */
+.lay-touch #hub #mymusic,.lay-touch #hub #mmrow button,.lay-touch #hub #mic{position:relative!important;min-height:28px!important;min-width:28px!important}
+.lay-touch #hub #mymusic::after,.lay-touch #hub #mmrow button::after,.lay-touch #hub #mic::after{content:'';position:absolute;left:50%;top:50%;width:max(100%,calc(44px / var(--hk,1)));height:max(100%,calc(44px / var(--hk,1)));transform:translate(-50%,-50%);background:transparent}
+.lay-touch #mymusic:not(#hub *),.lay-touch #mic:not(#hub *){min-height:44px;min-width:44px}
+#roombar{padding-bottom:0}
+.lay-touch #walletBtn{white-space:nowrap}
+/* v24 chat zone: while room chat is open the top HUD steps aside; chat never sits over the Click-to-enter box */
+body:has(#roomchat:not([hidden])) :is(#hub,#hmenu,#hud,#skintag,#calltest,#aura,#mymusic,#tnbadge){visibility:hidden!important;pointer-events:none!important}
+body:has(#overlay:not(.hidden)) #roomchat{display:none!important}
+/* v26: skin tag + picker sit above the Click-to-enter overlay (desktop: a real click reached #overlay, not the tag) */
+#skintag,#skinpanel{z-index:11!important}
+
+/* trust notice on enter screen */
+#overlay .trust{max-width:min(92vw,520px);margin:.2em auto .9em;padding:.45em .8em;font-size:clamp(12px,1.6vw,14px);line-height:1.35;color:#d9ffe6;background:rgba(0,40,20,.55);border:1px solid rgba(80,220,140,.55);border-radius:8px;box-sizing:border-box;overflow-wrap:anywhere}
+
+
+/* Unity-feel: load bar, vignette, eased panels, joystick chrome (v39) */
+#loadbar{position:fixed;left:50%;top:18%;transform:translateX(-50%);z-index:60;width:min(72vw,360px);text-align:center;pointer-events:none;opacity:0;transition:opacity .35s}
+#loadbar.on{opacity:1}#loadbar.out{opacity:0}
+#loadbar .lbtrack{height:6px;border-radius:999px;background:rgba(34,240,255,.18);overflow:hidden;border:1px solid rgba(34,240,255,.35)}
+#loadbar .lbfill{height:100%;width:8%;background:linear-gradient(90deg,#22f0ff,#ff3df0);border-radius:999px;transition:width .2s ease-out}
+#loadbar .lblbl{display:block;margin-top:8px;color:#bff9ff;font:600 12px system-ui;letter-spacing:.04em;text-shadow:0 0 8px #22f0ff88}
+#vignette{position:fixed;inset:0;pointer-events:none;z-index:4;background:radial-gradient(ellipse at center,transparent 52%,rgba(4,2,16,.55) 100%);opacity:.85;transition:opacity .3s}
+#vignette.off,body.lw #vignette{opacity:0}
+@media (prefers-reduced-motion:reduce){#vignette{opacity:0}#loadbar .lbfill{transition:none}
+#skinpanel,#gallery,#news,.hmp{transition:none!important}}
+#joy.unity-joy{background:rgba(8,20,36,.42);border:2px solid rgba(34,240,255,.55);box-shadow:0 0 16px rgba(34,240,255,.25),inset 0 0 18px rgba(0,0,0,.35);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transform:scale(var(--joy-scale,var(--hud-scale,1)));transform-origin:bottom left}
+#joy.unity-joy #knob{background:radial-gradient(circle at 35% 30%,#eaffff,#7fe0ff 55%,#1a6a88);border:2px solid rgba(255,255,255,.55);box-shadow:0 2px 10px rgba(0,0,0,.4);left:50%;top:50%;width:42%;height:42%;margin-left:-21%;margin-top:-21%;transform:translate(0,0)}
+/* eased panels */
+#skinpanel{display:block;opacity:0;visibility:hidden;transform:translateY(-8px) scale(.98);transition:opacity .22s ease,transform .22s ease,visibility .22s;pointer-events:none}
+#skinpanel.on{opacity:1;visibility:visible;transform:none;pointer-events:auto}
+#gallery,#news{opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .28s ease,transform .28s ease,visibility .28s;display:block;pointer-events:none}
+#gallery.on,#news.on{opacity:1;visibility:visible;transform:none;pointer-events:auto}
+.hmp{opacity:0;visibility:hidden;transform:translateY(-6px) scale(.98);transition:opacity .18s ease,transform .18s ease,visibility .18s;display:flex!important;pointer-events:none}
+.hmp.on{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0) scale(1);pointer-events:auto}
+@media (max-width:700px) and (orientation:portrait){.hmp.on{transform:none}}
+
+/* v40: self-declaration age gate (sessionStorage only) */
+html.age-locked, html.age-locked body { overflow: hidden !important; }
+#agegate{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:rgba(4,2,16,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:16px}
+#agegate .agebox{max-width:420px;width:100%;background:rgba(10,8,28,.95);border:1px solid rgba(120,240,255,.55);border-radius:16px;padding:22px 20px;color:#e8fbff;font:15px/1.45 system-ui,sans-serif;box-shadow:0 0 28px rgba(80,220,255,.25)}
+#agegate h2{margin:0 0 10px;color:#22f0ff;font:700 20px/1.2 system-ui}
+#agegate p{margin:0 0 10px}#agegate .agenote{font-size:12px;opacity:.75}
+#agegate .agebtns{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+#agegate .ageok{flex:1;min-width:140px;min-height:44px;border-radius:12px;border:1px solid rgba(120,240,255,.7);background:#123a4a;color:#e8fbff;font:600 14px system-ui;cursor:pointer}
+#agegate .ageok:hover,#agegate .ageok:focus{background:#1a5570;outline:2px solid #22f0ff}
+#roomstatus{position:fixed;left:50%;transform:translateX(-50%);bottom:78px;z-index:31;max-width:min(420px,90vw);padding:8px 14px;border-radius:12px;background:rgba(6,18,30,.85);border:1px solid #2a6a80;color:#e6f7ff;font:13px/1.35 sans-serif;text-align:center;pointer-events:none}
+
+/* preview: trait ability buttons (laser / flight / charge) */
+#abil{position:fixed;left:12px;top:128px;z-index:28;display:flex;flex-direction:column;gap:6px}
+#abil[hidden]{display:none!important}
+#abil .abilbtn{min-width:120px;border-color:#ff6a9a;color:#ffd0e0}
+#abil .abilbtn:disabled{opacity:.55}
+@media (max-width:520px){#abil{left:8px;top:auto;bottom:150px;transform:scale(.92);transform-origin:bottom left}}
+.lay-touch #abil .abilbtn{min-height:44px;min-width:44px}
+/* v-keys: ability buttons laid out in their own column/grid (was stacked: .hudtog is position:fixed). Below stance/boost/emote on desktop+tablet. */
+#abil{top:232px}
+#abil .abilbtn{position:static;display:flex;justify-content:space-between;gap:8px}
+#abil .ak{opacity:.85}#abil .ak::before{content:'[';}#abil .ak::after{content:']'}
+@media (max-width:520px){#abil{left:calc(8px + env(safe-area-inset-left));top:auto;bottom:calc(158px + env(safe-area-inset-bottom));transform:none;display:grid;grid-template-columns:repeat(2,56px);gap:6px}}
+@media (max-height:500px) and (orientation:landscape){#abil{top:auto;left:calc(150px + env(safe-area-inset-left));bottom:calc(10px + env(safe-area-inset-bottom));flex-direction:row;gap:4px}}
+@media (max-width:520px),(max-height:500px) and (orientation:landscape){#abil .abilbtn{min-width:0!important;width:46px;min-height:44px;padding:2px!important;flex-direction:column;align-items:center;justify-content:center;gap:0;font-size:9px;letter-spacing:0}#abil .ak{font-size:11px}#abil .ak::before,#abil .ak::after{content:''}}
+@media (max-width:520px){#abil .abilbtn{width:56px}}
+/* phone portrait: room bar sits above the touch pad, not on it */
+@media (max-width:500px) and (orientation:portrait){#roombar{bottom:calc(340px + env(safe-area-inset-bottom))}}
+/* phone landscape: minimap hub moves left of the touch pad and shrinks */
+@media (max-height:500px) and (orientation:landscape){html body #hub{right:calc(390px + env(safe-area-inset-right))!important;top:160px!important;zoom:.6!important}}
+
+/* showcase strip removed 2026-11-05 — trait FX apply to existing Skin gallery samples */
+#showcase{display:none!important}
+
+/* 2026-11-05 HUD declutter — Fortnite/Genshin/Roblox-lite: hide debug, shrink minimap, collapse secondary */
+#hud{display:none!important} /* View/First-person debug label */
+#hub .keys,#hub #dist,#hub #tokens{display:none!important}
+#hub .guide{opacity:.7;font-size:11px}
+#minimap{width:96px!important;height:96px!important;opacity:.72;filter:drop-shadow(0 0 4px #ff3df088)}
+@media (max-width:520px){#minimap{width:72px!important;height:72px!important;opacity:.65}#hub{zoom:.85}}
+@media (max-height:500px) and (orientation:landscape){#minimap{width:64px!important;height:64px!important}}
+/* ability labels auto-compact: icon+key only until hover/focus */
+#abil .abilbtn .al{max-width:7em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:max-width .2s,opacity .2s}
+@media (max-width:520px),(pointer:coarse){#abil .abilbtn .al{display:none}#abil .abilbtn:focus .al,#abil .abilbtn:active .al{display:block;font-size:8px}}
+#abil{top:168px} /* stance gone — pull abilities up */
+body.touch #abil{top:auto}
+/* safe areas for fixed HUD */
+#hmenu{top:calc(40px + env(safe-area-inset-top));padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+#wallet{top:calc(8px + env(safe-area-inset-top));right:calc(8px + env(safe-area-inset-right))}
+/* v49: phone portrait menu clears Sign-in (wallet sits top-right ~44px tall) */
+@media (max-width:700px) and (orientation:portrait){
+  #hmenu{top:calc(56px + env(safe-area-inset-top,0px));bottom:auto;left:auto;right:6px;transform:none;flex-direction:column;max-height:min(46vh,420px);overflow:auto}
+}
+#joy{left:calc(24px + env(safe-area-inset-left));bottom:calc(24px + env(safe-area-inset-bottom))}
+
+/* 2026-11-05 phone HUD — hide empty hub chrome / keyboard-hint pad; keep joy+jump+contextual use+abil */
+body.touch #hub,.lay-touch #hub{border:0!important;box-shadow:none!important;background:transparent!important;width:auto!important;padding:0!important;gap:4px!important}
+body.touch #hub .guide,body.touch #hub #snd,body.touch #hub .keys,body.touch #hub #dist,body.touch #hub #tokens,body.touch #hub #mmrow,
+.lay-touch #hub .guide,.lay-touch #hub #snd,.lay-touch #hub .keys,.lay-touch #hub #dist,.lay-touch #hub #tokens,.lay-touch #hub #mmrow{display:none!important}
+body.touch #minimap,.lay-touch #minimap{width:56px!important;height:56px!important;opacity:.7;border-radius:50%;filter:drop-shadow(0 0 3px #ff3df066)}
+@media (max-width:520px){
+  #hub{border:0!important;box-shadow:none!important;background:transparent!important;width:auto!important;padding:0!important}
+  #hub .guide,#hub #snd,#hub .keys,#hub #dist,#hub #tokens,#mmrow{display:none!important}
+  #minimap{width:56px!important;height:56px!important;opacity:.7}
+}
+/* Lobby pad: Jump (bottom) + Interact/E (right) always visible — desktop AND phone. Other face slots stay hidden. */
+body.touch #tpad .s-top,body.touch #tpad .s-left,body.touch #tpad .s-l1,body.touch #tpad .s-r1,
+.lay-touch #tpad .s-top,.lay-touch #tpad .s-left,.lay-touch #tpad .s-l1,.lay-touch #tpad .s-r1,
+#tpad.tp-lobby .s-top,#tpad.tp-lobby .s-left,#tpad.tp-lobby .s-l1,#tpad.tp-lobby .s-r1{display:none!important}
+/* E was gated on .tp-use-on (near interactable only) — Beans: always show next to Jump */
+#tpad .s-right,#tpad.tp-lobby .s-right,
+body.touch #tpad .s-right,.lay-touch #tpad .s-right{visibility:visible!important;pointer-events:auto!important;opacity:1}
+#tpad .s-right.tp-use-on{background:rgba(34,240,255,.45);border-color:#9ff;box-shadow:0 0 12px #22f0ff88}
+/* Show lobby Jump+E pad on desktop too (not only body.touch) */
+#tpad.tp-lobby{display:block!important;height:160px}
+body.touch #tpad,.lay-touch #tpad{height:160px}
+
+/* 2026-11-05: kill empty hub outline box — circular minimap only, no chrome */
+#hub{border:0!important;box-shadow:none!important;background:transparent!important;width:auto!important;padding:0!important;gap:4px!important;align-items:flex-end!important}
+#hub #mmrow,#hub .guide,#hub #snd{display:none!important}
+#minimap{width:72px!important;height:72px!important;opacity:.75;border-radius:50%;filter:drop-shadow(0 0 4px #ff3df066);border:1px solid rgba(255,61,240,.35)!important;box-shadow:none!important}
+@media (max-width:520px){#minimap{width:52px!important;height:52px!important;opacity:.65}}
+@media (min-width:1000px){#minimap{width:88px!important;height:88px!important}}
+
+/* 2026-11-05 HUD restore — declutter kept, but core chrome must stay visible */
+#hmenu,#skintag,#wallet,#walletBtn,#minimap,#abil,#joy,#tpad,#hudgear{visibility:visible!important}
+#hmenu{display:flex!important}
+#skintag,#walletBtn,#hudgear{display:inline-block!important}
+#minimap{display:block!important}
+#wallet{display:block!important}
+body.hudoff #hmenu,body.hudoff #skintag,body.hudoff #wallet,body.hudoff #walletBtn,body.hudoff #hudgear{visibility:visible!important;display:revert!important}
+body.hudoff #hmenu{display:flex!important}
+body.hudoff #skintag,body.hudoff #walletBtn,body.hudoff #hudgear{display:inline-block!important}
+/* M still hides hub/minimap only */
+body.hudoff #hub{display:none}
+#hudgear{position:fixed;left:calc(10px + env(safe-area-inset-left));top:calc(10px + env(safe-area-inset-top));z-index:40;min-height:36px;padding:6px 10px;border-radius:12px;border:1px solid #7fe0ff;background:rgba(6,24,40,.72);color:#cfefff;font:600 12px sans-serif;cursor:pointer}
+@media (max-width:520px){
+  #hudgear{top:calc(10px + env(safe-area-inset-top));left:calc(8px + env(safe-area-inset-left));min-height:44px;min-width:44px}
+  #skintag{top:calc(58px + env(safe-area-inset-top))!important;left:calc(8px + env(safe-area-inset-left))!important;z-index:41!important}
+}
+body.touch #joy,.lay-touch #joy{display:block!important}
+body.touch #tpad,.lay-touch #tpad,#tpad.tp-lobby{display:block!important}
+
+
+/* Own-NFT picker (2026-11-05): touch scroll strip + vertical grid; no showcase */
+.nftpick-h{margin:0 0 8px;font-size:13px;font-weight:600;color:#e8fbff}
+.nftpick-hint{margin:8px 0 0;font-size:12px;line-height:1.35;opacity:.85;color:#bfe}
+.nftpick-drop{display:block;width:100%;margin:0 0 8px;padding:10px 12px;min-height:44px;border-radius:10px;border:1px solid #22f0ff88;background:#140c2a;color:#dff;font:600 13px/1.2 sans-serif;cursor:pointer;touch-action:manipulation}
+.nftpick-drop:hover,.nftpick-drop:focus-visible{border-color:#7fe6ff;outline:none}
+.nftpick-strip{display:flex;flex-direction:row;gap:10px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;padding:4px 2px 10px;margin:0 0 6px;touch-action:pan-x}
+.nftpick-strip .nftpick-tile{flex:0 0 auto;width:104px;scroll-snap-align:start;min-height:44px}
+.nftpick-grid{max-height:min(55vh,480px);overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;padding-bottom:4px}
+.nftpick-tile{min-height:44px;touch-action:manipulation}
+.nftpick-lobby{margin-top:10px;border-top:1px solid #22f0ff33;padding-top:8px;font-size:12px}
+.nftpick-lobby summary{cursor:pointer;color:#9ee;padding:8px 0;min-height:44px;display:flex;align-items:center;touch-action:manipulation}
+.nftpick-lobby select{width:100%;margin:4px 0 8px;padding:8px;min-height:44px;border-radius:8px;background:#140c2a;color:#fff;border:1px solid #22f0ff}
+#skinpanel{width:min(360px,calc(100vw - 28px));max-height:min(70dvh,560px);overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+@media (max-width:480px){
+  #skinpanel{width:calc(100vw - 16px);left:8px;right:8px;max-width:none}
+  .nftpick-strip .nftpick-tile{width:92px}
+  .nftpick-grid{grid-template-columns:repeat(2,1fr);max-height:min(50vh,420px)}
+}
+
+/* Arcade in-page overlay — keeps lobby (and in-memory Sign-in) alive */
+#arcadeov{position:fixed;inset:0;z-index:90;display:none;background:#05030f;flex-direction:column}
+#arcadeov.on{display:flex}
+#arcadeov #arcadeframe{flex:1;border:0;width:100%;height:100%;background:#000}
+#arcadeov #arcadeovx{position:absolute;top:calc(8px + env(safe-area-inset-top));left:calc(8px + env(safe-area-inset-left));z-index:91;min-height:44px;min-width:44px;padding:8px 14px}
+/* View toggle lives IN #abil beside special-move buttons (not fixed hudtog stack) */
+#abil{flex-direction:row;flex-wrap:wrap;align-items:stretch}
+#abil #viewbtn,.viewbtn{position:static!important;left:auto!important;top:auto!important;border-color:#7ad0ff!important;color:#d0f0ff!important;order:99}
+@media (max-width:520px){
+  #abil #viewbtn,.viewbtn{width:56px;min-height:44px}
+}

@@ -1,0 +1,49 @@
+{
+  "date": "2026-11-05",
+  "zone": "Australia/Sydney",
+  "branch": "preview-sec",
+  "title": "Arcade floor: inLot -> FLOOR (no fall beneath carpet)",
+  "summary": "Beans fell under LEDGER ARCADE floor. floorAt ignored shop lots; flattenMask made groundH~0 while carpet is at FLOOR=0.35. Now floorAt uses inLot.",
+  "root_cause": "floorAt: plaza-only FLOOR; arcade lot outside PLAZA_R -> groundH~0 under carpet",
+  "before_after": {
+    "arcade_spawn": {
+      "xz": [
+        -5.5,
+        -26
+      ],
+      "y_before": 0.0,
+      "y_after": 0.35
+    },
+    "fighter_spawn": {
+      "xz": [
+        -3.3,
+        -26
+      ],
+      "y_before": 0.0,
+      "y_after": 0.35
+    }
+  },
+  "cache": {
+    "main": "v104",
+    "wallet_main_import": "v104",
+    "sw": "lobby-shell-v35s"
+  },
+  "rollback": "4b69cac",
+  "tests": "test/arcade_floor.mjs + test:arcade + test:verify",
+  "shots": [
+    "shots/preview/form/arcade-floor-before-arcade-1366.png",
+    "shots/preview/form/arcade-floor-before-arcade-412.png",
+    "shots/preview/form/arcade-floor-before-fighter-1366.png",
+    "shots/preview/form/arcade-floor-after-arcade-1366.png",
+    "shots/preview/form/arcade-floor-after-arcade-412.png",
+    "shots/preview/form/arcade-floor-after-fighter-1366.png"
+  ],
+  "deploy": {
+    "alias": "https://preview-sec.b34n5-lobby-test.pages.dev",
+    "branch": "preview-sec",
+    "project": "b34n5-lobby-test",
+    "deployment": "https://22104f96.b34n5-lobby-test.pages.dev"
+  },
+  "weak_spots": "Door threshold just outside LOTS.arcade pad=0 still uses groundH; widen with inLot pad only if repro needs it. Florist lot also now FLOOR (intended).",
+  "commit": "059260f"
+}

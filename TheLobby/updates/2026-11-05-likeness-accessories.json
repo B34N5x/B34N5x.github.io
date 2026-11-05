@@ -1,0 +1,48 @@
+{
+  "date": "2026-11-05",
+  "zone": "Australia/Sydney",
+  "branch": "preview-sec",
+  "title": "Likeness: head accessories, ape/mug, clothes, armour-only",
+  "summary": "Hair/skull_hat/eyemask taxonomy; armour plates only for type=armour; vest\u2260armor; cup\u2192mug object; ape muzzle; attached gauntlets/boots.",
+  "cache": {
+    "main": "v96",
+    "traits": "v33",
+    "avatar3d": "v49",
+    "sw": "lobby-shell-v35k"
+  },
+  "rollback": "01e442f",
+  "tests": "test:verify PASS (taxonomy likeness + test:logged 10 scenarios + armour-only)",
+  "logged_scenarios_verified": [
+    "Power Zerp upright armour (not bean)",
+    "upright only / no all-fours",
+    "body parts attached (anchors)",
+    "armour only when traits show armour",
+    "Skull Hat = skull_hat accessory",
+    "hair != hat",
+    "v29 character beats object misclass",
+    "ground props clampAboveGround export",
+    "bean/capsule path intact",
+    "laser bear eyes trait"
+  ],
+  "scores_before_after": {
+    "Power Zerp #5005": "8 -> 8.5",
+    "Power Zerp #377": "8 -> 8.5",
+    "Little Ledger #7962": "5 -> 6.5",
+    "Big Cup of Thanks": "3 -> 6.5",
+    "Mutant Apes #6616": "4 -> 6.5",
+    "BEAR #108": "6 -> 7",
+    "PARC Sam Beer": "5 -> 6.5",
+    "Pixel BEAR #668": "7 -> 7.5"
+  },
+  "shots": [
+    "shots/preview/compare/test-grid.png",
+    "shots/preview/compare/test-grid-before-likeness.png"
+  ],
+  "deploy": {
+    "alias": "https://preview-sec.b34n5-lobby-test.pages.dev",
+    "project": "b34n5-lobby-test",
+    "branch": "preview-sec",
+    "deployment": "https://a6818ac4.b34n5-lobby-test.pages.dev"
+  },
+  "commit": "0a9874e"
+}
