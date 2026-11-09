@@ -300,6 +300,319 @@
     });
   }
 
+  function interruptSpeech() {
+    clearTimeout(typingTimer);
+    $$(".bubble.typing").forEach((el) => el.remove());
+    // leave last partial bubble as-is
+  }
+
+  /* ---------- guided demo (cutscene) ---------- */
+  const DEMO_EXAMPLE = {
+    account: "rh3oFni4dC3ZExgy4PqkZyAH5ukGb43axk",
+    destination: "r3ETavejSADPb2uiWvRDiUGi6GE71sDbj9",
+    amountXrp: 10,
+    amountDrops: "10000000",
+    createHash: "77FCB5F6C2252C1914119B8973C49A9670A0798109DB71A08F6858FEF18D908E",
+    finishHash: "177E74F6673BE8939BFD7C6CF5C0A2D95A2A8F40612F82AE866D83949D6B1E0D",
+    sequence: 22188846,
+    deal:
+      "EXAMPLE (testnet practice): Lock 10 XRP for r3ETavejSADPb2uiWvRDiUGi6GE71sDbj9. Claimable after 1 hour. Cancel if not claimed within 1 day.",
+  };
+
+  const DEMO_LINES = [
+    "Step 1 — Deal. Type the escrow in plain English. This box is filled with example testnet data so you can see the flow.",
+    "Step 2 — Parties. Source locks the XRP. Destination receives it when the escrow finishes.",
+    "Step 3 — Amount. How much XRP to lock. The ledger stores drops: 1 XRP = 1,000,000 drops.",
+    "Step 4 — Timing. FinishAfter is when it can be claimed. CancelAfter is the safety expiry.",
+    "Step 5 — Condition. Optional secret code. This example is time-only — no condition.",
+    "Step 6 — Review. Check every field. Tap a card to flip a short explanation.",
+    "Step 7 — Sign. Here is the draft JSON. We do not sign or open Xaman in this walkthrough. Explorer links below are an example testnet result.",
+    "Step 8 — Track. Look up open escrows on an address. Example explorer links point at a past practice run.",
+  ];
+
+  const demo = {
+    active: false,
+    index: 0,
+    snapshot: null,
+    advancing: false,
+  };
+
+  function demoCaption(text) {
+    const el = $("#cutscene-caption");
+    if (el) el.textContent = text;
+  }
+
+  function clearDemoHighlight() {
+    $$(".demo-hl").forEach((el) => el.classList.remove("demo-hl"));
+  }
+
+  function highlight(sel) {
+    clearDemoHighlight();
+    const el = typeof sel === "string" ? $(sel) : sel;
+    if (el) {
+      el.classList.add("demo-hl");
+      try {
+        el.scrollIntoView({ block: "nearest", behavior: reduce ? "auto" : "smooth" });
+      } catch (_) {}
+    }
+  }
+
+  function snapshotState() {
+    return {
+      step,
+      maxReached,
+      tab,
+      network,
+      lastCondition: lastCondition ? { ...lastCondition } : null,
+      dirtyFrom,
+      model: JSON.parse(JSON.stringify(model)),
+      dealText: $("#deal-input")?.value || "",
+      fieldAccount: $("#field-account")?.value || "",
+      fieldDestination: $("#field-destination")?.value || "",
+      fieldDestTag: $("#field-dest-tag")?.value || "",
+      fieldAmount: $("#field-amount")?.value || "",
+      fieldFinish: $("#field-finish")?.value || "",
+      fieldCancel: $("#field-cancel")?.value || "",
+      fieldWantCond: !!$("#field-want-cond")?.checked,
+      conditionBoxHidden: $("#condition-box")?.hidden !== false,
+      fulfillmentJson: $("#fulfillment-json")?.textContent || "",
+      lookupAddr: $("#lookup-addr")?.value || "",
+      lookupOut: $("#lookup-out")?.textContent || "[]",
+      demoLog: $("#demo-log")?.textContent || "Waiting…",
+      txJson: $("#tx-json")?.textContent || "{}",
+      chatHTML: $("#chat-log")?.innerHTML || "",
+      warnHTML: $("#warn-list")?.innerHTML || "",
+      fieldGridHTML: $("#field-grid")?.innerHTML || "",
+    };
+  }
+
+  function restoreState(snap) {
+    if (!snap) return;
+    interruptSpeech();
+    clearDemoHighlight();
+    Object.keys(model).forEach((k) => delete model[k]);
+    Object.assign(model, snap.model);
+    lastCondition = snap.lastCondition;
+    dirtyFrom = snap.dirtyFrom;
+    tab = snap.tab;
+    maxReached = snap.maxReached;
+    network = snap.network;
+    setNetwork(network, { force: true });
+    $("#deal-input").value = snap.dealText;
+    $("#field-account").value = snap.fieldAccount;
+    $("#field-destination").value = snap.fieldDestination;
+    $("#field-dest-tag").value = snap.fieldDestTag;
+    $("#field-amount").value = snap.fieldAmount;
+    $("#field-finish").value = snap.fieldFinish;
+    $("#field-cancel").value = snap.fieldCancel;
+    $("#field-want-cond").checked = snap.fieldWantCond;
+    $("#condition-box").hidden = snap.conditionBoxHidden;
+    $("#fulfillment-json").textContent = snap.fulfillmentJson;
+    $("#lookup-addr").value = snap.lookupAddr;
+    $("#lookup-out").textContent = snap.lookupOut;
+    $("#demo-log").textContent = snap.demoLog;
+    $("#tx-json").textContent = snap.txJson;
+    $("#chat-log").innerHTML = snap.chatHTML;
+    $("#warn-list").innerHTML = snap.warnHTML;
+    $("#field-grid").innerHTML = snap.fieldGridHTML;
+    // re-bind flip cards if any
+    $$("#field-grid .flip-card").forEach((btn) => {
+      btn.addEventListener("click", () => btn.classList.toggle("flipped"));
+    });
+    updateDropsLabel();
+    updateTimeline();
+    $$(".step").forEach((el) => {
+      el.hidden = Number(el.dataset.step) !== snap.step;
+    });
+    step = snap.step;
+    renderRail();
+    $("#btn-back").disabled = snap.step === 0;
+    $("#btn-next").textContent = snap.step === 7 ? "Done" : snap.step === 5 ? "Looks good" : "Next";
+    if (snap.step === 6) showTab();
+    setPresence("idle");
+  }
+
+  function applyDemoExampleToModel() {
+    const now = new Date();
+    const finish = new Date(now.getTime() + 60 * 60 * 1000);
+    const cancel = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+    model.dealText = DEMO_EXAMPLE.deal;
+    model.account = DEMO_EXAMPLE.account;
+    model.destination = DEMO_EXAMPLE.destination;
+    model.destinationTag = null;
+    model.amountXrp = DEMO_EXAMPLE.amountXrp;
+    model.amountDrops = DEMO_EXAMPLE.amountDrops;
+    model.finishLocal = finish.toISOString();
+    model.cancelLocal = cancel.toISOString();
+    model.finishAfter = toRipple(finish);
+    model.cancelAfter = toRipple(cancel);
+    model.wantsCondition = false;
+    model.warnings = [];
+    model.parsedNotes = ["example testnet data"];
+    lastCondition = null;
+    $("#deal-input").value = DEMO_EXAMPLE.deal;
+    $("#field-account").value = DEMO_EXAMPLE.account;
+    $("#field-destination").value = DEMO_EXAMPLE.destination;
+    $("#field-dest-tag").value = "";
+    $("#field-amount").value = String(DEMO_EXAMPLE.amountXrp);
+    $("#field-finish").value = toDatetimeLocalValue(finish);
+    $("#field-cancel").value = toDatetimeLocalValue(cancel);
+    $("#field-want-cond").checked = false;
+    $("#condition-box").hidden = true;
+    $("#lookup-addr").value = DEMO_EXAMPLE.account;
+    updateDropsLabel();
+    updateTimeline();
+  }
+
+  function setDemoExamplePanels(show) {
+    const a = $("#demo-example-sign");
+    const b = $("#demo-example-track");
+    if (a) a.hidden = !show || demo.index !== 6;
+    if (b) b.hidden = !show || demo.index !== 7;
+  }
+
+  async function runDemoBeat(i) {
+    if (!demo.active) return;
+    demo.index = i;
+    interruptSpeech();
+    clearDemoHighlight();
+    demoCaption(`Demo ${i + 1}/8`);
+    $("#cut-back").disabled = i === 0;
+    $("#cut-next").textContent = i >= 7 ? "Done" : "Next";
+
+    applyDemoExampleToModel();
+    maxReached = Math.max(maxReached, 7);
+    await goStep(i, { force: true, skipIntro: true });
+    syncStepFields();
+
+    const targets = [
+      "#deal-input",
+      "#field-destination",
+      "#field-amount",
+      "#field-finish",
+      "#field-want-cond",
+      "#field-grid",
+      "#tx-json",
+      "#lookup-addr",
+    ];
+    if (i === 5) renderReview();
+    if (i === 6) {
+      showTab();
+      $("#lookup-out").textContent = JSON.stringify(
+        {
+          note: "example testnet result — not live",
+          createHash: DEMO_EXAMPLE.createHash,
+          finishHash: DEMO_EXAMPLE.finishHash,
+          sequence: DEMO_EXAMPLE.sequence,
+        },
+        null,
+        2
+      );
+    }
+    if (i === 7) {
+      $("#lookup-out").textContent = JSON.stringify(
+        [
+          {
+            note: "example shape only — escrow already finished in the practice run",
+            LedgerEntryType: "Escrow",
+            Account: DEMO_EXAMPLE.account,
+            Destination: DEMO_EXAMPLE.destination,
+            Amount: DEMO_EXAMPLE.amountDrops,
+            PreviousTxnID: DEMO_EXAMPLE.createHash,
+          },
+        ],
+        null,
+        2
+      );
+    }
+    setDemoExamplePanels(true);
+    highlight(targets[i]);
+    setPresence("speak");
+    await assistantSay(DEMO_LINES[i]);
+    if (!demo.active) return;
+    setPresence("idle");
+    demoCaption(`Demo ${i + 1}/8 · ← Back · → Next · Esc Skip`);
+  }
+
+  async function startDemo() {
+    if (demo.active || demo.advancing) return;
+    demo.advancing = true;
+    try {
+      demo.snapshot = snapshotState();
+      demo.active = true;
+      demo.index = 0;
+      document.body.classList.add("demo-mode");
+      $("#cutscene-bar").hidden = false;
+      const hint = $("#demo-hint");
+      if (hint) hint.hidden = true;
+      try {
+        localStorage.setItem("qu1pu-demo-hint-seen", "1");
+      } catch (_) {}
+      // stay on testnet only
+      setNetwork("testnet", { force: true });
+      bubble("bot", "Starting the guided demo with example testnet data. Nothing is signed.");
+      await runDemoBeat(0);
+    } finally {
+      demo.advancing = false;
+    }
+  }
+
+  async function demoNext() {
+    if (!demo.active || demo.advancing) return;
+    demo.advancing = true;
+    try {
+      if (demo.index >= 7) {
+        await endDemo({ finished: true });
+        return;
+      }
+      await runDemoBeat(demo.index + 1);
+    } finally {
+      demo.advancing = false;
+    }
+  }
+
+  async function demoBack() {
+    if (!demo.active || demo.advancing) return;
+    if (demo.index <= 0) return;
+    demo.advancing = true;
+    try {
+      await runDemoBeat(demo.index - 1);
+    } finally {
+      demo.advancing = false;
+    }
+  }
+
+  async function endDemo({ finished = false } = {}) {
+    if (!demo.active) return;
+    interruptSpeech();
+    clearDemoHighlight();
+    setDemoExamplePanels(false);
+    const snap = demo.snapshot;
+    demo.active = false;
+    demo.snapshot = null;
+    document.body.classList.remove("demo-mode");
+    $("#cutscene-bar").hidden = true;
+    demoCaption("Demo");
+    restoreState(snap);
+    await assistantSay(
+      finished
+        ? "Demo complete. Your own draft is restored — nothing was signed."
+        : "Demo skipped. Your own draft is restored untouched."
+    );
+  }
+
+  function maybeShowDemoHint() {
+    const hint = $("#demo-hint");
+    if (!hint) return;
+    try {
+      if (localStorage.getItem("qu1pu-demo-hint-seen") === "1") {
+        hint.hidden = true;
+        return;
+      }
+    } catch (_) {}
+    hint.hidden = false;
+  }
+
   /* ---------- network ---------- */
   function setNetwork(next, { force = false } = {}) {
     if (next === "mainnet" && !force) {
@@ -364,9 +677,9 @@
     dirtyFrom = dirtyFrom == null ? fromStep : Math.min(dirtyFrom, fromStep);
   }
 
-  async function goStep(n, { viaRail = false, skipIntro = false } = {}) {
+  async function goStep(n, { viaRail = false, skipIntro = false, force = false } = {}) {
     if (n < 0 || n > 7) return;
-    if (n > step) {
+    if (!force && n > step) {
       const ok = await validateLeaving(step);
       if (!ok) return;
     }
@@ -884,6 +1197,36 @@
     }
   });
 
+  /* demo wire */
+  $("#watch-demo-btn")?.addEventListener("click", () => startDemo());
+  $("#cut-next")?.addEventListener("click", () => demoNext());
+  $("#cut-back")?.addEventListener("click", () => demoBack());
+  $("#cut-skip")?.addEventListener("click", () => endDemo({ finished: false }));
+  $("#demo-hint")?.addEventListener("click", () => {
+    $("#demo-hint").hidden = true;
+    try {
+      localStorage.setItem("qu1pu-demo-hint-seen", "1");
+    } catch (_) {}
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (!demo.active) return;
+    if (e.key === "Escape") {
+      e.preventDefault();
+      endDemo({ finished: false });
+      return;
+    }
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      demoNext();
+      return;
+    }
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      demoBack();
+    }
+  });
+
   /* boot */
   setNetwork(network, { force: true });
   applyMotion();
@@ -893,7 +1236,16 @@
   $$(".step").forEach((el) => {
     el.hidden = Number(el.dataset.step) !== 0;
   });
-  assistantSay("Hi — I’m QU1PU, named after the Inca knotted-string ledger. Step 1: describe the escrow deal. Use Back anytime, or the rail to jump to completed steps.");
+  maybeShowDemoHint();
+  assistantSay("Hi — I’m QU1PU, named after the Inca knotted-string ledger. Step 1: describe the escrow deal. Use Back anytime, or the rail to jump to completed steps. Or tap Watch the demo for a guided testnet walkthrough.");
 
   window.__escrowWizard = { goStep, get step() { return step; }, get model() { return model; }, setPresence };
+  window.__escrowDemo = {
+    start: startDemo,
+    next: demoNext,
+    back: demoBack,
+    skip: () => endDemo({ finished: false }),
+    get active() { return demo.active; },
+    get index() { return demo.index; },
+  };
 })();

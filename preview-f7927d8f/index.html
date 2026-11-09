@@ -31,6 +31,10 @@
       <p class="lede">I’ll walk you through each step. You can go <strong>Back</strong>, jump via the rail, or <strong>Ask a question</strong> anytime. You sign in Xaman — I never hold keys.</p>
       <span class="badge">General information only · not financial advice</span>
       <span class="badge warn">Never paste a seed</span>
+      <div class="demo-launch">
+        <button type="button" class="btn" id="watch-demo-btn" title="Guided testnet walkthrough — example data only">Watch the demo</button>
+        <span class="demo-hint" id="demo-hint" hidden>New: a short cutscene walkthrough on testnet example data. Optional — never auto-starts.</span>
+      </div>
     </section>
 
     <nav class="rail" id="progress-rail" aria-label="Wizard steps">
@@ -136,6 +140,12 @@
             <button type="button" class="btn primary" id="xaman-btn">Send to Xaman</button>
           </div>
           <div class="qr-box" id="xaman-box">Add a public Xaman API key in config.js (apps.xumm.dev) for push. Until then, copy JSON.</div>
+          <div class="demo-example" id="demo-example-sign" hidden>
+            <h3 class="mono">Example testnet result</h3>
+            <p class="dim tiny">Past practice run — shown as example only. This walkthrough does not sign or open Xaman.</p>
+            <p class="tiny"><a id="demo-link-create" href="https://testnet.xrpl.org/transactions/77FCB5F6C2252C1914119B8973C49A9670A0798109DB71A08F6858FEF18D908E" rel="noopener" target="_blank">EscrowCreate tx</a>
+            · <a id="demo-link-finish" href="https://testnet.xrpl.org/transactions/177E74F6673BE8939BFD7C6CF5C0A2D95A2A8F40612F82AE866D83949D6B1E0D" rel="noopener" target="_blank">EscrowFinish tx</a></p>
+          </div>
           <div class="demo-panel mt">
             <h3 class="mono">Testnet demo</h3>
             <p class="dim tiny">Faucet wallet in memory · create + finish short escrow · blocked on mainnet.</p>
@@ -154,6 +164,13 @@
           </div>
           <pre class="json" id="lookup-out">[]</pre>
           <p class="dim tiny">Finish/Cancel JSON is on the Sign step — use OfferSequence from an escrow object above.</p>
+          <div class="demo-example" id="demo-example-track" hidden>
+            <h3 class="mono">Example testnet result</h3>
+            <p class="dim tiny">Example data only — sequence 22188846 on the practice source account.</p>
+            <p class="tiny"><a href="https://testnet.xrpl.org/transactions/77FCB5F6C2252C1914119B8973C49A9670A0798109DB71A08F6858FEF18D908E" rel="noopener" target="_blank">Create</a>
+            · <a href="https://testnet.xrpl.org/transactions/177E74F6673BE8939BFD7C6CF5C0A2D95A2A8F40612F82AE866D83949D6B1E0D" rel="noopener" target="_blank">Finish</a>
+            · <a href="https://testnet.xrpl.org/accounts/rh3oFni4dC3ZExgy4PqkZyAH5ukGb43axk" rel="noopener" target="_blank">Source account</a></p>
+          </div>
         </div>
 
         <div class="step-nav">
@@ -163,6 +180,13 @@
       </section>
     </div>
   </main>
+
+  <div class="cutscene-bar" id="cutscene-bar" hidden role="group" aria-label="Demo navigation">
+    <span class="cutscene-caption" id="cutscene-caption" aria-live="polite">Demo</span>
+    <button type="button" class="cut-btn" id="cut-back" title="Previous step (←)">Back</button>
+    <button type="button" class="cut-btn" id="cut-next" title="Next step (→)">Next</button>
+    <button type="button" class="cut-btn cut-skip" id="cut-skip" title="Skip demo (Esc)">Skip</button>
+  </div>
 
   <footer>
     <p>MIT · guided drafting · made by B34N5 · <a href="https://xrpl.org/docs/concepts/payment-types/escrow" rel="noopener" target="_blank">xrpl.org escrow</a></p>
