@@ -1,0 +1,19 @@
+/* Homepage restructure preview — local layout only; motion from ../assets */
+.sec-lead{margin:0 0 12px;color:var(--dim);font-size:.9rem;max-width:42rem}
+#flagships,#lab{margin:18px 0 8px}
+#flagships h2,#lab h2{margin:0 0 6px;font-family:var(--mono);font-size:1.15rem;color:var(--green);letter-spacing:.02em}
+.lab-group{margin:14px 0 6px}
+.lab-group h3{margin:0 0 8px;font-family:var(--mono);font-size:.85rem;color:var(--teal);font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.flag-deck.float-deck .fcard:first-child{grid-column:auto}
+.flag-deck .fcard .sub-item-title{flex-basis:auto;width:auto;font-family:var(--mono);font-weight:700;color:var(--green);font-size:1.02rem;position:relative;z-index:1}
+.flag-deck .fcard .sub-item-sum{display:block;flex-basis:100%;font-size:.86rem;line-height:1.4;margin:4px 0 6px;color:var(--text);position:relative;z-index:1}
+.lab-deck.float-deck .fcard:first-child{grid-column:auto}
+.lab-deck .fcard .sub-item-title{flex-basis:auto;width:auto;font-family:var(--mono);font-weight:700;color:var(--green);font-size:.95rem;position:relative;z-index:1}
+.lab-deck .fcard .sub-item-sum{display:block;flex-basis:100%;font-size:.82rem;line-height:1.35;margin:4px 0 6px;color:var(--text);position:relative;z-index:1}
+@media (min-width:720px){
+  .flag-deck.float-deck{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .lab-deck.float-deck{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (prefers-reduced-motion:reduce){
+  .flag-deck .fcard,.lab-deck .fcard{transition:none}
+}
