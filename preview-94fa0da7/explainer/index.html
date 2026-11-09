@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#07090b">
-<meta name="description" content="Interactive XRPL Explainer — Live. Read-only. By B34N5.">
+<meta name="description" content="Interactive XRPL Explainer — Live. Read-only.">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self' wss://s.altnet.rippletest.net:51233 wss://testnet.xrpl-labs.com wss://xrplcluster.com wss://s1.ripple.com; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
-<title>XRPL Explainer · Live · B34N5</title>
+<title>Is XRP just Ripple? — XRPL Explainer · Live · B34N5</title>
 <link rel="icon" href="../../favicon.ico" sizes="any">
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="../shared/motion-skin.css">
@@ -15,6 +15,7 @@
 </head>
 <body class="inner">
 <div class="progress" id="progress" aria-hidden="true"></div>
+<div id="glow" aria-hidden="true"></div>
 <header class="top">
   <a class="brand" href="../index.html">B34N5x</a>
   <nav aria-label="Primary">
@@ -26,13 +27,22 @@
     <a href="../TheLobby/">Lobby</a>
   </nav>
 </header>
-<canvas id="field" aria-hidden="true"></canvas>
-<div id="glow" aria-hidden="true"></div>
-
-<div class="page-shell reveal" style="padding-top:72px">
 
   <a class="skip" href="#main">Skip to content</a>
   <canvas id="rain" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="brand">> B34N5<span class="dim"> / xrpl-explainer</span></div>
+    <nav aria-label="Scenes">
+      <a href="#hero">Start</a>
+      <a href="#validators">Validators</a>
+      <a href="#amendments">Amendments</a>
+      <a href="#features">Features</a>
+      <a href="#ticker">Live</a>
+      <a href="#myths">Myths</a>
+    </nav>
+    <button type="button" id="motion-toggle" class="ghost" aria-pressed="false" title="Toggle reduced motion">Reduce motion</button>
+  </header>
 
   <main id="main">
     <section id="hero" class="scene hero" data-scene>
@@ -175,19 +185,15 @@
 
   <script src="app.js" defer></script>
 
-</div>
 <footer class="foot">
   <nav aria-label="Footer">
     <a href="../index.html">Home</a>
     <a href="../tools/">Tools</a>
     <a href="../explainer/">Explainer</a>
     <a href="../TheLobby/">The Lobby</a>
-    <a href="../../security/">Security</a>
-    <a href="../../terms/">Terms</a>
-    <a href="../../privacy/">Privacy</a>
   </nav>
-  <span>Apache-2.0 · no seeds · nothing stored · site 0.3.12</span>
-  <p class="disc">Motion-skin preview only — live site unchanged. Not legal, financial or tax advice.</p>
+  <span>XRPL Explainer · Live · site 0.3.12</span>
+  <p class="disc">Motion-skin preview only — live site unchanged.</p>
 </footer>
 <script src="app.js"></script>
 <script src="../shared/lib/motion.js"></script>

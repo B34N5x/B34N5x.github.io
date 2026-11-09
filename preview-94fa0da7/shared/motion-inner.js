@@ -7,7 +7,7 @@
   var scroll = MotionNS.scroll;
   var glow = document.getElementById('glow');
   var canvas = document.getElementById('field');
-  var ctx = canvas && canvas.getContext('2d');
+  var ctx = (canvas && canvas.getContext) ? canvas.getContext('2d') : null;
   var mx = innerWidth * 0.5, my = innerHeight * 0.3, gx = mx, gy = my, particles = [];
   function resize() {
     if (!canvas) return;
