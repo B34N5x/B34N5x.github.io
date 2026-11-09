@@ -188,3 +188,6 @@ main{position:relative;z-index:1}
 .no-motion-lib .kicker,.no-motion-lib .lab-tile,.no-motion-lib .foot{opacity:1}
 
 .flag .name,.flag .tagline,.flag .soon{position:relative;z-index:3}
+
+.flag .live{align-self:flex-start;margin-top:10px;font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green);border:1px solid rgba(61,245,143,.45);border-radius:999px;padding:4px 10px}
+a.flag{text-decoration:none;color:inherit;display:block}

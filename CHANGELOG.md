@@ -3,6 +3,13 @@
 All notable site updates are listed here. Each entry has a matching JSON summary under `updates/`.
 
 
+## 2026-11-10 — Explainer listed live; Game World delisted (v0.3.12)
+
+- Mark **XRPL Explainer** Live on Projects, Tools, homepage See more, and homepage previews; links to `/explainer/`.
+- Remove **NFT Game World** listings from homepage previews (files at `/projects/game-demo/` kept).
+- Sync Tools/Projects footer site version to 0.3.12. QU1PU stays Coming soon (no public preview link).
+- Revert point: d5a2a06.
+
 ## 2026-11-10 — XRPL Explainer live (v0.3.12 / sw b34n5-v39)
 
 - Publish interactive **XRPL Explainer** ("Is XRP just Ripple?") at public `/explainer/` (was unlisted `/preview-c6ca0054/`).

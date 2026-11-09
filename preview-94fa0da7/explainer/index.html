@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex,nofollow">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#07090b">
+  <meta name="description" content="Interactive explainer: XRP Ledger as neutral settlement infrastructure — validators, amendments, built-in features. Read-only. By B34N5.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' wss://xrplcluster.com wss://s1.ripple.com https://api.xrpscan.com; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+  <title>Is XRP just Ripple? — XRPL Explainer · B34N5</title>
+  <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../shared/site-skin.css">
+<link rel="stylesheet" href="../shared/page-transitions.css">
+</head>
+<body>
+<header class="site-chrome"><div class="wrap"><nav>
+<a class="brand" href="../index.html">B34N5x</a>
+<a href="../index.html">Home</a>
+<a href="../tools/">Tools</a>
+<a href="../explainer/" aria-current="page">Explainer</a>
+<a href="../TheLobby/">Lobby</a>
+</nav></div></header>
+
+  <a class="skip" href="#main">Skip to content</a>
+  <canvas id="rain" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="brand">> B34N5<span class="dim"> / xrpl-explainer</span></div>
+    <nav aria-label="Scenes">
+      <a href="#hero">Start</a>
+      <a href="#validators">Validators</a>
+      <a href="#amendments">Amendments</a>
+      <a href="#features">Features</a>
+      <a href="#ticker">Live</a>
+      <a href="#myths">Myths</a>
+    </nav>
+    <button type="button" id="motion-toggle" class="ghost" aria-pressed="false" title="Toggle reduced motion">Reduce motion</button>
+  </header>
+
+  <main id="main">
+    <section id="hero" class="scene hero" data-scene>
+      <div class="scene-inner">
+        <p class="kicker">Neutral settlement · not a stock ticker</p>
+        <h1 class="hero-title" id="hero-title">Is XRP <em>just</em> Ripple?</h1>
+        <p class="lede">Scroll through interactive scenes that show how the <strong>XRP Ledger</strong> settles value as open infrastructure — validators, amendments, and built-in tools that work without asking Ripple for permission.</p>
+        <div class="pulse-wrap">
+          <button type="button" class="ledger-pulse" id="hero-pulse" aria-label="Tap to pulse the ledger ring"></button>
+          <div class="pulse-label">tap the pulse · scroll to explore</div>
+        </div>
+        <div class="hero-orbs" id="hero-orbs" aria-hidden="true"></div>
+        <p class="source">Inspired by community framing of XRP as multipolar settlement rails. Facts below cite <a href="https://xrpl.org/" rel="noopener" target="_blank">xrpl.org</a>. Read-only — this page never asks for a seed or secret.</p>
+        <a class="cta" href="#validators">Explore the facts ↓</a>
+      </div>
+    </section>
+
+    <section id="validators" class="scene" data-scene>
+      <div class="scene-inner">
+        <h2>// Who keeps the ledger honest?</h2>
+        <p class="lede">Independent validators vote on each ledger. Drag the field to rotate · hover or tap a node for its domain · watch pings travel the mesh.</p>
+        <div class="stat-row">
+          <div class="stat-card interactive-stat">
+            <div class="stat-num" id="unl-count" data-target="0">0</div>
+            <div class="stat-label">validators on published UNL</div>
+            <div class="stat-meta" id="unl-source">loading…</div>
+          </div>
+          <div class="stat-card interactive-stat">
+            <div class="stat-num" id="seen-count" data-target="0">0</div>
+            <div class="stat-label">validators recently seen</div>
+            <div class="stat-meta">via XRPScan registry (live if allowed)</div>
+          </div>
+        </div>
+        <div class="net-stage" id="net-stage">
+          <canvas id="net-canvas" aria-label="Interactive validator network"></canvas>
+          <div class="net-hint" id="net-hint">Drag to rotate · tap a node</div>
+          <div class="node-tooltip" id="node-tooltip" hidden></div>
+        </div>
+        <ul class="domain-chips" id="domain-chips"></ul>
+        <p class="source">Sources: <a href="https://vl.xrplf.org" rel="noopener" target="_blank">vl.xrplf.org</a> / <a href="https://unl.xrplf.org/unl.json" rel="noopener" target="_blank">unl.xrplf.org</a>, <a href="https://api.xrpscan.com/api/v1/validatorregistry" rel="noopener" target="_blank">api.xrpscan.com/validatorregistry</a>, <a href="https://xrpl.org/docs/concepts/consensus-protocol/consensus-structure" rel="noopener" target="_blank">Consensus structure</a>.</p>
+      </div>
+    </section>
+
+    <section id="amendments" class="scene" data-scene>
+      <div class="scene-inner">
+        <h2>// Features ship when validators vote</h2>
+        <p class="lede">Scrub the support slider to see the <strong>~80%</strong> threshold · hold it for the <strong>two-week</strong> clock · tap an amendment chip for live status.</p>
+        <div class="amend-viz" id="amend-viz">
+          <div class="amend-controls">
+            <label class="scrub-label" for="vote-scrub">Simulated trusted support <span id="vote-pct-label">0%</span></label>
+            <input type="range" id="vote-scrub" min="0" max="100" value="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="amend-bar-track" id="amend-track" role="presentation">
+              <div class="amend-bar" id="amend-bar"></div>
+              <div class="amend-threshold">80%</div>
+            </div>
+            <div class="week-row">
+              <span class="week-label">2-week hold</span>
+              <div class="amend-weeks" id="amend-weeks" aria-hidden="true">
+                <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <button type="button" class="ghost" id="week-play">Play 14-day hold</button>
+            </div>
+            <p class="amend-caption" id="amend-caption">Drag the scrubber — educational demo of the rule, not a live vote count.</p>
+          </div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-card interactive-stat">
+            <div class="stat-num" id="feat-enabled" data-target="0">0</div>
+            <div class="stat-label">amendments enabled</div>
+          </div>
+          <div class="stat-card interactive-stat">
+            <div class="stat-num" id="feat-pending" data-target="0">0</div>
+            <div class="stat-label">not yet enabled</div>
+          </div>
+        </div>
+        <div class="amend-chips" id="amend-chips"></div>
+        <aside class="amend-detail" id="amend-detail" hidden>
+          <h3 id="amend-detail-title"></h3>
+          <p id="amend-detail-body"></p>
+        </aside>
+        <p class="source" id="feat-source">Live via public rippled WebSocket <code>feature</code> when available. Docs: <a href="https://xrpl.org/docs/concepts/consensus-protocol/amendments" rel="noopener" target="_blank">Amendments</a>.</p>
+      </div>
+    </section>
+
+    <section id="features" class="scene" data-scene>
+      <div class="scene-inner">
+        <h2>// Built into the ledger</h2>
+        <p class="lede">Hover or tap a card — magnetic tilt on desktop, press ripple on tap. These settle on-ledger.</p>
+        <div class="feature-grid" id="feature-grid">
+          <button type="button" class="feat-card" data-feat="escrow"><span class="feat-icon" aria-hidden="true">⏳</span><h3>Escrow</h3><p>Lock XRP until time or condition; release or cancel by rules.</p></button>
+          <button type="button" class="feat-card" data-feat="amm"><span class="feat-icon" aria-hidden="true">⇄</span><h3>AMM</h3><p>Automated Market Maker pools for on-ledger trading.</p></button>
+          <button type="button" class="feat-card" data-feat="iou"><span class="feat-icon" aria-hidden="true">◎</span><h3>Issued tokens</h3><p>IOUs / issued currencies with trust lines and issuers.</p></button>
+          <button type="button" class="feat-card" data-feat="nft"><span class="feat-icon" aria-hidden="true">◆</span><h3>NFTs</h3><p>NFToken standard for digital items and credentials.</p></button>
+          <button type="button" class="feat-card" data-feat="dex"><span class="feat-icon" aria-hidden="true">◈</span><h3>Cross-currency</h3><p>Pathfinding across the native DEX in one payment.</p></button>
+          <button type="button" class="feat-card" data-feat="checks"><span class="feat-icon" aria-hidden="true">✓</span><h3>Checks</h3><p>Pull-payment style Checks a destination can cash.</p></button>
+        </div>
+        <aside class="feat-detail" id="feat-detail" hidden>
+          <h3 id="feat-detail-title"></h3>
+          <p id="feat-detail-body"></p>
+          <a id="feat-detail-link" rel="noopener" target="_blank">Read the docs →</a>
+        </aside>
+      </div>
+    </section>
+
+    <section id="ticker" class="scene" data-scene>
+      <div class="scene-inner">
+        <h2>// Live settlement ticker</h2>
+        <p class="lede">Read-only stream. New ledger blocks slide in — tap a block for details.</p>
+        <div class="ticker-board">
+          <button type="button" class="tick tick-btn" data-tick="ledger"><div class="tick-label">Validated ledger</div><div class="tick-value mono" id="tick-ledger">—</div></button>
+          <button type="button" class="tick tick-btn" data-tick="fee"><div class="tick-label">Base fee (XRP)</div><div class="tick-value mono" id="tick-fee">—</div></button>
+          <button type="button" class="tick tick-btn" data-tick="txns"><div class="tick-label">Txns last ledger</div><div class="tick-value mono" id="tick-txns">—</div></button>
+          <button type="button" class="tick tick-btn" data-tick="age"><div class="tick-label">Close age (s)</div><div class="tick-value mono" id="tick-age">—</div></button>
+        </div>
+        <div class="ledger-rail" id="ledger-rail" aria-label="Recent closed ledgers"></div>
+        <aside class="ledger-detail" id="ledger-detail" hidden>
+          <h3 id="ledger-detail-title">Ledger</h3>
+          <p id="ledger-detail-body" class="mono"></p>
+        </aside>
+        <div class="ticker-log mono" id="ticker-log" aria-live="polite"></div>
+        <p class="source" id="tick-source">Connecting to <code>wss://xrplcluster.com</code>…</p>
+      </div>
+    </section>
+
+    <section id="myths" class="scene" data-scene>
+      <div class="scene-inner">
+        <h2>// Myth vs fact</h2>
+        <p class="lede">Tap a card to flip · hover for lift. Each fact links to primary docs.</p>
+        <div class="myth-grid" id="myth-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p><strong>MIT</strong> · open source · <strong>read-only</strong> (no seeds, no signing, no custody)</p>
+    <p>Made by <a href="https://b34n5x.github.io" rel="noopener" target="_blank">B34N5</a> · <a href="https://github.com/B34N5x" rel="noopener" target="_blank">github.com/B34N5x</a></p>
+    <p class="dim">Local preview only until published. Not financial advice. Ledger data from public endpoints; snapshot fallbacks are dated in the UI.</p>
+  </footer>
+
+  <script src="app.js" defer></script>
+<script src="../shared/page-transitions.js"></script>
+</body>
+</html>

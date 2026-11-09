@@ -1,0 +1,51 @@
+/* Light shared skin — match live homepage tokens/chrome; no layout rebuild */
+:root{
+  --bg:#07090b;--panel:#0d1417;--line:#1c3a36;--text:#d7e4df;--dim:#9fb3ad;
+  --green:#3df58f;--teal:#2ee6d0;--link:#5ff0c8;
+  --mono:"DejaVu Sans Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+html{background:var(--bg);color-scheme:dark}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6;
+}
+a{color:var(--link)}
+a:hover{color:var(--green)}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px}
+/* Persistent chrome for view transitions */
+header.site-chrome,header.glass-nav{
+  view-transition-name: site-header;
+  position:sticky;top:0;z-index:40;
+  background:rgba(5,7,8,.72);
+  -webkit-backdrop-filter:blur(10px) saturate(1.2);
+  backdrop-filter:blur(10px) saturate(1.2);
+  border-bottom:1px solid rgba(46,230,208,.22);
+}
+.brand,a.brand{
+  view-transition-name: site-brand;
+  font-family:var(--mono);font-weight:700;color:var(--green);text-decoration:none;
+}
+.brand::before,a.brand::before{content:"> ";color:var(--teal)}
+header.site-chrome nav,header.glass-nav nav{
+  display:flex;flex-wrap:wrap;gap:14px;align-items:center;padding:10px 0;
+}
+header.site-chrome nav a,header.glass-nav nav a{
+  color:var(--dim);text-decoration:none;font-size:.92rem;position:relative;
+}
+header.site-chrome nav a:hover,header.glass-nav nav a:hover,
+header.site-chrome nav a[aria-current],header.glass-nav nav a[aria-current]{color:var(--green)}
+.btn,a.btn,button.btn{
+  display:inline-block;font-family:var(--mono);font-size:.85rem;
+  color:var(--bg);background:var(--green);border:0;border-radius:999px;
+  padding:8px 14px;text-decoration:none;cursor:pointer;
+}
+.btn:hover,a.btn:hover{filter:brightness(1.05)}
+footer.site-foot,body>footer{
+  view-transition-name: site-footer;
+  border-top:1px solid rgba(46,230,208,.16);
+  margin-top:32px;padding:20px 0 28px;color:var(--dim);font-size:.85rem;
+}
+.tag{font-size:.68rem;padding:0 7px;border-radius:999px;border:1px solid var(--line);color:var(--teal)}
+.tag.soon{color:#c9a46a;border-color:rgba(201,164,106,.45)}
+/* Soft page canvas so nested tool CSS sits on homepage bg */
+main,.wrap>main{background:transparent}
