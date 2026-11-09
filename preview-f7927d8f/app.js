@@ -46,7 +46,12 @@
     return CFG.networks[network];
   }
   function escapeHtml(s) {
-    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
   }
   function toRipple(date) {
     return Math.floor(date.getTime() / 1000) - RIPPLE_EPOCH;

@@ -34,7 +34,7 @@
 
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
-  const escapeHtml = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  const escapeHtml = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 
   /* ---------- reduced motion ---------- */
   const motionBtn = $("#motion-toggle");
@@ -165,7 +165,7 @@
       (m, i) => `<button type="button" class="myth-card" data-i="${i}" aria-label="Flip myth card ${i + 1}">
         <div class="myth-inner">
           <div class="myth-face front"><span class="tag">MYTH</span><h3>${escapeHtml(m.myth)}</h3><p>Tap to reveal the fact</p></div>
-          <div class="myth-face back"><span class="tag">FACT</span><h3>${escapeHtml(m.fact)}</h3><a href="${m.href}" rel="noopener" target="_blank" onclick="event.stopPropagation()">Source on xrpl.org →</a></div>
+          <div class="myth-face back"><span class="tag">FACT</span><h3>${escapeHtml(m.fact)}</h3><a href="${escapeHtml(m.href)}" rel="noopener" target="_blank" onclick="event.stopPropagation()">Source on xrpl.org →</a></div>
         </div></button>`
     ).join("");
     mythGrid.addEventListener("click", (e) => {
