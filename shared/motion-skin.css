@@ -39,7 +39,15 @@ a:hover{color:var(--green)}
 .top a{pointer-events:auto;font-family:var(--mono);font-size:.85rem;color:var(--dim)}
 .top .brand{color:var(--green);font-weight:700;letter-spacing:.04em}
 .top .brand::before{content:"> ";color:var(--teal)}
-.top nav{display:flex;gap:16px}
+.top .brand{flex-shrink:0;margin-right:16px}
+.top nav{display:flex;gap:16px;min-width:0;pointer-events:auto;
+  overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;
+  scrollbar-width:none;white-space:nowrap;padding:4px 0}
+.top nav::-webkit-scrollbar{display:none}
+.top nav a{flex-shrink:0}
+@media (max-width:600px){
+  .top nav{mask-image:linear-gradient(90deg,#000 85%,transparent);-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);padding-right:24px}
+}
 .top nav a[aria-current]{color:var(--green)}
 
 main{position:relative;z-index:1}
