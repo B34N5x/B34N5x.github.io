@@ -1,17 +1,15 @@
-/* Cross-document View Transitions + fade fallback */
 @view-transition { navigation: auto; }
 ::view-transition-old(root),::view-transition-new(root){
   animation-duration:.34s;animation-timing-function:cubic-bezier(.22,.7,.25,1);
 }
-::view-transition-old(root){animation-name:vt-fade-out}
-::view-transition-new(root){animation-name:vt-fade-in}
-@keyframes vt-fade-out{to{opacity:0;transform:translateY(-6px)}}
-@keyframes vt-fade-in{from{opacity:0;transform:translateY(8px)}}
+::view-transition-old(root){animation-name:vt-out}
+::view-transition-new(root){animation-name:vt-in}
+@keyframes vt-out{to{opacity:0;transform:translateY(-6px)}}
+@keyframes vt-in{from{opacity:0;transform:translateY(8px)}}
 ::view-transition-group(site-header),
 ::view-transition-group(site-brand),
 ::view-transition-group(site-footer){animation-duration:.4s}
-/* Fallback when VT unsupported */
-html.vt-fallback body{opacity:1;transition:opacity .28s ease,transform .28s ease}
+html.vt-fallback body{transition:opacity .28s ease,transform .28s ease}
 html.vt-fallback body.is-leaving{opacity:0;transform:translateY(-4px)}
 html.vt-fallback body.is-entering{opacity:0;transform:translateY(6px)}
 @media (prefers-reduced-motion:reduce){

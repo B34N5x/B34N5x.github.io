@@ -1,33 +1,32 @@
 <!doctype html>
-<html lang="en">
-<head>
+<html lang="en"><head>
 <meta name="robots" content="noindex,nofollow">
-
-<base href="/TheLobby/">
 <meta charset="utf-8">
-<link rel="manifest" href="/TheLobby/manifest.webmanifest">
-<meta name="theme-color" content="#08041a">
-<link rel="apple-touch-icon" href="/TheLobby/assets/icons/icon-192.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<script src="/TheLobby/pwa.js?v=3-thelobby"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' blob:; connect-src 'self' https://ipfs.io https: wss://b34n5-rooms-preview.xrplwill-contact.workers.dev wss://s.altnet.rippletest.net:51233 wss://xrplcluster.com wss://s1.ripple.com; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
-<title>The Lobby</title>
-<meta name="lobby-net" content="testnet">
-<link rel="stylesheet" href="/TheLobby/style.css?v=58">
-<link rel="stylesheet" href="/TheLobby/theme.css?v=17-thelobby">
-<link rel="stylesheet" href="/TheLobby/neon.css?v=14">
-<link rel="stylesheet" href="../shared/site-skin.css">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07090b">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' blob:; connect-src 'self' https: wss: blob:; worker-src 'self' blob:; font-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<title>The Lobby · B34N5x</title>
+<link rel="icon" href="../../favicon.ico" sizes="any">
+<link rel="stylesheet" href="../shared/motion-skin.css">
 <link rel="stylesheet" href="../shared/page-transitions.css">
 </head>
-<body>
-<header class="site-chrome"><div class="wrap"><nav>
-<a class="brand" href="../index.html">B34N5x</a>
-<a href="../index.html">Home</a>
-<a href="../tools/">Tools</a>
-<a href="../explainer/">Explainer</a>
-<a href="./" aria-current="page">Lobby</a>
-</nav></div></header>
+<body class="inner">
+<div class="progress" id="progress" aria-hidden="true"></div>
+<canvas id="field" aria-hidden="true"></canvas>
+<div id="glow" aria-hidden="true"></div>
+
+<header class="top">
+  <a class="brand" href="../index.html">B34N5x</a>
+  <nav aria-label="Primary">
+    <a href="../index.html">Home</a>
+    <a href="../explainer/">Explainer</a>
+    <a href="../tools/">Tools</a>
+    <a href="../checker/">Checker</a>
+    <a href="../family-vault/">Vault</a>
+    <a href="../TheLobby/" aria-current="page">Lobby</a>
+  </nav>
+</header>
 
 <script src="/TheLobby/agegate.js?v=1"></script>
 <script src="/TheLobby/intro_audio.js?v=1"></script>
@@ -56,6 +55,21 @@
 <meta name="rooms-url" content="wss://b34n5-rooms-preview.xrplwill-contact.workers.dev">
 <script type="module" src="/TheLobby/rooms.js?v=6"></script>
 <script type="module" src="/TheLobby/guide.js?v=12"></script>
+
+<footer class="foot">
+  <nav aria-label="Footer">
+    <a href="../index.html">Home</a>
+    <a href="../tools/">Tools</a>
+    <a href="../explainer/">Explainer</a>
+    <a href="../TheLobby/">The Lobby</a>
+    <a href="../../security/">Security</a>
+    <a href="../../terms/">Terms</a>
+    <a href="../../privacy/">Privacy</a>
+  </nav>
+  <span>Apache-2.0 · no seeds · nothing stored · site 0.3.12</span>
+  <p class="disc">Motion-skin preview only — live site unchanged. Not legal, financial or tax advice.</p>
+</footer>
+<script src="../shared/lib/motion.js"></script>
+<script src="../shared/motion-inner.js"></script>
 <script src="../shared/page-transitions.js"></script>
-</body>
-</html>
+</body></html>

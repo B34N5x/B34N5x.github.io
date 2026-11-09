@@ -1,9 +1,35 @@
-<!doctype html><html lang="en"><head>
+<!doctype html>
+<html lang="en"><head>
 <meta name="robots" content="noindex,nofollow">
-<meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src https://xrpl-will.pages.dev wss://s.altnet.rippletest.net:51233 wss://testnet.xrpl-labs.com; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests"><link rel="manifest" href="../manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="B34N5"><meta name="referrer" content="no-referrer"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Tools - B34N5x</title><meta name="description" content="XRP Starter Packs and small open-source tools for the XRP Ledger by B34N5x."><link rel="icon" href="../favicon.ico" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="../assets/img/favicon-192.png"><link rel="apple-touch-icon" sizes="180x180" href="../assets/img/apple-touch-icon-180.png"><meta name="theme-color" content="#07090b"><link rel="stylesheet" href="../assets/style.css?v=39"><link rel="stylesheet" href="../shared/site-skin.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07090b">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; media-src 'self'; connect-src 'self' https://xrpl-will.pages.dev wss://s.altnet.rippletest.net:51233 wss://testnet.xrpl-labs.com wss://xrplcluster.com wss://s1.ripple.com; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<title>Tools · B34N5x</title>
+<link rel="icon" href="../../favicon.ico" sizes="any">
+<link rel="stylesheet" href="../../assets/style.css?v=39">
+<link rel="stylesheet" href="../shared/motion-skin.css">
 <link rel="stylesheet" href="../shared/page-transitions.css">
-</head><body>
-<header class="site-chrome"><div class="wrap"><nav><a class="brand" href="../index.html">B34N5x</a><a href="../index.html">Home</a><a href="../tools/" aria-current="page">Tools</a><a href="../security/">Security</a><a href="../projects/">Projects</a></nav></div></header>
+<link rel="stylesheet" href="../assets/style.css?v=39">
+
+</head>
+<body class="inner">
+<div class="progress" id="progress" aria-hidden="true"></div>
+<canvas id="field" aria-hidden="true"></canvas>
+<div id="glow" aria-hidden="true"></div>
+
+<header class="top">
+  <a class="brand" href="../index.html">B34N5x</a>
+  <nav aria-label="Primary">
+    <a href="../index.html">Home</a>
+    <a href="../explainer/">Explainer</a>
+    <a href="../tools/" aria-current="page">Tools</a>
+    <a href="../checker/">Checker</a>
+    <a href="../family-vault/">Vault</a>
+    <a href="../TheLobby/">Lobby</a>
+  </nav>
+</header>
 <main class="wrap">
 <div class="hero"><h1>Tools</h1><p>Small, open-source helpers for the XRP Ledger, each built to do one job safely.</p></div>
 <p class="note">Free. Nothing is stored, and no seeds or keys are ever requested. More tools will show up here once they're finished and tested.</p>
@@ -22,7 +48,7 @@
 <li class="fcard" id="analyst-starter">
 <span class="sub-item-title">Analyst Starter</span> <span class="tag">Live</span>
 <span class="sub-item-sum">Read-only balances, open-source script, and BatchChecker.</span>
-<span class="pack-links"><a href="../checker/">Balance Checker</a> · <a href="https://github.com/B34N5x/xrpl-balance-checker" rel="noopener">Balance script</a> · <a href="../checker/batch/">BatchChecker</a></span>
+<span class="pack-links"><a href="../checker/">Balance Checker</a> · <a href="https://github.com/B34N5x/xrpl-balance-checker" rel="noopener">Balance script</a> · <a href="../../checker/batch/">BatchChecker</a></span>
 <span class="pack-sec">Explorers: <a href="https://livenet.xrpl.org" rel="noopener">XRPL</a> · <a href="https://bithomp.com" rel="noopener">Bithomp</a> · <a href="https://xrpscan.com" rel="noopener">XRPScan</a></span>
 <span class="chips"><i>Read-only</i><i>Apache-2.0</i></span>
 </li>
@@ -44,9 +70,26 @@
 <h2 id="all-tools-h">All tools</h2>
 <div class="card"><h3><a href="../explainer/">XRPL Explainer</a> <span class="tag">Live</span></h3><p>Interactive walkthrough of how the XRP Ledger works. Read-only.</p></div>
 <div class="card"><h3><a href="../checker/">Balance Checker</a> <span class="tag">v0.1.0</span></h3><p>Check any XRP balance from a public address. Read-only.</p></div>
-<div class="card"><h3><a href="../checker/batch/">BatchChecker</a> <span class="tag">v0</span></h3><p>Check many XRPL addresses or txs at once and download a CSV. Read-only.</p></div>
+<div class="card"><h3><a href="../../checker/batch/">BatchChecker</a> <span class="tag">v0</span></h3><p>Check many XRPL addresses or txs at once and download a CSV. Read-only.</p></div>
 <div class="card"><h3><a href="https://xrpl-will.pages.dev" rel="noopener">XRPL Will (Testnet)</a> <span class="tag">v0.2.1</span></h3><p>Plan escrows to your heirs with XRPL's built-in rules. Testnet only. Not legal advice.</p></div>
 <div class="card"><h3><a href="../family-vault/">Family Vault (Testnet)</a> <span class="tag">v0.2.1</span></h3><p>Time-lock XRP for your family. You sign in your own wallet. Testnet only. Not financial advice.</p></div>
 </section>
-</main><footer class="site-foot"><div class="wrap"><p class="version" id="site-version">Site version 0.3.12 · transitions preview</p>Open source - Apache-2.0 licence - free to use, no sign-up.<p class="disclaimer">Not legal, financial or tax advice. Provided as-is with no warranty; the author accepts no liability for any losses, damages or disputes. Never asks for seeds or keys. <a href="../terms/">Terms</a> · <a href="../privacy/">Privacy</a></p></div></footer><script src="../assets/matrix-bg.js"></script><script src="../assets/float-cards.js"></script><script src="../assets/pwa.js"></script><script src="../assets/sparkle.js"></script><script src="../assets/visits.js"></script><script src="../shared/page-transitions.js"></script>
+</main>
+<footer class="foot">
+  <nav aria-label="Footer">
+    <a href="../index.html">Home</a>
+    <a href="../tools/">Tools</a>
+    <a href="../explainer/">Explainer</a>
+    <a href="../TheLobby/">The Lobby</a>
+    <a href="../../security/">Security</a>
+    <a href="../../terms/">Terms</a>
+    <a href="../../privacy/">Privacy</a>
+  </nav>
+  <span>Apache-2.0 · no seeds · nothing stored · site 0.3.12</span>
+  <p class="disc">Motion-skin preview only — live site unchanged. Not legal, financial or tax advice.</p>
+</footer>
+
+<script src="../shared/lib/motion.js"></script>
+<script src="../shared/motion-inner.js"></script>
+<script src="../shared/page-transitions.js"></script>
 </body></html>
