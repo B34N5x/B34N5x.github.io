@@ -21,3 +21,7 @@ Motion homepage `preview-04c176cb` (colours, typography, `.top` nav, particles, 
 
 ## Pages
 home, tools, checker, family-vault, explainer, TheLobby
+
+
+## Promoted live
+- Commit promotes motion design to live. Revert: 6f7370833c975da693a6a0f58727e7f0b47b6b1a. Preview keeps noindex.

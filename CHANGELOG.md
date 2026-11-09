@@ -3,6 +3,12 @@
 All notable site updates are listed here. Each entry has a matching JSON summary under `updates/`.
 
 
+## 2026-11-10 — Motion site live (v0.3.13)
+
+- Promote motion homepage + light motion skin and View Transitions to live: Home, Tools, Checker hub, Family Vault, XRPL Explainer (`/explainer/` URL unchanged), The Lobby.
+- Self-hosted Motion under `/shared/`; prefers-reduced-motion respected; Game World stays delisted; QU1PU stays Coming soon.
+- Preview folders keep `noindex`. Revert point: `6f7370833c975da693a6a0f58727e7f0b47b6b1a`.
+
 ## 2026-11-10 — Explainer listed live; Game World delisted (v0.3.12)
 
 - Mark **XRPL Explainer** Live on Projects, Tools, homepage See more, and homepage previews; links to `/explainer/`.

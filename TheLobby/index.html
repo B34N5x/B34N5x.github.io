@@ -10,13 +10,29 @@
 <script src="pwa.js?v=3-thelobby"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' blob:; connect-src 'self' https://ipfs.io https: wss://b34n5-rooms-preview.xrplwill-contact.workers.dev wss://s.altnet.rippletest.net:51233 wss://xrplcluster.com wss://s1.ripple.com; object-src 'none'; base-uri 'self'; form-action 'none'">
-<title>The Lobby</title>
+<title>The Lobby · B34N5x</title>
 <meta name="lobby-net" content="testnet">
 <link rel="stylesheet" href="style.css?v=58">
 <link rel="stylesheet" href="theme.css?v=17-thelobby">
 <link rel="stylesheet" href="neon.css?v=14">
+<link rel="stylesheet" href="/shared/motion-skin.css">
+<link rel="stylesheet" href="/shared/page-transitions.css">
 </head>
 <body>
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div id="glow" aria-hidden="true"></div>
+<header class="top">
+  <a class="brand" href="/">B34N5x</a>
+  <nav aria-label="Primary">
+    <a href="/">Home</a>
+    <a href="/explainer/">Explainer</a>
+    <a href="/tools/">Tools</a>
+    <a href="/checker/">Checker</a>
+    <a href="/family-vault/">Vault</a>
+    <a href="/TheLobby/" aria-current="page">Lobby</a>
+  </nav>
+</header>
+
 <script src="agegate.js?v=1"></script>
 <script src="intro_audio.js?v=1"></script>
 <script src="intro.js?v=14"></script>
@@ -44,5 +60,8 @@
 <meta name="rooms-url" content="wss://b34n5-rooms-preview.xrplwill-contact.workers.dev">
 <script type="module" src="rooms.js?v=6"></script>
 <script type="module" src="guide.js?v=12"></script>
+<script src="/shared/lib/motion.js"></script>
+<script src="/shared/motion-inner.js"></script>
+<script src="/shared/page-transitions.js"></script>
 </body>
 </html>

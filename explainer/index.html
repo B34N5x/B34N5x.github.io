@@ -1,16 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="dark">
-  <meta name="theme-color" content="#07090b">
-  <meta name="description" content="Interactive explainer: XRP Ledger as neutral settlement infrastructure — validators, amendments, built-in features. Read-only. By B34N5.">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' wss://xrplcluster.com wss://s1.ripple.com https://api.xrpscan.com; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
-  <title>Is XRP just Ripple? — XRPL Explainer · B34N5</title>
-  <link rel="stylesheet" href="styles.css">
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07090b">
+<meta name="description" content="Interactive XRPL Explainer — Live. Read-only.">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self' wss://xrplcluster.com wss://s1.ripple.com https://api.xrpscan.com; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<title>Is XRP just Ripple? — XRPL Explainer · Live · B34N5</title>
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../shared/motion-skin.css">
+<link rel="stylesheet" href="../shared/page-transitions.css">
 </head>
-<body>
+<body class="inner">
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div id="glow" aria-hidden="true"></div>
+<header class="top">
+  <a class="brand" href="../index.html">B34N5x</a>
+  <nav aria-label="Primary">
+    <a href="../index.html">Home</a>
+    <a href="../explainer/" aria-current="page">Explainer</a>
+    <a href="../tools/">Tools</a>
+    <a href="../checker/">Checker</a>
+    <a href="../family-vault/">Vault</a>
+    <a href="../TheLobby/">Lobby</a>
+  </nav>
+</header>
+
   <a class="skip" href="#main">Skip to content</a>
   <canvas id="rain" aria-hidden="true"></canvas>
 
@@ -166,6 +182,14 @@
     <p class="dim">Local preview only until published. Not financial advice. Ledger data from public endpoints; snapshot fallbacks are dated in the UI.</p>
   </footer>
 
-  <script src="app.js" defer></script>
-</body>
-</html>
+  
+<footer class="foot">
+  <nav aria-label="Footer"><a href="../index.html">Home</a><a href="../tools/">Tools</a><a href="../explainer/">Explainer</a><a href="../TheLobby/">The Lobby</a></nav>
+  <span>XRPL Explainer · Live · site 0.3.13</span>
+  <p class="disc"></p>
+</footer>
+<script src="app.js"></script>
+<script src="../shared/lib/motion.js"></script>
+<script src="../shared/motion-inner.js"></script>
+<script src="../shared/page-transitions.js"></script>
+</body></html>

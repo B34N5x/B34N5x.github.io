@@ -1,12 +1,31 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src wss://s.altnet.rippletest.net:51233 wss://testnet.xrpl-labs.com; img-src 'self' data: blob:; style-src 'self'; script-src 'self'; base-uri 'none'; form-action 'none'">
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07090b">
 <meta name="referrer" content="no-referrer">
-<title>Family Vault · Practice vault (Testnet)</title>
-<link rel="icon" href="data:,">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self' wss://s.altnet.rippletest.net:51233 wss://testnet.xrpl-labs.com https://faucet.altnet.rippletest.net; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<title>Family Vault · B34N5x</title>
+<link rel="icon" href="../favicon.ico" sizes="any">
 <link rel="stylesheet" href="style.css?v=2">
+<link rel="stylesheet" href="../shared/motion-skin.css">
+<link rel="stylesheet" href="../shared/page-transitions.css">
 </head>
-<body class="intro">
+<body class="inner">
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div id="glow" aria-hidden="true"></div>
+<header class="top">
+  <a class="brand" href="../index.html">B34N5x</a>
+  <nav aria-label="Primary">
+    <a href="../index.html">Home</a>
+    <a href="../explainer/">Explainer</a>
+    <a href="../tools/">Tools</a>
+    <a href="../checker/">Checker</a>
+    <a href="../family-vault/" aria-current="page">Vault</a>
+    <a href="../TheLobby/">Lobby</a>
+  </nav>
+</header>
+
 <div id="glow" aria-hidden="true"><i></i><i></i><i></i></div><canvas id="rain" aria-hidden="true"></canvas><canvas id="sil" aria-hidden="true"></canvas><div id="haze" aria-hidden="true"></div>
 <main>
 <div class="banner">Practice vault · Testnet</div>
@@ -76,7 +95,6 @@
 <p class="small">The journey uses the family member's public Testnet history (load their savings above first), plus anything you write here. Your browser's print window opens: choose "Save as PDF".</p>
 </section>
 
-<footer class="foot"><span>Not financial or legal advice. Testnet only. Nothing is stored. The hash is the memory. Version 0.2.1 · <a href="../privacy/">Privacy</a></span></footer>
 </main>
 <section id="journey" aria-hidden="true">
 <h1 id="jtitle">Saving journey</h1><p>Practice vault · Testnet · made in your browser, nothing stored</p>
@@ -90,8 +108,17 @@
 <div id="pop" role="dialog" aria-modal="true" aria-labelledby="pt"><div class="popc"><div class="confwrap" id="popc"></div>
 <h2 id="pt"></h2><p class="note" id="pdur" hidden></p><p class="note" id="psub"></p>
 <p class="quote" id="pq" hidden>"The best time to plant a tree was twenty years ago. The second best time is now."<span>Proverb (modern saying, origin unknown)</span></p><button id="close">Close</button></div></div>
+
+<footer class="foot">
+  <nav aria-label="Footer"><a href="../index.html">Home</a><a href="../tools/">Tools</a><a href="../explainer/">Explainer</a><a href="../TheLobby/">The Lobby</a></nav>
+  <span>Apache-2.0 · Family Vault v0.2.1 · Testnet · site 0.3.13</span>
+  <p class="disc">Not financial advice.</p>
+</footer>
 <script src="bg.js?v=2"></script>
 <script src="app.js?v=2"></script>
 <script src="journey.js?v=2"></script>
 <script src="privacy.js?v=2"></script>
+<script src="../shared/lib/motion.js"></script>
+<script src="../shared/motion-inner.js"></script>
+<script src="../shared/page-transitions.js"></script>
 </body></html>
