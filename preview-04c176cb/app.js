@@ -1,5 +1,5 @@
 /* B34N5 motion-site preview — Motion scroll/parallax/hover + particle field.
-   Patterns adapted from Motion docs: scroll, inView, hover, parallax, scroll-fade. */
+   Patterns from Motion docs/examples: scroll, inView, hover, parallax, scroll-fade. */
 (function () {
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var coarse = window.matchMedia("(pointer: coarse)").matches;
@@ -9,7 +9,6 @@
   var inView = MotionNS.inView;
   var hover = MotionNS.hover;
 
-  /* —— Cursor glow + particle field (site float/particle vibe) —— */
   var glow = document.getElementById("glow");
   var canvas = document.getElementById("field");
   var ctx = canvas && canvas.getContext("2d");
@@ -81,55 +80,62 @@
   resize();
   if (!reduce) requestAnimationFrame(frame);
 
-  /* —— Motion: scroll progress, parallax, reveals, magnetic hover —— */
   if (!animate || !scroll) {
     document.documentElement.classList.add("no-motion-lib");
     return;
   }
 
+  function reveal(el) {
+    el.style.opacity = "1";
+    el.style.transform = "none";
+  }
+
   if (!reduce) {
-    // Progress bar (Motion scroll + animate) — docs/js/scroll, examples/js/parallax
     scroll(animate("#progress", { scaleX: [0, 1] }, { ease: "linear" }));
 
-    // Hero parallax
     var hero = document.getElementById("hero-mark");
     if (hero) {
-      scroll(animate(hero, { y: [0, 120], opacity: [1, 0.35] }, { ease: "linear" }), {
+      scroll(animate(hero, { y: [0, 90], opacity: [1, 0.4] }, { ease: "linear" }), {
         target: document.querySelector(".hero"),
         offset: ["start start", "end start"]
       });
     }
 
-    // Flagship title parallax + scroll fade on tiles — examples/js/parallax + scroll-fade
+    // Soft tile fade — keep titles readable (no heavy name parallax over tagline)
     document.querySelectorAll(".flag").forEach(function (tile) {
-      var name = tile.querySelector(".name");
-      if (name) {
-        scroll(animate(name, { y: [40, -40] }, { ease: "linear" }), {
+      scroll(animate(tile, { opacity: [0.4, 1, 1] }, { ease: "linear" }), {
+        target: tile,
+        offset: ["start end", "center center", "end start"]
+      });
+      var viz = tile.querySelector(".viz");
+      if (viz) {
+        scroll(animate(viz, { y: [30, -30] }, { ease: "linear" }), {
           target: tile,
           offset: ["start end", "end start"]
         });
       }
-      scroll(animate(tile, { opacity: [0.35, 1, 1] }, { ease: "linear" }), {
-        target: tile,
-        offset: ["start end", "center center", "end start"]
-      });
     });
 
-    // Section kickers reveal via inView
     if (inView) {
       inView(".kicker, .lab-tile, .foot", function (el) {
-        animate(el, { opacity: [0, 1], y: [24, 0] }, {
+        animate(el, { opacity: [0, 1], y: [20, 0] }, {
           type: "spring",
-          visualDuration: 0.55,
-          bounce: 0.12
+          visualDuration: 0.5,
+          bounce: 0.1
         });
-      }, { margin: "-8% 0px -8% 0px" });
+        return function () {};
+      }, { margin: "0px 0px -5% 0px", amount: 0.15 });
     }
+    // Fallback so Lab never stays invisible if inView misses
+    setTimeout(function () {
+      document.querySelectorAll(".kicker, .lab-tile, .foot").forEach(function (el) {
+        if (parseFloat(getComputedStyle(el).opacity) < 0.5) reveal(el);
+      });
+    }, 1200);
 
-    // Magnetic / hover-reactive cards — docs/js/hover + spring animate
     if (hover && !coarse) {
       hover("[data-magnetic]", function (el) {
-        var anim = animate(el, { scale: 1.035 }, {
+        var anim = animate(el, { scale: 1.03 }, {
           type: "spring",
           visualDuration: 0.35,
           bounce: 0.25
@@ -150,8 +156,8 @@
           var px = (e.clientX - r.left) / r.width - 0.5;
           var py = (e.clientY - r.top) / r.height - 0.5;
           animate(el, {
-            rotateX: py * -7,
-            rotateY: px * 9
+            rotateX: py * -6,
+            rotateY: px * 8
           }, { type: "spring", visualDuration: 0.25, bounce: 0 });
         });
         el.addEventListener("pointerleave", function () {
@@ -164,20 +170,13 @@
       });
     }
   } else {
-    // Reduced motion: ensure visibility
-    document.querySelectorAll(".kicker, .lab-tile, .flag, .foot").forEach(function (el) {
-      el.style.opacity = "1";
-      el.style.transform = "none";
-    });
+    document.querySelectorAll(".kicker, .lab-tile, .flag, .foot").forEach(reveal);
   }
 
-  // Mobile tap to show Lab hint
   if (coarse) {
     document.querySelectorAll(".lab-tile").forEach(function (tile) {
       tile.addEventListener("click", function (e) {
-        if (tile.classList.contains("soon")) {
-          e.preventDefault();
-        }
+        if (tile.classList.contains("soon")) e.preventDefault();
         var open = tile.classList.contains("is-open");
         document.querySelectorAll(".lab-tile.is-open").forEach(function (t) {
           t.classList.remove("is-open");

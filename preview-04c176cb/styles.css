@@ -107,7 +107,7 @@ main{position:relative;z-index:1}
 }
 .flag-explainer .knot{border-radius:18px;transform:rotate(8deg);inset:22% 18% 30% 18%}
 .flag .body{
-  position:relative;z-index:1;height:100%;min-height:inherit;
+  position:relative;z-index:2;height:100%;min-height:inherit;
   display:flex;flex-direction:column;justify-content:flex-end;
   padding:28px 26px 26px;gap:8px;
 }
@@ -186,3 +186,5 @@ main{position:relative;z-index:1}
 }
 .lab-tile .glyph img{display:block;width:20px;height:20px}
 .no-motion-lib .kicker,.no-motion-lib .lab-tile,.no-motion-lib .foot{opacity:1}
+
+.flag .name,.flag .tagline,.flag .soon{position:relative;z-index:3}
