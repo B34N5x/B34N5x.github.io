@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex,nofollow">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07090b">
+  <meta name="description" content="Guided XRPL escrow wizard for Xaman. Draft only, testnet demo. By B34N5.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self' wss://s.altnet.rippletest.net:51233 wss://testnet.xrpl-labs.com wss://xrplcluster.com wss://s1.ripple.com https://faucet.altnet.rippletest.net https://xumm.app https://*.xumm.app; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>AI Escrow Assistant for Xaman · B34N5</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#step-panel">Skip to step</a>
+  <canvas id="rain" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="brand">> B34N5 <span>/ escrow-assistant</span></div>
+    <div class="spacer"></div>
+    <span class="badge warn" id="net-badge" title="Testnet uses free faucet XRP. Mainnet uses real XRP — mistakes can lock funds.">TESTNET</span>
+    <span class="net-tip-wrap">
+      <button type="button" class="ghost" id="net-toggle" aria-describedby="net-tip">Switch network</button>
+      <span id="net-tip" class="net-tip" role="tooltip">Testnet = practice with faucet funds. Mainnet = real XRP; confirm before switching. This tool only drafts — you sign.</span>
+    </span>
+    <button type="button" class="ghost" id="motion-toggle" aria-pressed="false">Reduce motion</button>
+  </header>
+
+  <main class="wrap">
+    <section class="hero" aria-label="Introduction">
+      <h1>Escrow assistant</h1>
+      <p class="lede">I’ll walk you through each step. You can go <strong>Back</strong>, jump via the rail, or <strong>Ask a question</strong> anytime. You sign in Xaman — I never hold keys.</p>
+      <span class="badge">General information only · not financial advice</span>
+      <span class="badge warn">Never paste a seed</span>
+    </section>
+
+    <nav class="rail" id="progress-rail" aria-label="Wizard steps">
+      <!-- filled by JS -->
+    </nav>
+
+    <div class="wizard-shell">
+      <aside class="assistant-pane card" aria-label="Assistant">
+        <div class="assistant-head">
+          <span class="assistant-avatar" aria-hidden="true">◉</span>
+          <div>
+            <strong class="mono">Bean</strong>
+            <div class="dim tiny">escrow guide · read-only</div>
+          </div>
+        </div>
+        <div class="presence-wrap" aria-hidden="true">
+          <canvas id="presence" width="320" height="320"></canvas>
+          <span class="presence-label" id="presence-label">idle</span>
+        </div>
+        <div class="chat-log" id="chat-log" aria-live="polite" aria-relevant="additions"></div>
+        <div class="ask-box">
+          <label class="sr-only" for="faq-input">Ask a question</label>
+          <input type="text" id="faq-input" placeholder="Ask a question on this step…">
+          <button type="button" class="btn" id="faq-btn">Ask</button>
+        </div>
+      </aside>
+
+      <section class="step-pane card" id="step-panel" aria-live="polite">
+        <!-- steps injected / toggled -->
+        <div class="step" data-step="0" id="step-0">
+          <h2>1 · Describe the deal</h2>
+          <p class="dim">Plain English is fine. I’ll draft fields and we’ll confirm each one.</p>
+          <label for="deal-input">Your deal</label>
+          <textarea id="deal-input" rows="5" placeholder="e.g. Lock 50 XRP for r… until Friday 5pm…"></textarea>
+          <div class="row">
+            <button type="button" class="btn" id="sample-btn">Load sample</button>
+            <button type="button" class="btn" id="cond-sample-btn">Conditional sample</button>
+          </div>
+        </div>
+
+        <div class="step" data-step="1" id="step-1" hidden>
+          <h2>2 · Confirm parties</h2>
+          <p class="dim">Source signs the escrow. Destination receives on finish.</p>
+          <label for="field-account">Source account (r…)</label>
+          <input type="text" id="field-account" autocomplete="off" spellcheck="false">
+          <label for="field-destination">Destination (r…)</label>
+          <input type="text" id="field-destination" autocomplete="off" spellcheck="false">
+          <label for="field-dest-tag">Destination tag (optional)</label>
+          <input type="text" id="field-dest-tag" inputmode="numeric" placeholder="leave blank if none">
+          <p class="note tiny" id="parties-note">Tag check runs when you continue.</p>
+        </div>
+
+        <div class="step" data-step="2" id="step-2" hidden>
+          <h2>3 · Amount</h2>
+          <label for="field-amount">Amount (XRP)</label>
+          <input type="text" id="field-amount" inputmode="decimal">
+          <p class="dim tiny" id="amount-drops">— drops</p>
+        </div>
+
+        <div class="step" data-step="3" id="step-3" hidden>
+          <h2>4 · Timing</h2>
+          <div class="lock-icon" aria-hidden="true">🔒</div>
+          <div class="timeline">
+            <div class="tl-track"><div class="tl-fill" id="tl-fill"></div></div>
+            <div class="tl-labels">
+              <span id="tl-finish">FinishAfter: —</span>
+              <span id="tl-cancel">CancelAfter: —</span>
+            </div>
+          </div>
+          <label for="field-finish">FinishAfter (local datetime)</label>
+          <input type="datetime-local" id="field-finish">
+          <label for="field-cancel">CancelAfter (local datetime)</label>
+          <input type="datetime-local" id="field-cancel">
+          <p class="dim tiny">Leave blank only if you understand the lock risk. Times convert to Ripple Epoch on review.</p>
+        </div>
+
+        <div class="step" data-step="4" id="step-4" hidden>
+          <h2>5 · Optional condition</h2>
+          <label class="check-row"><input type="checkbox" id="field-want-cond"> Use a PREIMAGE-SHA-256 secret code</label>
+          <p class="dim">If enabled, I’ll generate a condition/fulfillment pair in your browser. Save the fulfillment yourself — I don’t upload it.</p>
+          <div id="condition-box" class="note" hidden>
+            <strong>Fulfillment secret</strong>
+            <pre class="json" id="fulfillment-json"></pre>
+          </div>
+        </div>
+
+        <div class="step" data-step="5" id="step-5" hidden>
+          <h2>6 · Review</h2>
+          <ul class="warnings" id="warn-list"></ul>
+          <div class="field-grid" id="field-grid"></div>
+        </div>
+
+        <div class="step" data-step="6" id="step-6" hidden>
+          <h2>7 · Sign</h2>
+          <div class="tabs" role="tablist">
+            <button type="button" class="ghost active" data-tab="create" role="tab" aria-selected="true">EscrowCreate</button>
+            <button type="button" class="ghost" data-tab="finish" role="tab">EscrowFinish</button>
+            <button type="button" class="ghost" data-tab="cancel" role="tab">EscrowCancel</button>
+          </div>
+          <pre class="json" id="tx-json">{}</pre>
+          <div class="row">
+            <button type="button" class="btn" id="copy-json">Copy JSON</button>
+            <button type="button" class="btn primary" id="xaman-btn">Send to Xaman</button>
+          </div>
+          <div class="qr-box" id="xaman-box">Add a public Xaman API key in config.js (apps.xumm.dev) for push. Until then, copy JSON.</div>
+          <div class="demo-panel mt">
+            <h3 class="mono">Testnet demo</h3>
+            <p class="dim tiny">Faucet wallet in memory · create + finish short escrow · blocked on mainnet.</p>
+            <button type="button" class="btn primary" id="demo-btn">Run testnet demo</button>
+            <pre class="json" id="demo-log">Waiting…</pre>
+          </div>
+        </div>
+
+        <div class="step" data-step="7" id="step-7" hidden>
+          <h2>8 · Track</h2>
+          <label for="lookup-addr">Classic address</label>
+          <input type="text" id="lookup-addr" spellcheck="false">
+          <div class="row">
+            <button type="button" class="btn" id="lookup-btn">Fetch escrows</button>
+            <button type="button" class="btn" id="use-source-btn">Use source</button>
+          </div>
+          <pre class="json" id="lookup-out">[]</pre>
+          <p class="dim tiny">Finish/Cancel JSON is on the Sign step — use OfferSequence from an escrow object above.</p>
+        </div>
+
+        <div class="step-nav">
+          <button type="button" class="btn" id="btn-back">Back</button>
+          <button type="button" class="btn primary" id="btn-next">Next</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <p>MIT · guided drafting · made by B34N5 · <a href="https://xrpl.org/docs/concepts/payment-types/escrow" rel="noopener" target="_blank">xrpl.org escrow</a></p>
+    <p class="dim">Local preview · not published · general information only, not financial advice</p>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="lib/xrpl-3.0.0.min.js"></script>
+  <script src="crypto-cond.js"></script>
+  <script src="parser.js"></script>
+  <script src="faq.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
