@@ -253,7 +253,7 @@
     const log = $("#chat-log");
     const div = document.createElement("div");
     div.className = "bubble " + role;
-    div.innerHTML = `<div class="meta">${role === "user" ? "you" : "Bean"}</div>${html ? htmlOrText : escapeHtml(htmlOrText)}`;
+    div.innerHTML = `<div class="meta">${role === "user" ? "you" : "QU1PU"}</div>${html ? htmlOrText : escapeHtml(htmlOrText)}`;
     log.appendChild(div);
     log.scrollTop = log.scrollHeight;
     return div;
@@ -265,7 +265,7 @@
       const log = $("#chat-log");
       const typing = document.createElement("div");
       typing.className = "bubble bot typing";
-      typing.innerHTML = `<div class="meta">Bean</div><span class="dots"><span></span><span></span><span></span></span>`;
+      typing.innerHTML = `<div class="meta">QU1PU</div><span class="dots"><span></span><span></span><span></span></span>`;
       log.appendChild(typing);
       log.scrollTop = log.scrollHeight;
       setPresence(warn ? "warn" : "think");
@@ -893,7 +893,7 @@
   $$(".step").forEach((el) => {
     el.hidden = Number(el.dataset.step) !== 0;
   });
-  assistantSay("Hi — I’m Bean. Step 1: describe the escrow deal. Use Back anytime, or the rail to jump to completed steps.");
+  assistantSay("Hi — I’m QU1PU, named after the Inca knotted-string ledger. Step 1: describe the escrow deal. Use Back anytime, or the rail to jump to completed steps.");
 
   window.__escrowWizard = { goStep, get step() { return step; }, get model() { return model; }, setPresence };
 })();
