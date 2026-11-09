@@ -1,0 +1,188 @@
+/* B34N5 motion-site homepage preview — brand colours, self-hosted Motion */
+*{box-sizing:border-box}
+:root{
+  --bg:#07090b;--panel:#0a1214;--text:#d7e4df;--dim:#7f9590;
+  --green:#3df58f;--teal:#2ee6d0;--line:rgba(46,230,208,.22);
+  --mono:"DejaVu Sans Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0;min-height:100%;background:var(--bg);color:var(--text);
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  line-height:1.45;overflow-x:hidden;
+}
+a{color:var(--teal);text-decoration:none}
+a:hover{color:var(--green)}
+.skip{position:absolute;left:-999px;top:0}
+.skip:focus{left:12px;top:12px;z-index:99;background:#000;padding:8px 12px}
+
+/* Cursor-reactive field */
+#field{position:fixed;inset:0;z-index:0;pointer-events:none}
+#glow{
+  position:fixed;width:42vmax;height:42vmax;border-radius:50%;
+  background:radial-gradient(circle,rgba(61,245,143,.12),transparent 62%);
+  transform:translate(-50%,-50%);left:50%;top:40%;z-index:0;pointer-events:none;
+  will-change:transform,opacity;opacity:.9;
+}
+.progress{
+  position:fixed;left:0;right:0;top:0;height:2px;z-index:50;
+  background:linear-gradient(90deg,var(--green),var(--teal));
+  transform-origin:0 50%;transform:scaleX(0);pointer-events:none;
+}
+
+.top{
+  position:fixed;inset:0 auto auto 0;right:0;z-index:40;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px clamp(16px,4vw,40px);pointer-events:none;
+}
+.top a{pointer-events:auto;font-family:var(--mono);font-size:.85rem;color:var(--dim)}
+.top .brand{color:var(--green);font-weight:700;letter-spacing:.04em}
+.top .brand::before{content:"> ";color:var(--teal)}
+.top nav{display:flex;gap:16px}
+.top nav a[aria-current]{color:var(--green)}
+
+main{position:relative;z-index:1}
+
+/* Hero */
+.hero{
+  min-height:100svh;display:grid;place-content:center;text-align:center;
+  padding:100px 24px 80px;position:relative;
+}
+.hero-mark{
+  font-family:var(--mono);font-weight:800;letter-spacing:-.04em;
+  font-size:clamp(3.2rem,14vw,9rem);line-height:.9;margin:0;
+  color:var(--green);text-shadow:0 0 40px rgba(61,245,143,.25);
+  will-change:transform;
+}
+.hero-line{
+  margin:18px auto 0;max-width:28rem;color:var(--dim);
+  font-size:clamp(.95rem,2.2vw,1.15rem);letter-spacing:.02em;
+}
+.scroll-cue{
+  position:absolute;left:50%;bottom:28px;transform:translateX(-50%);
+  font-family:var(--mono);font-size:.7rem;color:var(--dim);letter-spacing:.18em;
+  text-transform:uppercase;
+}
+.scroll-cue span{display:block;width:1px;height:36px;margin:10px auto 0;
+  background:linear-gradient(var(--teal),transparent)}
+
+/* Sections */
+.band{padding:12vh clamp(16px,5vw,56px) 8vh;max-width:1180px;margin:0 auto}
+.kicker{
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--teal);margin:0 0 28px;opacity:.85;
+}
+
+/* Flagship tiles — visual first, almost no copy */
+.flags{display:grid;gap:18px}
+@media (min-width:820px){.flags{grid-template-columns:1.15fr .85fr;gap:22px;align-items:stretch}}
+.flag{
+  position:relative;isolation:isolate;overflow:hidden;border-radius:28px;
+  min-height:min(58vh,520px);border:1px solid var(--line);
+  background:linear-gradient(155deg,rgba(10,18,20,.95),rgba(4,8,10,.88));
+  box-shadow:0 24px 60px rgba(0,0,0,.45);cursor:default;
+  transform-style:preserve-3d;will-change:transform;
+}
+.flag .viz{
+  position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+}
+.flag .viz::before,.flag .viz::after{
+  content:"";position:absolute;border-radius:50%;filter:blur(40px);opacity:.55;
+}
+.flag-quipu .viz::before{width:55%;height:55%;left:-10%;top:-10%;background:rgba(61,245,143,.35)}
+.flag-quipu .viz::after{width:40%;height:40%;right:-5%;bottom:10%;background:rgba(46,230,208,.28)}
+.flag-explainer .viz::before{width:60%;height:50%;right:-15%;top:5%;background:rgba(46,230,208,.32)}
+.flag-explainer .viz::after{width:35%;height:35%;left:10%;bottom:-5%;background:rgba(61,245,143,.22)}
+.flag .mesh{
+  position:absolute;inset:0;opacity:.35;
+  background:
+    linear-gradient(transparent 0 calc(100% - 1px),rgba(46,230,208,.35) 0) 0 0/48px 48px,
+    linear-gradient(90deg,transparent 0 calc(100% - 1px),rgba(46,230,208,.35) 0) 0 0/48px 48px;
+  mask-image:radial-gradient(ellipse at 30% 40%,#000 20%,transparent 70%);
+}
+.flag .knot{
+  position:absolute;inset:18% 12% 28% 12%;border:1px solid rgba(61,245,143,.25);
+  border-radius:999px 40% 999px 40%;transform:rotate(-18deg);opacity:.5;
+}
+.flag-explainer .knot{border-radius:18px;transform:rotate(8deg);inset:22% 18% 30% 18%}
+.flag .body{
+  position:relative;z-index:1;height:100%;min-height:inherit;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:28px 26px 26px;gap:8px;
+}
+.flag .name{
+  margin:0;font-family:var(--mono);font-weight:800;letter-spacing:-.02em;
+  font-size:clamp(1.8rem,4.5vw,3rem);color:var(--green);line-height:1;
+}
+.flag .tagline{margin:0;font-size:.95rem;color:var(--text);letter-spacing:.01em}
+.flag .soon{
+  align-self:flex-start;margin-top:10px;font-family:var(--mono);font-size:.68rem;
+  letter-spacing:.12em;text-transform:uppercase;color:#c9a46a;
+  border:1px solid rgba(201,164,106,.45);border-radius:999px;padding:4px 10px;
+}
+.flag:hover,.flag:focus-within{border-color:rgba(61,245,143,.45);
+  box-shadow:0 28px 70px rgba(0,0,0,.5),0 0 40px rgba(46,230,208,.08)}
+
+/* Lab strip — name only; detail on hover/tap */
+.lab-track{
+  display:grid;grid-auto-flow:column;grid-auto-columns:minmax(132px,1fr);
+  gap:12px;overflow-x:auto;padding:6px 2px 18px;scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+}
+@media (min-width:900px){
+  .lab-track{grid-auto-flow:row;grid-template-columns:repeat(7,minmax(0,1fr));overflow:visible}
+}
+.lab-tile{
+  scroll-snap-align:start;position:relative;border-radius:20px;
+  border:1px solid var(--line);background:rgba(10,16,18,.85);
+  min-height:128px;padding:16px 14px;display:flex;flex-direction:column;
+  justify-content:space-between;gap:10px;text-decoration:none;color:inherit;
+  transform-style:preserve-3d;will-change:transform;cursor:pointer;
+}
+.lab-tile.soon{cursor:default;opacity:.78}
+.lab-tile .glyph{
+  width:36px;height:36px;border-radius:12px;display:grid;place-items:center;
+  font-family:var(--mono);font-size:.85rem;color:var(--green);
+  background:rgba(61,245,143,.08);border:1px solid rgba(61,245,143,.2);
+}
+.lab-tile .nm{font-family:var(--mono);font-size:.78rem;font-weight:700;color:var(--text);line-height:1.2}
+.lab-tile .hint{
+  position:absolute;left:10px;right:10px;bottom:10px;padding:8px 10px;border-radius:12px;
+  background:rgba(3,6,8,.92);border:1px solid rgba(61,245,143,.28);
+  font-size:.72rem;color:var(--dim);line-height:1.3;
+  opacity:0;transform:translateY(8px);pointer-events:none;
+  transition:opacity .25s,transform .25s;
+}
+.lab-tile:hover .hint,.lab-tile:focus-visible .hint,.lab-tile.is-open .hint{
+  opacity:1;transform:none;
+}
+.lab-tile:hover,.lab-tile:focus-visible{border-color:rgba(61,245,143,.42);
+  box-shadow:0 14px 36px rgba(0,0,0,.4),0 0 20px rgba(46,230,208,.08)}
+
+.foot{
+  padding:10vh clamp(16px,5vw,56px) 40px;max-width:1180px;margin:0 auto;
+  display:flex;flex-wrap:wrap;gap:14px 22px;align-items:center;justify-content:space-between;
+  color:var(--dim);font-size:.8rem;
+}
+.foot nav{display:flex;flex-wrap:wrap;gap:14px}
+.foot .disc{flex-basis:100%;font-size:.72rem;opacity:.7;max-width:52rem}
+
+/* Reduced motion */
+@media (prefers-reduced-motion:reduce){
+  .progress,#glow{display:none}
+  .flag,.lab-tile,.hero-mark{transform:none!important;transition:none!important}
+  .lab-tile .hint{transition:none}
+}
+@media (max-width:600px){
+  .flag{min-height:42vh;border-radius:22px}
+  .flag .body{padding:22px 18px}
+  .lab-tile{min-height:118px;min-width:124px}
+}
+
+/* Start hidden for Motion inView reveal (skipped when reduced-motion) */
+@media (prefers-reduced-motion: no-preference){
+  .kicker,.lab-tile,.foot{opacity:0}
+}
+.lab-tile .glyph img{display:block;width:20px;height:20px}
+.no-motion-lib .kicker,.no-motion-lib .lab-tile,.no-motion-lib .foot{opacity:1}
