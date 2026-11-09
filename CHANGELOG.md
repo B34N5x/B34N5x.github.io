@@ -3,6 +3,14 @@
 All notable site updates are listed here. Each entry has a matching JSON summary under `updates/`.
 
 
+## 2026-11-10 — XRPL Explainer live (v0.3.12 / sw b34n5-v39)
+
+- Publish interactive **XRPL Explainer** ("Is XRP just Ripple?") at public `/explainer/` (was unlisted `/preview-c6ca0054/`).
+- Drop `noindex` on the public explainer; content unchanged (read-only; facts cite xrpl.org).
+- `/preview-c6ca0054/` now redirects to `/explainer/`.
+- Homepage and Tools **What are XRP and the XRPL?** sections keep their plain-text pages; add on-theme **Try the interactive explainer** button → `/explainer/`. Existing xrpl.org links unchanged.
+- Service worker `b34n5-v39` (shell includes `/explainer/`); site version 0.3.12; CSS `?v=39`.
+
 ## 2026-11-03 — BatchChecker sub tiles (v0.3.10 / sw b34n5-v38)
 
 - BatchChecker main view trimmed to the three steps + **New to this?** only.
