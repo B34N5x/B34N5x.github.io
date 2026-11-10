@@ -2,7 +2,5 @@
   "date": "2026-11-10",
   "version": "0.3.12",
   "explainer_url": "/explainer/",
-  "summary": "List XRPL Explainer as Live site-wide; remove NFT Game World listings from previews; game-demo files retained.",
-  "revert": "d5a2a06",
-  "pages": ["index.html", "projects/index.html", "tools/index.html", "preview-aa7d3847/", "preview-04c176cb/"]
+  "summary": "List XRPL Explainer as Live site-wide; remove NFT Game World listings from"
 }

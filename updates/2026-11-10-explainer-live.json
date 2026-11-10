@@ -1,17 +1,12 @@
 {
   "date": "2026-11-10",
   "version": "0.3.12",
-  "sw": "b34n5-v39",
   "css": 39,
-  "summary": "XRPL Explainer live at /explainer/; preview-c6ca0054 redirects; What are XRP pages keep plain text + Try the interactive explainer button; content unchanged; v0.3.12 / sw b34n5-v39.",
+  "summary": "XRPL Explainer live at /explainer/;",
   "paths": {
     "explainer": "/explainer/",
     "redirect_from": "/preview-c6ca0054/",
     "what_is_xrp_home": "/#xrp-basics",
     "what_is_xrp_tools": "/tools/#xrp-basics"
-  },
-  "notes": [
-    "Read-only explainer; no seeds/keys.",
-    "Projects TBA preview branch not included."
-  ]
+  }
 }

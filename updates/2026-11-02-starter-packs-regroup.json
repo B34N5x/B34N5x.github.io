@@ -1,7 +1,6 @@
 {
   "date": "2026-11-02",
   "version": "0.3.6",
-  "sw": "b34n5-v34",
   "files_changed": [
     "tools/index.html",
     "index.html",
@@ -12,12 +11,42 @@
   ],
   "summary": "Regroup Starter Packs: Family=Vault+Will; Analyst=Checker+script+BatchChecker soon (+ secondary explorers); Traffic=Toll soon + more traffic projects; drop More packs tile; sw b34n5-v34; site 0.3.6.",
   "packs": [
-    {"title": "Family Starter", "status": "Live", "items": ["Family Vault", "XRPL Will"]},
-    {"title": "Analyst Starter", "status": "Live", "items": ["Balance Checker", "Balance script", "BatchChecker (Coming soon)"], "secondary": ["XRPL Explorer", "Bithomp", "XRPScan"]},
-    {"title": "Traffic Starter", "status": "Coming soon", "items": ["Toll (Coming soon)", "More traffic projects coming"]}
+    {
+      "title": "Family Starter",
+      "status": "Live",
+      "items": [
+        "Family Vault",
+        "XRPL Will"
+      ]
+    },
+    {
+      "title": "Analyst Starter",
+      "status": "Live",
+      "items": [
+        "Balance Checker",
+        "Balance script",
+        "BatchChecker (Coming soon)"
+      ],
+      "secondary": [
+        "XRPL Explorer",
+        "Bithomp",
+        "XRPScan"
+      ]
+    },
+    {
+      "title": "Traffic Starter",
+      "status": "Coming soon",
+      "items": [
+        "Toll (Coming soon)",
+        "More traffic projects coming"
+      ]
+    }
   ],
-  "removed": ["More packs coming tile"],
+  "removed": [
+    "More packs coming tile"
+  ],
   "broken": [],
-  "risks": ["Service worker cache bust depends on clients fetching new sw.js"],
-  "rollback": "ceb0b35"
+  "risks": [
+    "Service worker cache bust depends on clients fetching new sw.js"
+  ]
 }

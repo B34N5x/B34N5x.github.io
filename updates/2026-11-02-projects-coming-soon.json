@@ -1,7 +1,6 @@
 {
   "date": "2026-11-02",
   "version": "0.3.7",
-  "sw": "b34n5-v35",
   "files_changed": [
     "projects/index.html",
     "index.html",
@@ -13,10 +12,19 @@
   ],
   "summary": "Projects: Coming soon cards for BatchChecker (Analyst) and XRPL Toll (Traffic), each linking to its Starter Pack; Lobby kept; sw b34n5-v35; site 0.3.7.",
   "coming_soon": [
-    {"title": "BatchChecker", "summary": "Check many XRPL addresses' balances at once. Read-only.", "pack": "tools/#analyst-starter"},
-    {"title": "XRPL Toll", "summary": "Traffic and toll-road payments idea on XRPL.", "pack": "tools/#traffic-starter"}
+    {
+      "title": "BatchChecker",
+      "summary": "Check many XRPL addresses' balances at once. Read-only.",
+      "pack": "tools/#analyst-starter"
+    },
+    {
+      "title": "XRPL Toll",
+      "summary": "Traffic and toll-road payments idea on XRPL.",
+      "pack": "tools/#traffic-starter"
+    }
   ],
   "broken": [],
-  "risks": ["Service worker cache bust depends on clients fetching new sw.js"],
-  "rollback": "aaef4ef"
+  "risks": [
+    "Service worker cache bust depends on clients fetching new sw.js"
+  ]
 }

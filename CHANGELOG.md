@@ -1,113 +1,30 @@
 # Changelog
 
-All notable site updates are listed here. Each entry has a matching JSON summary under `updates/`.
+Notable releases for b34n5.xyz. Each release has a short JSON summary under `updates/`.
 
+## v0.3.13 · 2026-11-10 · Motion site
+- New motion homepage design.
+- Smooth page-to-page transitions across Home, Tools, Checker, Family Vault, XRPL Explainer and The Lobby.
+- Motion respects your device's reduced-motion setting.
 
-## 2026-11-10 — Motion site live (v0.3.13)
+## v0.3.12 · 2026-11-10 · XRPL Explainer
+- Launched the interactive **XRPL Explainer** ("Is XRP just Ripple?") at `/explainer/`. Read-only; facts cite xrpl.org.
+- Linked from Home, Tools and Projects.
 
-- Promote motion homepage + light motion skin and View Transitions to live: Home, Tools, Checker hub, Family Vault, XRPL Explainer (`/explainer/` URL unchanged), The Lobby.
-- Self-hosted Motion under `/shared/`; prefers-reduced-motion respected; Game World stays delisted; QU1PU stays Coming soon.
-- Preview folders keep `noindex`. Revert point: `6f7370833c975da693a6a0f58727e7f0b47b6b1a`.
+## v0.3.10 · 2026-11-03 · BatchChecker refinements
+- Cleaner three-step layout with a **New to this?** guide.
+- Help, privacy and disclaimer notes moved into compact info tiles.
+- Added clear notes: not affiliated with Ripple or the XRPL Foundation; lookups use public XRPL nodes and nothing is stored by this site; classic r-addresses only for now.
 
-## 2026-11-10 — Explainer listed live; Game World delisted (v0.3.12)
+## v0.3.8 · 2026-11-03 · BatchChecker
+- New **BatchChecker** (`/checker/batch/`): paste a list of XRPL addresses, see balances, and download a CSV.
+- Runs entirely in your browser. Testnet by default, with a Mainnet switch.
+- Rate-limited lookups with automatic retry on another public node.
+- Published test runs and Apache-2.0 licence.
 
-- Mark **XRPL Explainer** Live on Projects, Tools, homepage See more, and homepage previews; links to `/explainer/`.
-- Remove **NFT Game World** listings from homepage previews (files at `/projects/game-demo/` kept).
-- Sync Tools/Projects footer site version to 0.3.12. QU1PU stays Coming soon (no public preview link).
-- Revert point: d5a2a06.
+## v0.3.5 · 2026-11-02 · XRP Starter Packs
+- **Starter Packs** on the Tools page: Family (Family Vault, XRPL Will), Analyst (Balance Checker, balance script, explorers) and Traffic (coming soon).
+- Testnet first. No keys, nothing stored.
 
-## 2026-11-10 — XRPL Explainer live (v0.3.12 / sw b34n5-v39)
-
-- Publish interactive **XRPL Explainer** ("Is XRP just Ripple?") at public `/explainer/` (was unlisted `/preview-c6ca0054/`).
-- Drop `noindex` on the public explainer; content unchanged (read-only; facts cite xrpl.org).
-- `/preview-c6ca0054/` now redirects to `/explainer/`.
-- Homepage and Tools **What are XRP and the XRPL?** sections keep their plain-text pages; add on-theme **Try the interactive explainer** button → `/explainer/`. Existing xrpl.org links unchanged.
-- Service worker `b34n5-v39` (shell includes `/explainer/`); site version 0.3.12; CSS `?v=39`.
-
-## 2026-11-03 — BatchChecker sub tiles (v0.3.10 / sw b34n5-v38)
-
-- BatchChecker main view trimmed to the three steps + **New to this?** only.
-- Explanatory copy (addresses, network, rate limit, results guide, CSV use, privacy, disclaimer, not-affiliated) moved into compact label-only **sub tiles**.
-- Tiles open the shared floating panel (`.sub-float` style); tap on phone, hover/click on desktop; Esc / click-off / × to close; keyboard accessible.
-- Footer uses a compact tile row; Adult supervision + licence/test-run links stay.
-- Removed the Terms consent checkbox (felt like a gate); replaced with a small muted line under Check: "By using this you agree to the Terms (not advice, no liability)." Check works without ticking anything.
-- Tool lookup / CSV logic unchanged. Service worker `b34n5-v38`; site version 0.3.10; CSS `?v=38`.
-- Rollback: revert to commit `cea72e4`.
-
-
-## 2026-11-03 — BatchChecker safety notes (v0.3.9 / sw b34n5-v37)
-
-- Footer: "Not affiliated with Ripple or the XRPL Foundation."
-- Privacy note: lookups go to public XRPL nodes, which can see the addresses queried; nothing is stored by this site.
-- Paste step More info: classic r-addresses only (X-addresses and destination tags not supported yet).
-- Copy-only change; tool logic unchanged. Service worker `b34n5-v37`; site version 0.3.9. Rollback: d355347.
-
-## 2026-11-03 — BatchChecker v0 live (v0.3.8 / sw b34n5-v36)
-
-- New page `checker/batch/`: step flow — (1) Paste your list, (2) Results, (3) Download CSV.
-- Phone: compact result cards; desktop keeps the table. Extra detail behind More info / ?.
-- **New to this?** self-made guided tour (skippable; sample Testnet list; no tour library; nothing stored).
-- Client-side only; Testnet default; Mainnet toggle; CSV via in-browser Blob.
-- Rate limit: sequential lookups with ~0.2s delay, max 50 lines (noted in More info).
-- Per-request timeout (6s) + retry next public node; per-line `node unavailable` / clear reachability error.
-- Test-only `forceNodeDown` hook removed before release (real timeout/retry kept).
-- Public test runs page `checker/batch/tests/` + `TESTLOG.md` + short muted looping clips.
-- Footer: short disclaimer, privacy one-liner, Adult supervision advised, See test runs, Licence (Apache-2.0).
-- More info: optional “Handy at tax time? Export a CSV for your own records” (education only; not tax/financial advice).
-- SPDX Apache-2.0 header on `assets/batch-checker.js`; repo `LICENSE` unchanged (Lobby not relicensed).
-- Analyst Starter pack + All tools: BatchChecker linked live; Projects Live card; home Analyst summary updated.
-- Service worker bumped to `b34n5-v36` (caches batch page + `batch-checker.js` + tests); site version 0.3.8; CSS `?v=36`.
-- Rollback: revert to commit `a89ff89`.
-
-## 2026-11-02 — Projects Coming soon (v0.3.7 / sw b34n5-v35)
-
-- Projects page: **Coming soon** section with BatchChecker (Analyst pack) and XRPL Toll (Traffic pack) — short title, one-line summary, Coming soon badge, link to Starter Pack.
-- Lobby card kept under In progress (maintenance unchanged).
-- Service worker bumped to `b34n5-v35`; site version 0.3.7; CSS `?v=35`.
-- Rollback: revert to commit `aaef4ef`.
-
-## 2026-11-02 — Starter Packs regroup (v0.3.6 / sw b34n5-v34)
-
-- Family Starter: Family Vault + XRPL Will only.
-- Analyst Starter: Balance Checker, Apache-2.0 balance script, BatchChecker (Coming soon); explorers kept as small secondary links.
-- Traffic Starter: Toll (Coming soon) + More traffic projects coming.
-- Removed standalone More packs coming tile (covered under Traffic).
-- Service worker bumped to `b34n5-v34`; site version 0.3.6; CSS `?v=34`.
-- Rollback: revert to commit `ceb0b35`.
-
-## 2026-11-02 — XRP Starter Packs (v0.3.5 / sw b34n5-v33)
-
-- Tools page: new **XRP Starter Packs** section with floating tiles — Family (Live), Analyst (Live), Traffic (Coming soon), More packs coming.
-- Family: Family Vault + XRPL Will. Analyst: Balance Checker, Apache-2.0 balance script, public explorers (XRPL Explorer, Bithomp, XRPScan) + NFT docs. Traffic: toll-road fees idea only, no live tool.
-- Note on every pack path: Testnet first. No keys, nothing stored. Existing All tools cards kept.
-- Home Tools carousel: starter-pack subcategory tiles + All tools link; summary mentions Starter Packs.
-- Service worker bumped to `b34n5-v33`; site version 0.3.5; CSS cache-bust `?v=33`.
-- Rollback: revert to commit `baca428`.
-
-## 2026-11-01 — Tab titles & summaries (v0.3.4 / sw b34n5-v32)
-
-- Replaced vague "tap · subcategories" tile hints with a clear carousel guide ("Swipe to explore · tap a tile for more") and a real one-line summary on every tile.
-- Each subcategory now has a short title plus a ≤60-char plain-English summary (Lobby keeps Under maintenance + Adult supervision advised).
-- Nav order matches the carousel: Home → NFTs → Tools → Security → Projects (Privacy stays in the footer).
-- Checked links: tools, checker (mainnet/testnet), family-vault, security, projects, privacy, terms, XRPL Will, balance-checker GitHub — no 404s; Lobby remains under NFTs only.
-- Service worker bumped to `b34n5-v32`; site version 0.3.4.
-- Rollback: revert to commit `15c46e0`.
-
-## 2026-11-01 — Android carousel fix (v0.3.3 / sw b34n5-v31)
-
-- Touch/narrow screens (`max-width: 768px` or `pointer: coarse`): flat horizontal scroll-snap carousel — no 3D transforms, perspective, or backface flicker; opacity/scale only; `will-change` only while animating.
-- No auto-rotate on mobile (native pan-x scroll instead of JS swipe vs vertical scroll fights).
-- Subcategories open as a bottom sheet with safe-area padding; desktop keeps the floating corner panel and 3D coverflow.
-- Kept all tile content, chips/pills, Lobby maintenance, glassy nav, See more.
-- Service worker bumped to `b34n5-v31`; site version 0.3.3.
-- Rollback: revert to commit `159bd20`.
-
-## 2026-11-01 — Carousel + glassy nav (v0.3.2 / sw b34n5-v30)
-
-- Added a lightweight 3D-ish project tile carousel (auto-rotate, pause on hover/touch, swipe, arrow keys, dots).
-- Category tiles with subcategories (NFTs, Tools) open a floating corner panel of smaller tiles; Esc / click-off / close returns to the carousel.
-- Glassy sticky nav with a slim accent glow underline.
-- Kept floating-card style, Lobby maintenance pill, Adult supervision advised, Privacy link, Apache-2.0 footers.
-- `prefers-reduced-motion` falls back to a static grid.
-- Service worker bumped to `b34n5-v30`; site version 0.3.2.
-- Rollback: revert to commit `e6ec078b31210bb997549c8c7a2c7d7b8c889e1e`.
+## v0.3.2 · 2026-11-01 · Project carousel
+- Interactive project carousel with category tiles, a glassy navigation bar, and a mobile-friendly swipe layout.

@@ -1,7 +1,6 @@
 {
   "date": "2026-11-01",
   "version": "0.3.2",
-  "sw": "b34n5-v30",
   "files_changed": [
     "index.html",
     "assets/style.css",
@@ -16,6 +15,5 @@
     "Carousel JS owns transforms on .car-tile; conflict if other scripts animate those nodes",
     "Sticky glass nav may overlap content on very short viewports",
     "Service worker cache bust depends on clients fetching new sw.js"
-  ],
-  "rollback": "e6ec078b31210bb997549c8c7a2c7d7b8c889e1e"
+  ]
 }

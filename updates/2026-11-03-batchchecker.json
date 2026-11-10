@@ -1,7 +1,6 @@
 {
   "date": "2026-11-03",
   "version": "0.3.8",
-  "sw": "b34n5-v36",
   "status": "live",
   "files_changed": [
     "checker/batch/index.html",
@@ -26,41 +25,10 @@
     "Test-only forceNodeDown hook removed before release",
     "SPDX Apache-2.0 on batch-checker.js; site LICENSE already Apache-2.0 (Lobby not relicensed)"
   ],
-  "tests": [
-    {
-      "name": "seed-reject",
-      "result": "PASS"
-    },
-    {
-      "name": "invalid-mixed",
-      "result": "PASS"
-    },
-    {
-      "name": "testnet-ok",
-      "result": "PASS"
-    },
-    {
-      "name": "mainnet-mixed",
-      "result": "PASS"
-    },
-    {
-      "name": "csv-download",
-      "result": "PASS"
-    },
-    {
-      "name": "node-timeout",
-      "result": "PASS"
-    },
-    {
-      "name": "new-to-this-tour",
-      "result": "PASS"
-    }
-  ],
   "broken": [],
   "risks": [
     "Single page CSP allows both Testnet and Mainnet WSS (unlike per-network Balance Checker pages)",
     "Public nodes may rate-limit; sequential delay may still fail under load",
     "account_tx last-activity shape can vary by node (close_time_iso vs date)"
-  ],
-  "rollback": "a89ff89"
+  ]
 }

@@ -1,7 +1,6 @@
 {
   "date": "2026-11-03",
   "version": "0.3.9",
-  "sw": "b34n5-v37",
   "status": "live",
   "files_changed": [
     "checker/batch/index.html",
@@ -17,6 +16,5 @@
     "Text-only change; no JS logic touched",
     "Nothing stored; privacy note now discloses public node visibility"
   ],
-  "broken": [],
-  "rollback": "d355347"
+  "broken": []
 }

@@ -3,15 +3,5 @@
   "timezone": "Australia/Sydney",
   "title": "Motion site live",
   "site_version": "0.3.13",
-  "summary": "Motion homepage plus skin and page transitions on tools, checker, family-vault, explainer, TheLobby. Explainer URL unchanged. Preview folders keep noindex.",
-  "revert": "6f7370833c975da693a6a0f58727e7f0b47b6b1a",
-  "pages": [
-    "index.html",
-    "tools/",
-    "checker/",
-    "family-vault/",
-    "explainer/",
-    "TheLobby/",
-    "shared/"
-  ]
+  "summary": "Motion homepage plus skin and page transitions on tools, checker, family-vault, explainer, TheLobby. Explainer URL unchanged."
 }

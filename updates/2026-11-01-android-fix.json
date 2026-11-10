@@ -1,7 +1,6 @@
 {
   "date": "2026-11-01",
   "version": "0.3.3",
-  "sw": "b34n5-v31",
   "files_changed": [
     "index.html",
     "assets/style.css",
@@ -26,6 +25,5 @@
   "risks": [
     "pointer:coarse laptops get snap mode (intentional)",
     "Service worker cache bust depends on clients fetching new sw.js"
-  ],
-  "rollback": "159bd20"
+  ]
 }
