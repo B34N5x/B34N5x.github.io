@@ -344,6 +344,12 @@
     return id;
   }
 
+  function fitFallbackDiagrams() {
+    var portrait = window.matchMedia && window.matchMedia("(orientation: portrait)").matches;
+    document.querySelectorAll(".diagram-wrap svg").forEach(function (svg) {
+      svg.setAttribute("preserveAspectRatio", portrait ? "xMidYMid slice" : "xMidYMid meet");
+    });
+  }
   function mountDiagrams() {
     var tpl = $("diagram-template");
     if (!tpl) return;
@@ -353,6 +359,7 @@
       host.replaceChildren();
       host.appendChild(tpl.content.cloneNode(true));
     });
+    fitFallbackDiagrams();
   }
 
   function diagramRoot(which) {
@@ -1033,6 +1040,8 @@
   function bind() {
     mountDiagrams();
     $("btn-next").addEventListener("click", goNext);
+    window.addEventListener("resize", fitFallbackDiagrams);
+    window.addEventListener("orientationchange", function () { setTimeout(fitFallbackDiagrams, 200); });
     $("btn-back").addEventListener("click", goBack);
     $("btn-skip").addEventListener("click", goSkip);
     $("btn-cancel").addEventListener("click", cancelFlow);

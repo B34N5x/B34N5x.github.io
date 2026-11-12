@@ -14,6 +14,9 @@ function reducedMotion() {
 function isMobile() {
   return window.matchMedia && window.matchMedia("(max-width:720px)").matches;
 }
+function isPortrait() {
+  return window.matchMedia && window.matchMedia("(orientation: portrait)").matches;
+}
 function hasWebGL() {
   try {
     var c = document.createElement("canvas");
@@ -56,8 +59,10 @@ function createGlobe(root) {
   renderer.toneMapping = THREE.NoToneMapping;
 
   var scene = new THREE.Scene();
-  var camera = new THREE.PerspectiveCamera(42, 1, 0.1, 40);
-  camera.position.set(0, 0.15, 7.2);
+  var BASE_FOV = 42;
+  var BASE_Z = 7.2;
+  var camera = new THREE.PerspectiveCamera(BASE_FOV, 1, 0.1, 40);
+  camera.position.set(0, 0.15, BASE_Z);
 
   var group = new THREE.Group();
   scene.add(group);
@@ -224,12 +229,29 @@ function createGlobe(root) {
   /* Bloom */
   var composer = null;
   var bloomPass = null;
-  function sizeRenderer() {
-    var w = root.clientWidth || 640;
-    var h = Math.max(280, root.clientHeight || (isMobile() ? 300 : 420));
-    renderer.setSize(w, h, false);
-    camera.aspect = w / h;
+  function fitCamera(w, h) {
+    var aspect = w / Math.max(1, h);
+    camera.aspect = aspect;
+    /* Landscape keeps the designed framing. Portrait frames the sphere
+       to the narrower (horizontal) axis so it fills the tall well. */
+    if (h > w || isPortrait()) {
+      var needed = RADIUS * 1.22 + 0.4;
+      var vFov = 2 * Math.atan((needed / Math.max(aspect, 0.15)) / BASE_Z) * (180 / Math.PI);
+      camera.fov = Math.max(30, Math.min(58, vFov));
+    } else {
+      camera.fov = BASE_FOV;
+    }
+    camera.position.set(0, 0.15, BASE_Z);
     camera.updateProjectionMatrix();
+  }
+  function sizeRenderer() {
+    var w = Math.max(1, root.clientWidth || 640);
+    var h = root.clientHeight || 0;
+    if (h < 2) {
+      h = isPortrait() ? Math.round((window.innerHeight || 640) * 0.6) : (isMobile() ? 300 : 420);
+    }
+    renderer.setSize(w, h, false);
+    fitCamera(w, h);
     if (composer) composer.setSize(w, h);
     if (bloomPass) bloomPass.setSize(w, h);
     leaderSvg.setAttribute("viewBox", "0 0 " + w + " " + h);
@@ -316,13 +338,18 @@ function createGlobe(root) {
     ensureLabels();
     var w = canvas.clientWidth || 1;
     var h = canvas.clientHeight || 1;
+    var portrait = h > w || isPortrait();
     var now = performance.now();
     var ranked = nodes
       .map(function (n, idx) { return { n: n, idx: idx, score: n.key ? n.lastSeen : 0 }; })
       .filter(function (x) { return x.n.key && (now - x.n.lastSeen) < 14000; })
       .sort(function (a, b) { return b.score - a.score; })
-      .slice(0, isMobile() ? 3 : MAX_LABELS);
-    var i, item, tx, line, x, y, side, lx, ly;
+      .slice(0, (portrait || isMobile()) ? 3 : MAX_LABELS);
+    var padX = 10;
+    var padTop = 22;
+    var padBot = portrait ? 80 : 16;
+    var used = [];
+    var i, item, tx, line, x, y, side, lx, ly, k, tries, clash;
     for (i = 0; i < labelPool.length; i++) {
       item = ranked[i];
       tx = labelPool[i].tx;
@@ -338,8 +365,18 @@ function createGlobe(root) {
       x = (proj.x * 0.5 + 0.5) * w;
       y = (-proj.y * 0.5 + 0.5) * h;
       side = (item.idx % 2 === 0) ? 1 : -1;
-      lx = Math.max(8, Math.min(w - 8, x + side * 72));
-      ly = Math.max(14, Math.min(h - 6, y - 28));
+      lx = Math.max(padX, Math.min(w - padX, x + side * (portrait ? 56 : 72)));
+      ly = Math.max(padTop, Math.min(h - padBot, y - (portrait ? 36 : 28)));
+      tries = 0;
+      while (tries++ < 6) {
+        clash = false;
+        for (k = 0; k < used.length; k++) {
+          if (Math.abs(used[k].y - ly) < 18 && Math.abs(used[k].x - lx) < 96) { clash = true; break; }
+        }
+        if (!clash) break;
+        ly = Math.max(padTop, Math.min(h - padBot, ly + 20));
+      }
+      used.push({ x: lx, y: ly });
       tx.textContent = shortKey(item.n.key);
       tx.setAttribute("x", String(lx));
       tx.setAttribute("y", String(ly));
@@ -421,6 +458,17 @@ function createGlobe(root) {
   window.addEventListener("touchend", onUp);
   var ro = new ResizeObserver(sizeRenderer);
   ro.observe(root);
+  function onViewportChange() {
+    sizeRenderer();
+    /* iOS can report stale sizes mid-rotation; fit again after layout. */
+    setTimeout(sizeRenderer, 200);
+  }
+  window.addEventListener("resize", onViewportChange);
+  window.addEventListener("orientationchange", onViewportChange);
+  if (window.matchMedia) {
+    try { window.matchMedia("(orientation: portrait)").addEventListener("change", onViewportChange); }
+    catch (e) { /* older Safari */ }
+  }
 
   if (hint) hint.textContent = "Drag to rotate · starts as a ring, then becomes a 3D network";
 
@@ -462,6 +510,8 @@ function createGlobe(root) {
     dispose: function () {
       running = false;
       ro.disconnect();
+      window.removeEventListener("resize", onViewportChange);
+      window.removeEventListener("orientationchange", onViewportChange);
     }
   };
 }
