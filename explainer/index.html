@@ -55,7 +55,10 @@
         </div>
         <div class="hero-orbs" id="hero-orbs" aria-hidden="true"></div>
         <p class="source">Inspired by community framing of XRP as multipolar settlement rails. Facts below cite <a href="https://xrpl.org/" rel="noopener" target="_blank">xrpl.org</a>. Read-only — this page never asks for a seed or secret.</p>
-        <a class="cta" href="#validators">Explore the facts ↓</a>
+        <div class="try-cta-row">
+          <a class="cta" href="#validators">Explore the facts ↓</a>
+          <a class="cta try-cta try-cta-secondary" id="try-cta-hero" href="try/">Come try it out</a>
+        </div>
       </div>
     </section>
 
@@ -174,12 +177,21 @@
         <div class="myth-grid" id="myth-grid"></div>
       </div>
     </section>
+
+    <section id="try-it" class="scene try-band" data-scene aria-labelledby="try-title">
+      <div class="scene-inner">
+        <p class="kicker">Your turn</p>
+        <h2 id="try-title">Follow a payment yourself</h2>
+        <p class="lede">Send a practice Testnet payment and watch it land.</p>
+        <a class="cta try-cta" id="try-cta-end" href="try/">Come try it out</a>
+      </div>
+    </section>
   </main>
 
   
 <footer class="foot">
   <nav aria-label="Footer"><a href="../index.html">Home</a><a href="../tools/">Tools</a><a href="../explainer/">Explainer</a><a href="../TheLobby/">The Lobby</a><a href="../security/">Security</a><a href="../terms/">Terms</a><a href="../privacy/">Privacy</a></nav>
-  <span>Apache-2.0 · XRPL Explainer · site 0.3.13</span>
+  <span>Apache-2.0 · XRPL Explainer · site 0.3.14</span>
 </footer>
 <script src="app.js"></script>
 <script src="../shared/lib/motion.js"></script>

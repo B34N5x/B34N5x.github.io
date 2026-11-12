@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0B161C">
+<meta name="description" content="Follow a practice Testnet payment on the XRP Ledger. General information only.">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self' wss://s.altnet.rippletest.net:51233 wss://testnet.xrpl-labs.com https://faucet.altnet.rippletest.net; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+<title>Follow a payment — XRPL Explainer · B34N5</title>
+<link rel="icon" href="../../favicon.ico" sizes="any">
+<link rel="stylesheet" href="../../shared/page-transitions.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <a class="brand" href="../../index.html">B34N5x</a>
+  <nav aria-label="Primary">
+    <a href="../../index.html">Home</a>
+    <a class="back-explainer" href="../">Back to Explainer</a>
+    <a href="../../security/">Security</a>
+  </nav>
+  <div class="net-wrap">
+    <span class="net-badge" id="net-badge" data-net="testnet">Testnet</span>
+  </div>
+  <button type="button" id="motion-toggle" class="ghost" aria-pressed="false">Reduce motion</button>
+</header>
+
+<main id="main">
+
+<template id="diagram-template">
+<svg viewBox="0 0 800 270" role="img" aria-label="Transaction path from sender through the network to the destination, with a fee being burned">
+  <path class="d-path" data-path="to-net" d="M132 88 H258"/>
+  <path class="d-path" data-path="to-led" d="M342 88 H488"/>
+  <path class="d-path" data-path="to-dst" d="M572 88 H668"/>
+  <path class="d-path" data-path="to-fee" d="M300 130 V182"/>
+  <g class="d-group" data-stage="sender">
+    <circle class="d-node" cx="90" cy="88" r="42"/>
+    <text class="d-label" x="90" y="92">Sender</text>
+    <text class="d-sub" x="90" y="146">starts the payment</text>
+  </g>
+  <g class="d-sats" aria-hidden="true">
+    <circle class="d-sat" cx="300" cy="28" r="4"/>
+    <circle class="d-sat" cx="348" cy="48" r="4"/>
+    <circle class="d-sat" cx="352" cy="96" r="4"/>
+    <circle class="d-sat" cx="330" cy="138" r="4"/>
+    <circle class="d-sat" cx="270" cy="138" r="4"/>
+    <circle class="d-sat" cx="248" cy="96" r="4"/>
+    <circle class="d-sat" cx="252" cy="48" r="4"/>
+    <circle class="d-sat" cx="322" cy="30" r="4"/>
+  </g>
+  <g class="d-group" data-stage="network">
+    <circle class="d-node" cx="300" cy="88" r="42"/>
+    <text class="d-label" x="300" y="86">Network</text>
+    <text class="d-sub d-live-vals" x="300" y="102">validators vote</text>
+    <text class="d-sub" x="300" y="146">placeholders only</text>
+  </g>
+  <g class="d-group" data-stage="ledger">
+    <circle class="d-node" cx="530" cy="88" r="42"/>
+    <text class="d-label" x="530" y="86">Ledger</text>
+    <text class="d-sub d-live-ledger" x="530" y="102">waiting for a close</text>
+    <text class="d-sub" x="530" y="146">real index when it closes</text>
+  </g>
+  <g class="d-group" data-stage="dest">
+    <circle class="d-node" cx="710" cy="88" r="42"/>
+    <text class="d-label" x="710" y="92">Destination</text>
+    <text class="d-sub" x="710" y="146">receives the amount</text>
+  </g>
+  <g class="d-group" data-stage="fee">
+    <circle class="d-node" cx="300" cy="214" r="32"/>
+    <text class="d-label" x="300" y="218">Fee</text>
+    <text class="d-sub" x="300" y="256">burned, not paid out</text>
+  </g>
+  <circle class="d-token" cx="90" cy="88" r="7"/>
+</svg>
+</template>
+
+  
+  <div class="stage" id="stage">
+    <div class="globe-root" id="globe-root" hidden>
+      <div class="globe-grid" aria-hidden="true"></div>
+      <canvas id="globe-canvas" aria-label="Live Testnet validator network. Drag to rotate."></canvas>
+      <svg class="globe-leaders" id="globe-leaders" aria-hidden="true"></svg>
+      <div class="globe-labels" id="globe-labels"></div>
+      <p class="globe-hint">Drag to rotate</p>
+    </div>
+    <aside class="live-chip" id="live-ambient" aria-live="polite">
+      <p class="live-line" id="live-line">Connecting to Testnet…</p>
+      <span class="tag-real">real</span>
+      <p class="live-honest" id="live-honest">Index and close time are real. Paths are illustrative.</p>
+    </aside>
+  </div>
+
+  <ol class="steps-rail" id="steps-rail" aria-label="Walkthrough progress">
+    <li data-step="intro" class="on" title="Start"><span class="sr-only">Start</span></li>
+    <li data-step="diagram" title="Path"><span class="sr-only">Path</span></li>
+    <li data-step="demo" title="Demo"><span class="sr-only">Demo</span></li>
+    <li data-step="viewer" title="Fields"><span class="sr-only">Fields</span></li>
+    <li data-step="done" title="Done"><span class="sr-only">Done</span></li>
+  </ol>
+
+  <p class="status" id="status" role="status" aria-live="polite"></p>
+
+  <section class="panel is-on" id="panel-intro" data-panel="intro" aria-labelledby="intro-title">
+    <p class="kicker">Walkthrough</p>
+    <h1 id="intro-title">Follow a payment</h1>
+    <p class="lede">Watch a practice payment travel across the Testnet.</p>
+    <details class="more">
+      <summary>More detail</summary>
+      <ul class="facts">
+        <li>A payment that has already validated cannot be reversed. Cancel before you sign.</li>
+        <li>The demo uses throwaway Testnet wallets in this browser, funded by the public faucet. Seeds are never shown, and this page never signs with your wallet.</li>
+        <li>General information only. Not financial advice. Testnet play funds are not real value.</li>
+      </ul>
+    </details>
+  </section>
+
+  <section class="panel" id="panel-diagram" data-panel="diagram" aria-labelledby="diagram-title" hidden>
+    <p class="kicker">The path</p>
+    <h2 id="diagram-title">How a payment moves</h2>
+    <p class="lede" id="diagram-caption">Ledgers close every few seconds. Next you will send a practice payment and watch it land.</p>
+    <div class="diagram-wrap" id="diagram-wrap" aria-hidden="false"></div>
+    <details class="more">
+      <summary>More detail</summary>
+      <p class="source">The sphere layout and packet paths are illustrative — this page cannot see real peer routing. Validator keys and ledger closes are real Testnet data.</p>
+    </details>
+  </section>
+
+  <section class="panel" id="panel-demo" data-panel="demo" aria-labelledby="demo-title" hidden>
+    <p class="kicker">Testnet practice</p>
+    <h2 id="demo-title">Send a practice payment</h2>
+    <p class="lede">Two throwaway wallets and one fixed practice amount. Seeds are never shown.</p>
+    <div class="diagram-wrap" id="demo-diagram"></div>
+    <button type="button" class="cta" id="btn-run-demo">Run the Testnet demo</button>
+    <p class="demo-meta" id="demo-meta"></p>
+    <details class="more" id="demo-more">
+      <summary>More detail</summary>
+      <ol class="live-track" id="live-track"></ol>
+      <div class="val-box" id="val-box">
+        <p class="val-count" id="val-count">Waiting for real validation messages.</p>
+        <ul class="val-keys" id="val-keys"></ul>
+      </div>
+    </details>
+  </section>
+
+  <section class="panel" id="panel-viewer" data-panel="viewer" aria-labelledby="viewer-title" hidden>
+    <p class="kicker">Live payment</p>
+    <h2 id="viewer-title">What this payment says</h2>
+    <p class="lede" id="viewer-lede">The main fields from the Testnet payment, in plain words.</p>
+    <p class="warn" id="viewer-note" hidden></p>
+    <dl class="fields" id="tx-fields"></dl>
+    <details class="more" id="tx-more" hidden>
+      <summary>More detail</summary>
+      <dl class="fields" id="tx-fields-more"></dl>
+      <p class="source" id="viewer-link-wrap"></p>
+    </details>
+  </section>
+
+  <section class="panel" id="panel-done" data-panel="done" aria-labelledby="done-title" hidden>
+    <p class="kicker">Finished</p>
+    <h2 id="done-title">Nice work</h2>
+    <p class="lede" id="done-lede">You followed a practice payment on Testnet.</p>
+    <p class="source" id="done-later">Real-network version coming later.</p>
+    <p class="source">General information only. Not financial advice.</p>
+    <div class="choice-row">
+      <button type="button" class="cta" id="btn-restart">Start again</button>
+      <a class="ghost link-btn" href="../">Back to Explainer</a>
+    </div>
+  </section>
+
+  <section class="panel" id="panel-cancelled" data-panel="cancelled" aria-labelledby="cancelled-title" hidden>
+    <p class="kicker">Stopped</p>
+    <h2 id="cancelled-title">Cancelled</h2>
+    <p class="lede" id="cancelled-body">Nothing was signed by you. If a Testnet demo payment had already validated, that practice payment cannot be reversed — but it used demo-only play funds, not your wallet.</p>
+    <div class="choice-row">
+      <button type="button" class="cta" id="btn-restart-2">Start again</button>
+      <a class="ghost link-btn" href="../">Back to Explainer</a>
+    </div>
+  </section>
+</main>
+
+<div class="dock cancel-dock">
+  <button type="button" class="ghost danger" id="btn-cancel">Cancel</button>
+</div>
+<div class="dock cutscene" role="group" aria-label="Walkthrough controls">
+  <button type="button" class="ghost" id="btn-back">Back</button>
+  <button type="button" class="ghost" id="btn-skip">Skip</button>
+  <button type="button" class="cta" id="btn-next">Next</button>
+</div>
+
+<footer class="site-footer">
+  <nav aria-label="Footer">
+    <a href="../../index.html">Home</a>
+    <a href="../">Explainer</a>
+    <a href="../../security/">Security</a>
+    <a href="../../terms/">Terms</a>
+    <a href="../../privacy/">Privacy</a>
+  </nav>
+  <p>Apache-2.0 · XRPL Explainer · site 0.3.14 · General information only.</p>
+</footer>
+
+<script src="../../assets/vendor/xrpl-4.7.0.min.js"></script>
+<script src="../../shared/page-transitions.js"></script>
+<script type="module" src="globe.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

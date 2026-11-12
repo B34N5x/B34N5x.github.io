@@ -2,6 +2,9 @@
 
 Notable releases for b34n5.xyz. Each release has a short JSON summary under `updates/`.
 
+## v0.3.14 · 2026-11-12 · XRPL Explainer activity
+- Interactive testnet activity added to the Explainer.
+
 ## v0.3.13 · 2026-11-10 · Motion site
 - New motion homepage design.
 - Smooth page-to-page transitions across Home, Tools, Checker, Family Vault, XRPL Explainer and The Lobby.
