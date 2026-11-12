@@ -4,12 +4,13 @@
 <meta charset="utf-8">
 <meta name="robots" content="noindex,nofollow">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#07090b">
+<meta name="theme-color" content="#0B161C">
 <meta name="description" content="Unlisted preview: follow a Testnet payment on the XRP Ledger, then review a draft before you sign. General information only.">
 <meta name="referrer" content="no-referrer">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self' wss://s.altnet.rippletest.net:51233 wss://testnet.xrpl-labs.com wss://xrplcluster.com wss://s1.ripple.com https://faucet.altnet.rippletest.net; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
 <title>Follow a payment — XRPL Explainer preview · B34N5</title>
 <link rel="icon" href="../../favicon.ico" sizes="any">
+<link rel="stylesheet" href="../../shared/page-transitions.css">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -78,83 +79,97 @@
 </svg>
 </template>
 
-  <p class="preview-note">Unlisted preview — a follow-up from the Explainer preview. The live Explainer is unchanged. General information only. Not financial advice.</p>
+  <p class="preview-note">Unlisted preview · general information only.</p>
 
-  <aside class="live-ambient" id="live-ambient" aria-live="polite">
-    <p class="live-line" id="live-line">Connecting to the Testnet live stream…</p>
-    <p class="live-honest" id="live-honest">Ledger index, close time and validation keys are real Testnet data. Packet paths and the sphere layout are illustrative — this page cannot see the real peer routing.</p>
-  </aside>
-
-  <div class="globe-root" id="globe-root" hidden>
-    <div class="globe-grid" aria-hidden="true"></div>
-    <canvas id="globe-canvas" aria-label="Live Testnet validator network. Drag to rotate."></canvas>
-    <svg class="globe-leaders" id="globe-leaders" aria-hidden="true"></svg>
-    <div class="globe-labels" id="globe-labels"></div>
-    <p class="globe-hint">Drag to rotate</p>
+  <div class="stage" id="stage">
+    <div class="globe-root" id="globe-root" hidden>
+      <div class="globe-grid" aria-hidden="true"></div>
+      <canvas id="globe-canvas" aria-label="Live Testnet validator network. Drag to rotate."></canvas>
+      <svg class="globe-leaders" id="globe-leaders" aria-hidden="true"></svg>
+      <div class="globe-labels" id="globe-labels"></div>
+      <p class="globe-hint">Drag to rotate</p>
+    </div>
+    <aside class="live-chip" id="live-ambient" aria-live="polite">
+      <p class="live-line" id="live-line">Connecting to Testnet…</p>
+      <span class="tag-real">real</span>
+      <p class="live-honest" id="live-honest">Index and close time are real. Paths are illustrative.</p>
+    </aside>
   </div>
 
   <ol class="steps-rail" id="steps-rail" aria-label="Walkthrough progress">
-    <li data-step="intro" class="on">Start</li>
-    <li data-step="diagram">Path</li>
-    <li data-step="demo">Demo</li>
-    <li data-step="viewer">Fields</li>
-    <li data-step="ask">Next?</li>
-    <li data-step="compose">Draft</li>
-    <li data-step="review">Check</li>
-    <li data-step="sign">Sign</li>
+    <li data-step="intro" class="on" title="Start"><span class="sr-only">Start</span></li>
+    <li data-step="diagram" title="Path"><span class="sr-only">Path</span></li>
+    <li data-step="demo" title="Demo"><span class="sr-only">Demo</span></li>
+    <li data-step="viewer" title="Fields"><span class="sr-only">Fields</span></li>
+    <li data-step="ask" title="Next?"><span class="sr-only">Next?</span></li>
+    <li data-step="compose" title="Draft"><span class="sr-only">Draft</span></li>
+    <li data-step="review" title="Check"><span class="sr-only">Check</span></li>
+    <li data-step="sign" title="Sign"><span class="sr-only">Sign</span></li>
   </ol>
 
   <p class="status" id="status" role="status" aria-live="polite"></p>
 
   <section class="panel is-on" id="panel-intro" data-panel="intro" aria-labelledby="intro-title">
-    <p class="kicker">Interactive preview</p>
-    <h1 id="intro-title">Follow a payment on the ledger</h1>
-    <p class="lede">This walkthrough shows how a transaction moves, then labels a <strong>real Testnet</strong> payment in plain words. When you finish, you can choose to try the same process with your own wallet.</p>
-    <ul class="facts">
-      <li>A payment that has already <strong>validated</strong> on the ledger cannot be reversed. Cancel has to happen before you sign.</li>
-      <li>You can press <strong>Cancel</strong> at every step before signing. Rejecting a request in Xaman also cancels it.</li>
-      <li>The demo uses throwaway Testnet wallets created in this browser and funded by the public faucet. This page never asks for your seed or secret, and it never signs with your wallet.</li>
-      <li>For something you can cancel later, you can draft an <strong>Escrow</strong> with a cancel time. After that time you can send an EscrowCancel yourself.</li>
-    </ul>
-    <p class="source">General information only. Not financial advice. Testnet play funds are not real value.</p>
+    <p class="kicker">Walkthrough</p>
+    <h1 id="intro-title">Follow a payment</h1>
+    <p class="lede">Watch a practice payment travel across the Testnet. Then you can draft one with your own wallet.</p>
+    <details class="more">
+      <summary>More detail</summary>
+      <ul class="facts">
+        <li>A payment that has already validated cannot be reversed. Cancel before you sign.</li>
+        <li>The demo uses throwaway Testnet wallets in this browser, funded by the public faucet. Seeds are never shown, and this page never signs with your wallet.</li>
+        <li>For something you can cancel later, you can draft an Escrow with a cancel time, then send an EscrowCancel yourself.</li>
+        <li>General information only. Not financial advice. Testnet play funds are not real value.</li>
+      </ul>
+    </details>
   </section>
 
   <section class="panel" id="panel-diagram" data-panel="diagram" aria-labelledby="diagram-title" hidden>
-    <p class="kicker">Live path</p>
-    <h2 id="diagram-title">How a transaction moves</h2>
-    <p class="lede" id="diagram-caption">This map stays linked to the live Testnet stream. Watch the ledger node — the index and close time are real, and ledgers usually close every few seconds. The next step follows one payment in real time.</p>
+    <p class="kicker">The path</p>
+    <h2 id="diagram-title">How a payment moves</h2>
+    <p class="lede" id="diagram-caption">Ledgers close every few seconds. Next you will send a practice payment and watch it land.</p>
     <div class="diagram-wrap" id="diagram-wrap" aria-hidden="false"></div>
-    <p class="source">The dots around the network are only placeholders for layout. Real validator keys and counts appear when a payment is in flight.</p>
+    <details class="more">
+      <summary>More detail</summary>
+      <p class="source">The sphere layout and packet paths are illustrative — this page cannot see real peer routing. Validator keys and ledger closes are real Testnet data.</p>
+    </details>
   </section>
 
   <section class="panel" id="panel-demo" data-panel="demo" aria-labelledby="demo-title" hidden>
     <p class="kicker">Testnet practice</p>
-    <h2 id="demo-title">Send a demo payment on Testnet</h2>
-    <p class="lede">This page will create two demo-only Testnet wallets in memory, ask the public faucet for play funds, and submit a fixed demo payment. The diagram follows that payment in real time on the connected Testnet server. Seeds are never shown and are forgotten afterwards. The amount is a fixed practice figure, not a suggestion.</p>
-    <p class="warn" id="demo-mainnet-warn" hidden>The hands-on demo only runs on Testnet. Switch back to Testnet to try it. You can still draft a transaction on Mainnet later, but this page will not sign or send it.</p>
+    <h2 id="demo-title">Send a practice payment</h2>
+    <p class="lede">Two throwaway wallets and one fixed practice amount. Seeds are never shown.</p>
+    <p class="warn" id="demo-mainnet-warn" hidden>The hands-on demo only runs on Testnet. Switch back to Testnet to try it.</p>
     <div class="diagram-wrap" id="demo-diagram"></div>
-    <ol class="live-track" id="live-track"></ol>
-    <div class="val-box" id="val-box">
-      <p class="val-count" id="val-count">Waiting for a Testnet payment so real validation messages can be shown.</p>
-      <ul class="val-keys" id="val-keys"></ul>
-    </div>
-    <p class="demo-meta" id="demo-meta"></p>
     <button type="button" class="cta" id="btn-run-demo">Run the Testnet demo</button>
+    <p class="demo-meta" id="demo-meta"></p>
+    <details class="more" id="demo-more">
+      <summary>More detail</summary>
+      <ol class="live-track" id="live-track"></ol>
+      <div class="val-box" id="val-box">
+        <p class="val-count" id="val-count">Waiting for real validation messages.</p>
+        <ul class="val-keys" id="val-keys"></ul>
+      </div>
+    </details>
   </section>
 
   <section class="panel" id="panel-viewer" data-panel="viewer" aria-labelledby="viewer-title" hidden>
-    <p class="kicker">Live transaction viewer</p>
-    <h2 id="viewer-title">What this transaction says</h2>
-    <p class="lede" id="viewer-lede">These labels are taken from the validated Testnet payment you just sent. Once a payment is validated, it cannot be reversed.</p>
+    <p class="kicker">Live payment</p>
+    <h2 id="viewer-title">What this payment says</h2>
+    <p class="lede" id="viewer-lede">The main fields from the Testnet payment, in plain words.</p>
     <p class="warn" id="viewer-note" hidden></p>
     <dl class="fields" id="tx-fields"></dl>
-    <p class="source" id="viewer-link-wrap"></p>
+    <details class="more" id="tx-more" hidden>
+      <summary>More detail</summary>
+      <dl class="fields" id="tx-fields-more"></dl>
+      <p class="source" id="viewer-link-wrap"></p>
+    </details>
   </section>
 
   <section class="panel" id="panel-ask" data-panel="ask" aria-labelledby="ask-title" hidden>
-    <p class="kicker">You finished the process</p>
+    <p class="kicker">Your turn</p>
     <h2 id="ask-title">Want to try the real thing?</h2>
-    <p class="lede">You have followed a full Testnet payment from start to finish. If you want to try it with your own wallet, the next screens will build a draft, ask you to check every field, and then stop at a Xaman sign step. This page will not sign for you or hold funds.</p>
+    <p class="lede">You can prepare a draft and check every field. This page will not sign for you.</p>
     <div class="choice-row">
       <button type="button" class="cta" id="btn-try-real">Yes, prepare a draft</button>
       <button type="button" class="ghost" id="btn-not-now">Not now</button>
@@ -164,32 +179,32 @@
   <section class="panel" id="panel-compose" data-panel="compose" aria-labelledby="compose-title" hidden>
     <p class="kicker">Your draft</p>
     <h2 id="compose-title">Prepare a transaction</h2>
-    <p class="lede">Fill this in yourself. Nothing here is a suggestion of how much to send, which token to use, or when to set a time. The network in use is shown at the top of the page.</p>
+    <p class="lede">Fill this in yourself. Nothing here is a suggestion.</p>
     <p class="net-callout" id="compose-net" data-net="testnet">Network: Testnet</p>
     <fieldset class="kind-set">
-      <legend>Transaction type</legend>
+      <legend>Type</legend>
       <label class="choice"><input type="radio" name="tx-kind" id="kind-payment" value="Payment" checked> Payment — once validated, it cannot be reversed.</label>
-      <label class="choice"><input type="radio" name="tx-kind" id="kind-escrow" value="EscrowCreate"> Escrow — funds lock until rules you set. If you add a cancel time, you can later send an EscrowCancel yourself to return the funds to you.</label>
+      <label class="choice"><input type="radio" name="tx-kind" id="kind-escrow" value="EscrowCreate"> Escrow — lock funds, then cancel after a time you set.</label>
     </fieldset>
-    <p class="source" id="escrow-help">An escrow is not an undo button for a payment that already settled. It is a separate transaction type with its own cancel path after the cancel time you choose.</p>
-    <label class="field-label" for="draft-from">From (your address, starts with r)</label>
+    <div id="escrow-help" class="source">An escrow is not an undo button for a payment that already settled.</div>
+    <label class="field-label" for="draft-from">From (your address)</label>
     <input id="draft-from" class="field-input" autocomplete="off" spellcheck="false" maxlength="64" inputmode="text">
-    <label class="field-label" for="draft-to">To (destination address, starts with r)</label>
+    <label class="field-label" for="draft-to">To (destination)</label>
     <input id="draft-to" class="field-input" autocomplete="off" spellcheck="false" maxlength="64" inputmode="text">
     <label class="field-label" for="draft-amount">Amount in XRP (you choose)</label>
     <input id="draft-amount" class="field-input" autocomplete="off" spellcheck="false" inputmode="decimal">
     <div id="escrow-fields" hidden>
-      <label class="field-label" for="draft-cancel-after">Cancel after (you choose a date and time)</label>
+      <label class="field-label" for="draft-cancel-after">Cancel after (you choose)</label>
       <input id="draft-cancel-after" class="field-input" type="datetime-local">
-      <p class="source">After this time, you can send an EscrowCancel from your own wallet to return the locked funds to you. Until then the funds stay in escrow.</p>
+      <p class="source">After this time you can send an EscrowCancel from your own wallet.</p>
     </div>
     <p class="warn" id="compose-error" hidden></p>
   </section>
 
   <section class="panel" id="panel-review" data-panel="review" aria-labelledby="review-title" hidden>
-    <p class="kicker">Before anything is signed</p>
+    <p class="kicker">Before you sign</p>
     <h2 id="review-title">Check everything is correct</h2>
-    <p class="lede">Read every line. If something is wrong, press Cancel or go Back and fix it. A validated payment cannot be reversed.</p>
+    <p class="lede">If something is wrong, go Back or press Cancel. A validated payment cannot be reversed.</p>
     <p class="net-callout" id="review-net" data-net="testnet">Network: Testnet</p>
     <dl class="fields" id="review-fields"></dl>
     <label class="check-line" for="review-confirm">
@@ -202,20 +217,23 @@
   <section class="panel" id="panel-sign" data-panel="sign" aria-labelledby="sign-title" hidden>
     <p class="kicker">You sign — this page does not</p>
     <h2 id="sign-title">Sign in Xaman</h2>
-    <p class="lede" id="sign-lede">Xaman transaction signing is not connected on this preview. The live Lobby has a “Sign in with Xaman” path, but that needs a server sign-in endpoint this static site does not provide. This step is a labelled stub: you can review and copy the draft. This page will not open a sign request, will not sign for you, and will not hold funds.</p>
-    <p class="stub-label">Xaman sign request payload — not connected in this preview</p>
+    <p class="lede" id="sign-lede">Xaman signing is not connected on this preview. You can copy the unsigned draft. This page will not sign or hold funds.</p>
+    <p class="stub-label">Unsigned draft — not connected</p>
     <pre class="json" id="draft-json" tabindex="0"></pre>
     <div class="choice-row">
       <button type="button" class="ghost" id="btn-copy-json">Copy draft JSON</button>
       <button type="button" class="ghost" id="btn-open-xaman" disabled>Open in Xaman (not connected)</button>
     </div>
-    <p class="source">When a Xaman API payload is wired later, this step would show a deep link or QR. Rejecting that request in Xaman would also cancel. You can still press Cancel now.</p>
+    <details class="more">
+      <summary>More detail</summary>
+      <p class="source">When a Xaman payload is wired later, this step would show a deep link or QR. Rejecting that request in Xaman would also cancel. You can still press Cancel now.</p>
+    </details>
   </section>
 
   <section class="panel" id="panel-done" data-panel="done" aria-labelledby="done-title" hidden>
     <p class="kicker">Finished</p>
     <h2 id="done-title">That’s the walkthrough</h2>
-    <p class="lede">You can run the Testnet demo again, or go back to the Explainer. General information only. Not financial advice.</p>
+    <p class="lede">You can run the demo again, or go back to the Explainer. General information only.</p>
     <div class="choice-row">
       <button type="button" class="cta" id="btn-restart">Start again</button>
       <a class="ghost link-btn" href="../explainer/">Back to Explainer</a>
@@ -245,7 +263,7 @@
 <div class="modal" id="modal-mainnet" hidden>
   <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="mainnet-title">
     <h2 id="mainnet-title">Switch to Mainnet?</h2>
-    <p>Mainnet is the real XRP Ledger. This page will not sign, send, or hold funds for you. A payment that validates on Mainnet cannot be reversed. Continue only if you meant to look at the real network.</p>
+    <p>Mainnet is the real XRP Ledger. This page will not sign, send, or hold funds. A payment that validates on Mainnet cannot be reversed.</p>
     <div class="choice-row">
       <button type="button" class="ghost danger" id="btn-mainnet-yes">Use Mainnet</button>
       <button type="button" class="cta" id="btn-mainnet-no">Stay on Testnet</button>
@@ -261,10 +279,11 @@
     <a href="../../terms/">Terms</a>
     <a href="../../privacy/">Privacy</a>
   </nav>
-  <p>Apache-2.0 · XRPL Explainer preview · General information only. Not financial advice.</p>
+  <p>Apache-2.0 · XRPL Explainer preview · General information only.</p>
 </footer>
 
 <script src="../../assets/vendor/xrpl-4.7.0.min.js"></script>
+<script src="../../shared/page-transitions.js"></script>
 <script type="module" src="globe.js"></script>
 <script src="app.js"></script>
 </body>

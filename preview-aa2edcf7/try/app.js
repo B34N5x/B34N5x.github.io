@@ -71,25 +71,22 @@
       if (ambient) ambient.hidden = false;
     }
     if (state.network === "mainnet") {
-      setLiveLine("Ambient ledger stream is Testnet-only. Switch back to Testnet to watch live closes.");
+      setLiveLine("Live closes are Testnet-only. Switch back to watch them.");
       return;
     }
     if (!live.host && !live.lastLedger) {
-      setLiveLine("Connecting to the Testnet live stream…");
+      setLiveLine("Connecting to Testnet…");
       return;
     }
-    var parts = ["Live Testnet"];
-    if (live.host) parts.push("connected to " + live.host);
+    var parts = [];
     if (live.lastLedger != null) {
       var ago = live.lastCloseMs ? ((Date.now() - live.lastCloseMs) / 1000) : null;
-      var when = live.lastCloseRipple != null ? rippleToIso(live.lastCloseRipple) : "";
-      var gap = "";
-      if (live.prevCloseMs && live.lastCloseMs) {
-        gap = " · " + ((live.lastCloseMs - live.prevCloseMs) / 1000).toFixed(1) + "s since the previous close";
-      }
       var agoTxt = ago != null ? ago.toFixed(1) + "s ago" : "";
-      parts.push("ledger " + live.lastLedger + " closed " + agoTxt + (when ? " (" + when + ")" : "") + gap + " (real)");
+      parts.push("Ledger " + live.lastLedger + (agoTxt ? " · " + agoTxt : ""));
+    } else {
+      parts.push("Live Testnet");
     }
+    if (live.host) parts.push(live.host);
     setLiveLine(parts.join(" · "));
     updateLedgerLabels();
   }
@@ -117,10 +114,10 @@
     if (countEl) {
       if (!count) {
         text(countEl, live.pendingHash
-          ? "Waiting for real validation messages…"
-          : "Waiting for a Testnet payment so real validation messages can be shown.");
+          ? "Waiting for validations…"
+          : "Waiting for a payment.");
       } else {
-        text(countEl, "Validations for ledger " + idx + ": " + count + " (real messages from the validations stream)");
+        text(countEl, count + " validations · ledger " + idx);
       }
     }
     var ul = $("val-keys");
@@ -163,7 +160,7 @@
     if (kind) {
       var tag = document.createElement("span");
       tag.className = kind === "illust" ? "tag-illust" : "tag-real";
-      text(tag, kind === "illust" ? "illustrative" : "real");
+      text(tag, kind === "illust" ? "illus." : "real");
       li.appendChild(tag);
     }
     ol.appendChild(li);
@@ -410,7 +407,7 @@
     }
     updateLedgerLabels();
     ensureLiveStream().catch(function (e) {
-      setLiveLine(e.message || "Could not start the Testnet live stream.");
+      setLiveLine(e.message || "Could not start the Testnet stream.");
     });
   }
 
@@ -418,7 +415,11 @@
     document.querySelectorAll(".panel").forEach(function (p) {
       var on = p.getAttribute("data-panel") === name;
       p.hidden = !on;
-      p.classList.toggle("is-on", on);
+      p.classList.remove("is-on");
+      if (on) {
+        void p.offsetWidth;
+        p.classList.add("is-on");
+      }
     });
     var rail = $("steps-rail");
     if (rail) {
@@ -445,7 +446,7 @@
     }
     if (cancel) cancel.hidden = atEnd;
     if (name === "intro" || name === "diagram" || name === "demo" || name === "viewer") {
-      ensureLiveStream().catch(function (e) { setLiveLine(e.message || "Could not start the Testnet live stream."); });
+      ensureLiveStream().catch(function (e) { setLiveLine(e.message || "Could not start the Testnet stream."); });
     }
     if (name === "diagram") playDiagram("diagram");
     if (name === "demo") {
@@ -489,7 +490,7 @@
     if (run) run.disabled = state.network !== "testnet" || state.runningDemo;
     if (state.step === "review") renderReview();
     if (state.network === "testnet") {
-      ensureLiveStream().catch(function (e) { setLiveLine(e.message || "Could not start the Testnet live stream."); });
+      ensureLiveStream().catch(function (e) { setLiveLine(e.message || "Could not start the Testnet stream."); });
     } else {
       stopLiveStream();
       updateAmbient();
@@ -562,6 +563,7 @@
   function appendMeta(id, line) {
     var el = $(id);
     if (!el) return;
+    el.replaceChildren();
     var p = document.createElement("div");
     text(p, line);
     el.appendChild(p);
@@ -588,7 +590,7 @@
     resetDiagram(svg);
     renderValidations();
     setStatus("Creating demo-only Testnet wallets…");
-    appendMeta("demo-meta", "Creating two throwaway Testnet wallets in this browser (demo only).");
+    appendMeta("demo-meta", "Creating throwaway Testnet wallets…");
 
     var sender = null;
     var dest = null;
@@ -602,19 +604,19 @@
       dest = xrpl.Wallet.generate();
       var fromAddr = sender.classicAddress;
       var toAddr = dest.classicAddress;
-      appendMeta("demo-meta", "Demo sender: " + shortAddr(fromAddr) + "  ·  Demo destination: " + shortAddr(toAddr));
+      appendMeta("demo-meta", shortAddr(fromAddr) + " → " + shortAddr(toAddr));
       setStage(svg, "sender", false);
       addTrack("Demo wallets created in this browser. About to submit to " + host + ".", "real");
 
       if (state.aborted) throw new Error("cancelled");
       setStatus("Asking the public Testnet faucet for play funds…");
-      appendMeta("demo-meta", "Requesting Testnet play funds from the public faucet. This is not real value.");
+      appendMeta("demo-meta", "Asking the public faucet for play funds.");
       await fundAddress(fromAddr);
       await waitFunded(client, fromAddr);
       if (state.aborted) throw new Error("cancelled");
 
       setStatus("Submitting the demo payment to " + host + "…");
-      appendMeta("demo-meta", "Submitting a fixed demo payment of " + dropsToXrp(DEMO_DROPS) + " Testnet XRP (practice amount, not a suggestion).");
+      appendMeta("demo-meta", "Submitting a practice payment.");
 
       var prepared = await client.autofill({
         TransactionType: "Payment",
@@ -691,7 +693,7 @@
       };
 
       setStatus("The demo payment validated on Testnet in " + elapsed + "s via " + host + ".");
-      appendMeta("demo-meta", "Validated on Testnet in " + elapsed + "s. A validated payment cannot be reversed.");
+      appendMeta("demo-meta", "Validated in " + elapsed + "s. This cannot be reversed.");
       renderViewer();
     } catch (e) {
       if (String(e.message || e) === "cancelled") {
@@ -727,34 +729,38 @@
     var d = state.demo;
     var lede = $("viewer-lede");
     var note = $("viewer-note");
+    var more = $("tx-more");
+    var moreDl = $("tx-fields-more");
+    if (moreDl) moreDl.replaceChildren();
     if (!d) {
       var msg = state.runningDemo
         ? "The demo payment has not validated yet. You can keep going — if it validates, these fields will fill in from the real Testnet payment."
         : "The Testnet demo has not validated, so there is no live payment to label yet. You can still continue, or go Back and run the demo.";
-      if (lede) text(lede, "There is no validated demo payment to label yet.");
+      if (lede) text(lede, "No validated payment to label yet.");
       if (note) { note.hidden = false; text(note, msg); }
+      if (more) more.hidden = true;
       addField(dl, "Status", msg);
       var emptyWrap = $("viewer-link-wrap");
       if (emptyWrap) emptyWrap.replaceChildren();
       return;
     }
-    if (lede) text(lede, "These labels are taken from the validated Testnet payment you just sent. Once a payment is validated, it cannot be reversed.");
+    if (lede) text(lede, "The main fields from the Testnet payment, in plain words.");
     if (note) { note.hidden = true; text(note, ""); }
+    if (more) more.hidden = false;
     var tx = d.tx || {};
-    addField(dl, "Network", "Testnet (practice ledger)");
-    if (d.server) addField(dl, "Submitted through", d.server, true);
-    if (d.elapsed) addField(dl, "Time to validate", d.elapsed + " seconds (real elapsed time)");
-    addField(dl, "Type", "Payment — a transfer of Testnet XRP.");
-    addField(dl, "Sender (who sent it)", tx.Account || d.from, true);
-    addField(dl, "Destination (who received it)", tx.Destination || d.to, true);
-    addField(dl, "Amount sent", dropsToXrp(tx.Amount || d.amount) + " Testnet XRP (fixed demo amount)");
-    addField(dl, "Fee burned", dropsToXrp(tx.Fee || d.fee) + " Testnet XRP — destroyed, not paid to a person");
-    addField(dl, "Result", (d.meta && d.meta.TransactionResult) || "tesSUCCESS");
-    addField(dl, "Validated", d.validated ? "Yes — this is final on Testnet and cannot be reversed." : "Not yet marked validated.");
-    addField(dl, "Ledger it settled in", d.ledger != null ? String(d.ledger) : "—", true);
-    addField(dl, "When the ledger closed", d.closeTime != null ? rippleToIso(d.closeTime) : "—");
-    addField(dl, "Sequence number (this account’s transaction count)", d.sequence != null ? String(d.sequence) : (tx.Sequence != null ? String(tx.Sequence) : "—"), true);
-    addField(dl, "Transaction hash (its unique ID)", d.hash || "—", true);
+    var extra = moreDl || dl;
+    addField(dl, "From", tx.Account || d.from, true);
+    addField(dl, "To", tx.Destination || d.to, true);
+    addField(dl, "Amount", dropsToXrp(tx.Amount || d.amount) + " Testnet XRP");
+    addField(dl, "Result", d.validated ? "Validated — this is final and cannot be reversed." : ((d.meta && d.meta.TransactionResult) || "Not yet validated."));
+    addField(extra, "Network", "Testnet (practice ledger)");
+    if (d.server) addField(extra, "Submitted through", d.server, true);
+    if (d.elapsed) addField(extra, "Time to validate", d.elapsed + " seconds");
+    addField(extra, "Fee burned", dropsToXrp(tx.Fee || d.fee) + " Testnet XRP — destroyed, not paid to a person");
+    addField(extra, "Ledger", d.ledger != null ? String(d.ledger) : "—", true);
+    addField(extra, "Ledger closed", d.closeTime != null ? rippleToIso(d.closeTime) : "—");
+    addField(extra, "Sequence", d.sequence != null ? String(d.sequence) : (tx.Sequence != null ? String(tx.Sequence) : "—"), true);
+    addField(extra, "Hash", d.hash || "—", true);
 
     var wrap = $("viewer-link-wrap");
     if (wrap) {
@@ -864,16 +870,15 @@
     }
     addField(dl, "Network", netName);
     addField(dl, "Type", d.kind === "EscrowCreate"
-      ? "Escrow create — funds lock until the rules you set"
+      ? "Escrow create"
       : "Payment — once validated, this cannot be reversed");
     addField(dl, "From", d.from, true);
     addField(dl, "To", d.to, true);
     addField(dl, "Amount", d.amountXrp + " XRP");
-    addField(dl, "Fee (looked up, your wallet may adjust)", d.tx.Fee ? dropsToXrp(d.tx.Fee) + " XRP, burned" : "Your wallet will fill the current network fee (burned, not paid to a person).");
+    addField(dl, "Fee", d.tx.Fee ? dropsToXrp(d.tx.Fee) + " XRP, burned" : "Your wallet will fill the current fee (burned).");
     if (d.kind === "EscrowCreate") {
-      addField(dl, "Cancel after", d.cancelLabel + " — after this time you can send an EscrowCancel yourself to return the funds to you.");
+      addField(dl, "Cancel after", d.cancelLabel + " — after this you can send an EscrowCancel yourself.");
     }
-    addField(dl, "Honest limit", "A validated payment cannot be reversed. Cancel now, or reject in Xaman, if anything is wrong.");
     showErr("review-error", "");
     setStatus("");
     var box = $("review-confirm");
@@ -1066,7 +1071,7 @@
     }
     setNetwork("testnet");
     showPanel("intro");
-    ensureLiveStream().catch(function (e) { setLiveLine(e.message || "Could not start the Testnet live stream."); });
+    ensureLiveStream().catch(function (e) { setLiveLine(e.message || "Could not start the Testnet stream."); });
     document.addEventListener("visibilitychange", function () {
       live.hidden = document.hidden === true;
     });
