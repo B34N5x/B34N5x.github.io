@@ -1,13 +1,12 @@
-/* Unlisted XRPL Explainer preview: Testnet demo + draft review.
+/* Unlisted XRPL Explainer preview: Testnet-only practice payment walkthrough.
    Never asks for seeds. Never signs for the user. Demo wallets stay in memory only. */
 (function () {
   "use strict";
 
   var TESTNET = ["wss://s.altnet.rippletest.net:51233", "wss://testnet.xrpl-labs.com"];
-  var MAINNET = ["wss://xrplcluster.com", "wss://s1.ripple.com"];
   var FAUCET = "https://faucet.altnet.rippletest.net/accounts";
   var DEMO_DROPS = "1000000"; /* fixed Testnet practice amount, not a suggestion */
-  var STEPS = ["intro", "diagram", "demo", "viewer", "ask", "compose", "review", "sign"];
+  var STEPS = ["intro", "diagram", "demo", "viewer", "done"];
   var DIAGRAM_MS = [0, 900, 2000, 3200, 4300];
   var DIAGRAM_STAGES = ["sender", "network", "ledger", "dest", "fee"];
   var CAPTIONS = {
@@ -20,10 +19,7 @@
 
   var state = {
     step: "intro",
-    network: "testnet",
     demo: null,
-    draft: null,
-    feeDrops: null,
     aborted: false,
     runningDemo: false,
     timers: []
@@ -66,14 +62,8 @@
   function setLiveLine(msg) { text($("live-line"), msg); }
 
   function updateAmbient() {
-    if (state.network !== "mainnet") {
-      var ambient = $("live-ambient");
-      if (ambient) ambient.hidden = false;
-    }
-    if (state.network === "mainnet") {
-      setLiveLine("Live closes are Testnet-only. Switch back to watch them.");
-      return;
-    }
+    var ambient = $("live-ambient");
+    if (ambient) ambient.hidden = false;
     if (!live.host && !live.lastLedger) {
       setLiveLine("Connecting to Testnet…");
       return;
@@ -234,10 +224,9 @@
   }
 
   async function ensureLiveStream() {
-    if (state.network !== "testnet") return null;
     if (live.client && live.client.isConnected && live.client.isConnected()) return live.client;
     if (live.client && live.client.isConnected === true) return live.client;
-    var client = await connectClient("testnet", { reuse: false, forLive: true });
+    var client = await connectClient({ forLive: true });
     live.client = client;
     live.url = client.url || "";
     live.host = hostOf(live.url);
@@ -329,8 +318,7 @@
 
   function explorerTx(hash) {
     if (!/^[A-Fa-f0-9]{64}$/.test(hash || "")) return "";
-    var host = state.network === "mainnet" ? "https://livenet.xrpl.org/transactions/" : "https://testnet.xrpl.org/transactions/";
-    return host + hash;
+    return "https://testnet.xrpl.org/transactions/" + hash;
   }
 
   function clearTimers() {
@@ -445,11 +433,11 @@
     var skip = $("btn-skip");
     var cancel = $("btn-cancel");
     var atEnd = name === "done" || name === "cancelled";
-    if (back) back.disabled = name === "intro" || atEnd;
-    if (skip) skip.hidden = atEnd || name === "ask" || name === "sign" || name === "review";
+    if (back) { back.disabled = name === "intro" || atEnd; back.hidden = atEnd; }
+    if (skip) skip.hidden = atEnd;
     if (next) {
-      next.hidden = atEnd || name === "ask" || name === "sign";
-      text(next, name === "review" ? "Continue to sign" : name === "compose" ? "Review draft" : name === "demo" ? "Continue" : "Next");
+      next.hidden = atEnd;
+      text(next, name === "demo" ? "Continue" : "Next");
     }
     if (cancel) cancel.hidden = atEnd;
     if (name === "intro" || name === "diagram" || name === "demo" || name === "viewer") {
@@ -457,63 +445,26 @@
     }
     if (name === "diagram") playDiagram("diagram");
     if (name === "demo") {
-      var warn = $("demo-mainnet-warn");
-      if (warn) warn.hidden = state.network !== "mainnet";
       var run = $("btn-run-demo");
-      if (run) run.disabled = state.network !== "testnet" || state.runningDemo;
+      if (run) run.disabled = state.runningDemo;
       if (!state.demo) resetDiagram(diagramRoot("demo"));
     }
     if (name === "viewer") renderViewer();
-    if (name === "compose") syncComposeNet();
-    if (name === "review") renderReview();
-    if (name === "sign") renderSign();
+    if (name === "done") renderDone();
     syncGlobeVisibility(name);
     window.scrollTo(0, 0);
   }
 
-  function syncComposeNet() {
-    var el = $("compose-net");
-    if (!el) return;
-    el.setAttribute("data-net", state.network);
-    text(el, "Network: " + (state.network === "mainnet" ? "Mainnet (real ledger)" : "Testnet (practice ledger)"));
-  }
-
-  function setNetwork(net) {
-    state.network = net === "mainnet" ? "mainnet" : "testnet";
-    var badge = $("net-badge");
-    if (badge) {
-      badge.setAttribute("data-net", state.network);
-      text(badge, state.network === "mainnet" ? "Mainnet" : "Testnet");
-    }
-    var tog = $("net-toggle");
-    if (tog) {
-      tog.setAttribute("aria-pressed", state.network === "mainnet" ? "true" : "false");
-      text(tog, state.network === "mainnet" ? "Switch to Testnet" : "Switch to Mainnet");
-    }
-    syncComposeNet();
-    var warn = $("demo-mainnet-warn");
-    if (warn) warn.hidden = state.network !== "mainnet";
-    var run = $("btn-run-demo");
-    if (run) run.disabled = state.network !== "testnet" || state.runningDemo;
-    if (state.step === "review") renderReview();
-    if (state.network === "testnet") {
-      ensureLiveStream().catch(function (e) { setLiveLine(e.message || "Could not start the Testnet stream."); });
-    } else {
-      stopLiveStream();
-      updateAmbient();
-    }
-  }
-
-  async function connectClient(network, opts) {
+  async function connectClient(opts) {
     if (!window.xrpl || typeof xrpl.Client !== "function") {
       throw new Error("The ledger library failed to load.");
     }
     opts = opts || {};
-    if (network === "testnet" && !opts.forLive && live.client && typeof live.client.isConnected === "function" && live.client.isConnected()) {
+    if (!opts.forLive && live.client && typeof live.client.isConnected === "function" && live.client.isConnected()) {
       return live.client;
     }
-    var urls = network === "mainnet" ? MAINNET : TESTNET;
-    var wantId = network === "mainnet" ? 0 : 1;
+    var urls = TESTNET;
+    var wantId = 1;
     var last = null;
     for (var i = 0; i < urls.length; i++) {
       var client = new xrpl.Client(urls[i]);
@@ -578,10 +529,6 @@
 
   async function runDemo() {
     if (state.runningDemo) return;
-    if (state.network !== "testnet") {
-      setStatus("Switch back to Testnet to run the demo.");
-      return;
-    }
     state.aborted = false;
     state.runningDemo = true;
     live.pendingHash = null;
@@ -604,7 +551,7 @@
     var client = null;
     try {
       client = await ensureLiveStream();
-      if (!client) client = await connectClient("testnet");
+      if (!client) client = await connectClient();
       var host = live.host || hostOf(client.url) || "the connected Testnet server";
 
       sender = xrpl.Wallet.generate();
@@ -714,7 +661,7 @@
       forgetWallet(dest);
       live.pendingHash = live.pendingHash; /* keep hash for the viewer context */
       state.runningDemo = false;
-      if (run) run.disabled = state.network !== "testnet";
+      if (run) run.disabled = false;
       /* Keep the shared live client connected for the ambient stream. */
     }
   }
@@ -787,121 +734,17 @@
     }
   }
 
-  function toggleEscrowFields() {
-    var escrow = $("kind-escrow") && $("kind-escrow").checked;
-    var box = $("escrow-fields");
-    if (box) box.hidden = !escrow;
-  }
-
-  function readDraft() {
-    var kind = ($("kind-escrow") && $("kind-escrow").checked) ? "EscrowCreate" : "Payment";
-    var from = (($("draft-from") && $("draft-from").value) || "").trim();
-    var to = (($("draft-to") && $("draft-to").value) || "").trim();
-    var amount = (($("draft-amount") && $("draft-amount").value) || "").trim();
-    var when = $("draft-cancel-after") && $("draft-cancel-after").value;
-    var errors = [];
-    if (!isClassic(from)) errors.push("Enter a valid From address (classic address starting with r).");
-    if (!isClassic(to)) errors.push("Enter a valid To address (classic address starting with r).");
-    if (from && to && from === to) errors.push("From and To should not be the same address.");
-    var drops = null;
-    if (!amount) errors.push("Enter an amount in XRP. This page does not suggest one.");
-    else {
-      try {
-        var n = Number(amount);
-        if (!isFinite(n) || n <= 0) errors.push("Amount must be a positive number.");
-        else drops = xrpToDrops(amount);
-      } catch (e) {
-        errors.push(e.message || "Amount could not be read.");
-      }
+  function renderDone() {
+    var lede = $("done-lede");
+    if (!lede) return;
+    var d = state.demo;
+    if (d && d.validated) {
+      text(lede, "You sent a practice payment on Testnet and watched it validate" + (d.elapsed ? " in " + d.elapsed + " seconds" : "") + ". A validated payment cannot be reversed.");
+    } else if (d) {
+      text(lede, "You sent a practice payment on Testnet. If it has not validated yet, that can still finish in the background.");
+    } else {
+      text(lede, "You walked through how a Testnet payment moves. You can run the practice demo anytime.");
     }
-    var cancelAfter = null;
-    if (kind === "EscrowCreate") {
-      if (!when) errors.push("Choose a cancel-after date and time so you can later send an EscrowCancel.");
-      else {
-        var ms = new Date(when).getTime();
-        if (isNaN(ms)) errors.push("That cancel-after date could not be read.");
-        else if (ms <= Date.now()) errors.push("Cancel-after must be in the future.");
-        else cancelAfter = unixToRipple(ms);
-      }
-    }
-    if (errors.length) return { ok: false, errors: errors };
-    var tx = {
-      TransactionType: kind,
-      Account: from,
-      Destination: to,
-      Amount: drops
-    };
-    if (kind === "EscrowCreate") tx.CancelAfter = cancelAfter;
-    if (state.feeDrops) tx.Fee = String(state.feeDrops);
-    return {
-      ok: true,
-      kind: kind,
-      from: from,
-      to: to,
-      amountXrp: dropsToXrp(drops),
-      drops: drops,
-      cancelAfter: cancelAfter,
-      cancelLabel: when ? new Date(when).toString() : "",
-      network: state.network,
-      tx: tx
-    };
-  }
-
-  async function lookupFee() {
-    var client = null;
-    try {
-      client = await connectClient(state.network);
-      var fee = await client.request({ command: "fee" });
-      state.feeDrops = fee.result.drops.base_fee || fee.result.drops.minimum_fee;
-    } catch (e) {
-      state.feeDrops = null;
-    } finally {
-      if (client && client !== live.client) try { await client.disconnect(); } catch (e) { /* ignore */ }
-    }
-  }
-
-  function renderReview() {
-    var dl = $("review-fields");
-    if (!dl) return;
-    dl.replaceChildren();
-    var d = state.draft;
-    var net = $("review-net");
-    var netName = state.network === "mainnet" ? "Mainnet (real ledger)" : "Testnet (practice ledger)";
-    if (net) {
-      net.setAttribute("data-net", state.network);
-      text(net, "Network: " + netName);
-    }
-    if (!d) {
-      addField(dl, "Status", "No draft yet.");
-      return;
-    }
-    addField(dl, "Network", netName);
-    addField(dl, "Type", d.kind === "EscrowCreate"
-      ? "Escrow create"
-      : "Payment — once validated, this cannot be reversed");
-    addField(dl, "From", d.from, true);
-    addField(dl, "To", d.to, true);
-    addField(dl, "Amount", d.amountXrp + " XRP");
-    addField(dl, "Fee", d.tx.Fee ? dropsToXrp(d.tx.Fee) + " XRP, burned" : "Your wallet will fill the current fee (burned).");
-    if (d.kind === "EscrowCreate") {
-      addField(dl, "Cancel after", d.cancelLabel + " — after this you can send an EscrowCancel yourself.");
-    }
-    showErr("review-error", "");
-    setStatus("");
-    var box = $("review-confirm");
-    if (box) box.checked = false;
-  }
-
-  function renderSign() {
-    var pre = $("draft-json");
-    if (!pre) return;
-    var payload = {
-      note: "Unsigned draft only. This preview does not create a Xaman sign payload.",
-      network: state.draft ? state.draft.network : state.network,
-      transaction: state.draft ? state.draft.tx : null
-    };
-    text(pre, JSON.stringify(payload, null, 2));
-    setStatus("Draft ready. Xaman payload step is not connected on this preview.");
   }
 
   function leaveDemo() {
@@ -921,33 +764,7 @@
       return;
     }
     if (state.step === "viewer") {
-      showPanel("ask");
-      return;
-    }
-    if (state.step === "compose") {
-      var draft = readDraft();
-      if (!draft.ok) {
-        showErr("compose-error", draft.errors.join(" "));
-        setStatus(draft.errors[0]);
-        return;
-      }
-      showErr("compose-error", "");
-      state.draft = draft;
-      lookupFee().then(function () {
-        if (state.aborted) return;
-        if (state.draft && state.feeDrops) state.draft.tx.Fee = String(state.feeDrops);
-        if (state.step === "compose") showPanel("review");
-      });
-      setStatus("Looking up the current network fee…");
-      return;
-    }
-    if (state.step === "review") {
-      if (!$("review-confirm") || !$("review-confirm").checked) {
-        showErr("review-error", "Tick the box to confirm you have checked everything is correct.");
-        return;
-      }
-      showErr("review-error", "");
-      showPanel("sign");
+      showPanel("done");
       return;
     }
     if (i >= 0 && i < STEPS.length - 1) showPanel(STEPS[i + 1]);
@@ -982,59 +799,22 @@
       text($("cancelled-body"), "You left the walkthrough before anything was sent. Nothing was signed.");
       return;
     }
-    if (state.step === "demo" || state.step === "viewer" || state.step === "ask") {
-      var msg = state.demo
-        ? "You cancelled the next step. The Testnet demo payment that already validated cannot be reversed, but it used demo-only play funds, not your wallet."
-        : "Cancelled. No payment was signed by you.";
-      text($("cancelled-body"), msg);
-      showPanel("cancelled");
-      return;
-    }
-    text($("cancelled-body"), "Cancelled before signing. This page did not sign or submit your draft. If you had already rejected a request in Xaman, that also cancels it.");
+    var msg = state.demo
+      ? "You cancelled the next step. The Testnet demo payment that already validated cannot be reversed, but it used demo-only play funds, not your wallet."
+      : "Cancelled. No payment was signed by you.";
+    text($("cancelled-body"), msg);
     showPanel("cancelled");
   }
 
   function restart() {
     state.aborted = false;
-    state.draft = null;
     state.demo = null;
-    state.feeDrops = null;
     state.runningDemo = false;
     clearTimers();
-    ["draft-from", "draft-to", "draft-amount", "draft-cancel-after"].forEach(function (id) {
-      if ($(id)) $(id).value = "";
-    });
-    if ($("kind-payment")) $("kind-payment").checked = true;
-    toggleEscrowFields();
-    showErr("compose-error", "");
-    showErr("review-error", "");
     if ($("demo-meta")) $("demo-meta").replaceChildren();
     if ($("tx-fields")) $("tx-fields").replaceChildren();
-    setNetwork("testnet");
     setStatus("");
     showPanel("intro");
-  }
-
-  function openMainnetModal(open) {
-    var m = $("modal-mainnet");
-    if (!m) return;
-    m.hidden = !open;
-    if (open) {
-      var yes = $("btn-mainnet-yes");
-      if (yes) yes.focus();
-    }
-  }
-
-  function copyDraft() {
-    var pre = $("draft-json");
-    var btn = $("btn-copy-json");
-    if (!pre) return;
-    var ok = function (label) { if (btn) text(btn, label); later(function () { if (btn) text(btn, "Copy draft JSON"); }, 1600); };
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(pre.textContent).then(function () { ok("Copied"); }).catch(function () { ok("Select and copy"); });
-    } else {
-      ok("Select and copy");
-    }
   }
 
   function bind() {
@@ -1048,37 +828,16 @@
     $("btn-run-demo").addEventListener("click", function () {
       runDemo();
     });
-    $("btn-try-real").addEventListener("click", function () { showPanel("compose"); });
-    $("btn-not-now").addEventListener("click", function () { showPanel("done"); });
     $("btn-restart").addEventListener("click", restart);
     $("btn-restart-2").addEventListener("click", restart);
-    $("kind-payment").addEventListener("change", toggleEscrowFields);
-    $("kind-escrow").addEventListener("change", toggleEscrowFields);
-    $("btn-copy-json").addEventListener("click", copyDraft);
     $("motion-toggle").addEventListener("click", function () {
       var on = document.body.classList.toggle("reduce-motion");
       $("motion-toggle").setAttribute("aria-pressed", on ? "true" : "false");
     });
-    $("net-toggle").addEventListener("click", function () {
-      if (state.network === "testnet") openMainnetModal(true);
-      else setNetwork("testnet");
-    });
-    $("btn-mainnet-yes").addEventListener("click", function () { openMainnetModal(false); setNetwork("mainnet"); });
-    $("btn-mainnet-no").addEventListener("click", function () { openMainnetModal(false); });
-    $("modal-mainnet").addEventListener("click", function (e) {
-      if (e.target === $("modal-mainnet")) openMainnetModal(false);
-    });
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") {
-        if (!$("modal-mainnet").hidden) { openMainnetModal(false); e.preventDefault(); }
-      }
-    });
-    toggleEscrowFields();
     if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       document.body.classList.add("reduce-motion");
       $("motion-toggle").setAttribute("aria-pressed", "true");
     }
-    setNetwork("testnet");
     showPanel("intro");
     ensureLiveStream().catch(function (e) { setLiveLine(e.message || "Could not start the Testnet stream."); });
     document.addEventListener("visibilitychange", function () {

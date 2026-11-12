@@ -25,7 +25,6 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 .topbar nav a:hover{color:var(--green)}
 .net-wrap{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .net-badge,.net-callout{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;border-radius:999px;padding:6px 10px;border:1px solid var(--teal);color:var(--teal);background:rgba(0,230,118,.08)}
-.net-badge[data-net="mainnet"],.net-callout[data-net="mainnet"]{border-color:var(--danger);color:var(--danger);background:rgba(255,138,154,.1)}
 .net-callout{display:inline-block;margin:0 0 20px}
 
 .ghost,.cta,.link-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px;padding:10px 18px;border-radius:12px;font-family:var(--mono);font-size:.85rem;font-weight:700;cursor:pointer;text-decoration:none;line-height:1.2;transition:transform .2s var(--ease),filter .2s var(--ease),border-color .2s,color .2s,background .2s}
@@ -218,3 +217,6 @@ body:not(.globe-on):not([data-step="intro"]):not([data-step="diagram"]):not([dat
   .cta,.ghost,.link-btn{transition:none}
   .cta:hover{transform:none}
 }
+
+body[data-step="done"] .dock,
+body[data-step="cancelled"] .dock{display:none}
