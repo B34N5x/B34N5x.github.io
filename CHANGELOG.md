@@ -2,6 +2,9 @@
 
 Notable releases for b34n5.xyz. Each release has a short JSON summary under `updates/`.
 
+## v0.3.15 · 2026-11-12 · Explainer hop-by-hop activity
+- Hop-by-hop travel and a manual Next hop / Play follow mode on the Explainer testnet activity.
+
 ## v0.3.14 · 2026-11-12 · XRPL Explainer activity
 - Interactive testnet activity added to the Explainer.
 

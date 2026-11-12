@@ -84,13 +84,24 @@
       <canvas id="globe-canvas" aria-label="Live Testnet validator network. Drag to rotate."></canvas>
       <svg class="globe-leaders" id="globe-leaders" aria-hidden="true"></svg>
       <div class="globe-labels" id="globe-labels"></div>
-      <p class="globe-hint">Drag to rotate</p>
+      <p class="globe-hint">Drag to rotate · tap a node for a label</p>
+      <p class="globe-tap" id="globe-tap" hidden></p>
+      <svg class="globe-fallback" id="globe-fallback" hidden></svg>
     </div>
     <aside class="live-chip" id="live-ambient" aria-live="polite">
       <p class="live-line" id="live-line">Connecting to Testnet…</p>
       <span class="tag-real">real</span>
       <p class="live-honest" id="live-honest">Index and close time are real. Paths are illustrative.</p>
     </aside>
+  </div>
+
+  <div class="follow-bar" id="follow-bar">
+    <p class="follow-stage" id="follow-stage">Follow a payment hop by hop.</p>
+    <div class="follow-actions">
+      <button type="button" class="ghost" id="btn-next-hop">Next hop</button>
+      <button type="button" class="ghost" id="btn-play-hops" aria-pressed="false">Play</button>
+    </div>
+    <p class="follow-note" id="follow-note">Paths are illustrative. Ledger closes and validator keys are real.</p>
   </div>
 
   <ol class="steps-rail" id="steps-rail" aria-label="Walkthrough progress">
@@ -198,7 +209,7 @@
     <a href="../../terms/">Terms</a>
     <a href="../../privacy/">Privacy</a>
   </nav>
-  <p>Apache-2.0 · XRPL Explainer · site 0.3.14 · General information only.</p>
+  <p>Apache-2.0 · XRPL Explainer · site 0.3.15 · General information only.</p>
 </footer>
 
 <script src="../../assets/vendor/xrpl-4.7.0.min.js"></script>
