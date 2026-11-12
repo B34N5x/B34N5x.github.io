@@ -455,6 +455,7 @@
       if (run) run.disabled = state.network !== "testnet" || state.runningDemo;
       if (!state.demo) resetDiagram(diagramRoot("demo"));
     }
+    if (name === "viewer") renderViewer();
     if (name === "compose") syncComposeNet();
     if (name === "review") renderReview();
     if (name === "sign") renderSign();
@@ -724,10 +725,21 @@
     if (!dl) return;
     dl.replaceChildren();
     var d = state.demo;
+    var lede = $("viewer-lede");
+    var note = $("viewer-note");
     if (!d) {
-      addField(dl, "Status", "No demo payment yet. Run the Testnet demo first.");
+      var msg = state.runningDemo
+        ? "The demo payment has not validated yet. You can keep going — if it validates, these fields will fill in from the real Testnet payment."
+        : "The Testnet demo has not validated, so there is no live payment to label yet. You can still continue, or go Back and run the demo.";
+      if (lede) text(lede, "There is no validated demo payment to label yet.");
+      if (note) { note.hidden = false; text(note, msg); }
+      addField(dl, "Status", msg);
+      var emptyWrap = $("viewer-link-wrap");
+      if (emptyWrap) emptyWrap.replaceChildren();
       return;
     }
+    if (lede) text(lede, "These labels are taken from the validated Testnet payment you just sent. Once a payment is validated, it cannot be reversed.");
+    if (note) { note.hidden = true; text(note, ""); }
     var tx = d.tx || {};
     addField(dl, "Network", "Testnet (practice ledger)");
     if (d.server) addField(dl, "Submitted through", d.server, true);
@@ -880,10 +892,20 @@
     setStatus("Draft ready. Xaman payload step is not connected on this preview.");
   }
 
+  function leaveDemo() {
+    if (!state.demo) {
+      var note = state.runningDemo
+        ? "The demo payment has not validated yet. You can keep going — the field labels will fill in if it does."
+        : "The Testnet demo has not validated, so there is no live payment to label yet. You can still continue.";
+      setStatus(note);
+    }
+    showPanel("viewer");
+  }
+
   function goNext() {
     var i = STEPS.indexOf(state.step);
-    if (state.step === "demo" && !state.demo) {
-      setStatus("Run the Testnet demo first, or go Back.");
+    if (state.step === "demo") {
+      leaveDemo();
       return;
     }
     if (state.step === "viewer") {
@@ -933,8 +955,8 @@
       showPanel("demo");
       return;
     }
-    if (state.step === "demo" && !state.demo) {
-      setStatus("The demo cannot be skipped if you want the live field viewer. You can Cancel, or run the demo.");
+    if (state.step === "demo") {
+      leaveDemo();
       return;
     }
     goNext();
