@@ -741,9 +741,11 @@
     if (d && d.validated) {
       text(lede, "You sent a practice payment on Testnet and watched it validate" + (d.elapsed ? " in " + d.elapsed + " seconds" : "") + ". A validated payment cannot be reversed.");
     } else if (d) {
-      text(lede, "You sent a practice payment on Testnet. If it has not validated yet, that can still finish in the background.");
+      text(lede, "You sent a practice payment on Testnet. If it is still finishing, that can happen in the background.");
+      setStatus("The practice payment may still finish in the background.");
     } else {
       text(lede, "You walked through how a Testnet payment moves. You can run the practice demo anytime.");
+      setStatus("");
     }
   }
 
@@ -828,11 +830,38 @@
     $("btn-run-demo").addEventListener("click", function () {
       runDemo();
     });
+    var hopBtn = $("btn-next-hop");
+    var playBtn = $("btn-play-hops");
+    function paintFollow(info) {
+      if (!info) info = (window.LiveGlobe && window.LiveGlobe.getFollow && window.LiveGlobe.getFollow()) || {};
+      text($("follow-stage"), info.text || "");
+      text($("follow-note"), info.note || "");
+      if (playBtn && window.LiveGlobe && typeof window.LiveGlobe.isPlaying === "function") {
+        var on = !!window.LiveGlobe.isPlaying();
+        playBtn.setAttribute("aria-pressed", on ? "true" : "false");
+        text(playBtn, on ? "Pause" : "Play");
+      }
+    }
+    if (hopBtn) hopBtn.addEventListener("click", function () {
+      globeCall("setPlaying", false);
+      globeCall("nextHop");
+      paintFollow();
+    });
+    if (playBtn) playBtn.addEventListener("click", function () {
+      var g = window.LiveGlobe;
+      var next = !(g && typeof g.isPlaying === "function" && g.isPlaying());
+      globeCall("setPlaying", next);
+      paintFollow();
+    });
+    if (window.LiveGlobe && typeof window.LiveGlobe.setFollowListener === "function") {
+      window.LiveGlobe.setFollowListener(paintFollow);
+    }
     $("btn-restart").addEventListener("click", restart);
     $("btn-restart-2").addEventListener("click", restart);
     $("motion-toggle").addEventListener("click", function () {
       var on = document.body.classList.toggle("reduce-motion");
       $("motion-toggle").setAttribute("aria-pressed", on ? "true" : "false");
+      globeCall("setReducedMotion", on);
     });
     if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       document.body.classList.add("reduce-motion");
