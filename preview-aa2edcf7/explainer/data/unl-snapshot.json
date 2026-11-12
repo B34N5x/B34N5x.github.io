@@ -1,0 +1,12 @@
+{
+  "captured_at": "2026-11-09T19:57:00+11:00",
+  "source": "https://vl.xrplf.org",
+  "alt_source": "https://unl.xrplf.org/unl.json",
+  "docs": "https://xrpl.org/docs/concepts/consensus-protocol/consensus-structure",
+  "amendment_docs": "https://xrpl.org/docs/concepts/consensus-protocol/amendments",
+  "sequence": 2026102701,
+  "expiration_ripple_epoch": 877910400,
+  "expiration_utc": "2027-10-27T00:00:00Z",
+  "unl_validator_count": 35,
+  "note": "XRPL Foundation published UNL. Browser fetch may lack CORS; site prefers live xrpscan + WS, falls back to this snapshot."
+}

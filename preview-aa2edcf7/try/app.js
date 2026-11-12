@@ -29,6 +29,248 @@
     timers: []
   };
 
+  var live = {
+    client: null,
+    url: "",
+    host: "",
+    lastLedger: null,
+    lastCloseRipple: null,
+    lastCloseMs: null,
+    prevCloseMs: null,
+    validations: {},
+    currentValLedger: null,
+    pendingHash: null,
+    sawProposed: false,
+    startedAt: null,
+    bound: false,
+    handlers: null,
+    ambientTimer: null,
+    valTimer: null,
+    hidden: false
+  };
+
+  function hostOf(url) {
+    try { return new URL(url).host; } catch (e) { return url || ""; }
+  }
+
+  function shortKey(k) {
+    if (!k || k.length < 10) return k || "";
+    return k.slice(0, 6) + "…" + k.slice(-4);
+  }
+
+  function reducedMotion() {
+    return document.body.classList.contains("reduce-motion") ||
+      (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }
+
+  function setLiveLine(msg) { text($("live-line"), msg); }
+
+  function updateAmbient() {
+    if (state.network !== "mainnet") {
+      var ambient = $("live-ambient");
+      if (ambient) ambient.hidden = false;
+    }
+    if (state.network === "mainnet") {
+      setLiveLine("Ambient ledger stream is Testnet-only. Switch back to Testnet to watch live closes.");
+      return;
+    }
+    if (!live.host && !live.lastLedger) {
+      setLiveLine("Connecting to the Testnet live stream…");
+      return;
+    }
+    var parts = ["Live Testnet"];
+    if (live.host) parts.push("connected to " + live.host);
+    if (live.lastLedger != null) {
+      var ago = live.lastCloseMs ? ((Date.now() - live.lastCloseMs) / 1000) : null;
+      var when = live.lastCloseRipple != null ? rippleToIso(live.lastCloseRipple) : "";
+      var gap = "";
+      if (live.prevCloseMs && live.lastCloseMs) {
+        gap = " · " + ((live.lastCloseMs - live.prevCloseMs) / 1000).toFixed(1) + "s since the previous close";
+      }
+      var agoTxt = ago != null ? ago.toFixed(1) + "s ago" : "";
+      parts.push("ledger " + live.lastLedger + " closed " + agoTxt + (when ? " (" + when + ")" : "") + gap + " (real)");
+    }
+    setLiveLine(parts.join(" · "));
+    updateLedgerLabels();
+  }
+
+  function updateLedgerLabels() {
+    var label = live.lastLedger != null ? ("ledger " + live.lastLedger) : "waiting for a close";
+    document.querySelectorAll(".d-live-ledger").forEach(function (el) { text(el, label); });
+  }
+
+  function pulseLedgerNodes() {
+    if (live.hidden || reducedMotion()) return;
+    document.querySelectorAll('.d-group[data-stage="ledger"] .d-node').forEach(function (n) {
+      n.classList.add("on", "pulse");
+      later(function () { n.classList.remove("pulse"); }, 800);
+    });
+  }
+
+  function renderValidations() {
+    var idx = live.currentValLedger;
+    var bucket = idx != null ? live.validations[idx] : null;
+    var count = bucket ? Object.keys(bucket.keys).length : 0;
+    var order = bucket ? bucket.order : [];
+    var cap = 8;
+    var countEl = $("val-count");
+    if (countEl) {
+      if (!count) {
+        text(countEl, live.pendingHash
+          ? "Waiting for real validation messages…"
+          : "Waiting for a Testnet payment so real validation messages can be shown.");
+      } else {
+        text(countEl, "Validations for ledger " + idx + ": " + count + " (real messages from the validations stream)");
+      }
+    }
+    var ul = $("val-keys");
+    if (ul) {
+      ul.replaceChildren();
+      order.slice(0, cap).forEach(function (k) {
+        var li = document.createElement("li");
+        text(li, shortKey(k));
+        ul.appendChild(li);
+      });
+      if (order.length > cap) {
+        var more = document.createElement("li");
+        text(more, "+" + (order.length - cap) + " more");
+        ul.appendChild(more);
+      }
+    }
+    var valLabel = count ? (count + " validations") : "validators vote";
+    document.querySelectorAll(".d-live-vals").forEach(function (el) { text(el, valLabel); });
+    var sats = document.querySelectorAll("#demo-diagram .d-sat");
+    sats.forEach(function (sat, i) {
+      sat.classList.toggle("on", i < Math.min(count, sats.length));
+    });
+  }
+
+  function scheduleValRender() {
+    if (live.valTimer) return;
+    live.valTimer = setTimeout(function () {
+      live.valTimer = null;
+      if (!live.hidden) renderValidations();
+    }, 180);
+  }
+
+  function addTrack(line, kind) {
+    var ol = $("live-track");
+    if (!ol) return;
+    var li = document.createElement("li");
+    var span = document.createElement("span");
+    text(span, line);
+    li.appendChild(span);
+    if (kind) {
+      var tag = document.createElement("span");
+      tag.className = kind === "illust" ? "tag-illust" : "tag-real";
+      text(tag, kind === "illust" ? "illustrative" : "real");
+      li.appendChild(tag);
+    }
+    ol.appendChild(li);
+  }
+
+  function handleLedgerClosed(msg) {
+    if (!msg) return;
+    var idx = msg.ledger_index != null ? Number(msg.ledger_index) : null;
+    if (idx == null || isNaN(idx)) return;
+    live.prevCloseMs = live.lastCloseMs;
+    live.lastLedger = idx;
+    live.lastCloseRipple = msg.ledger_time != null ? msg.ledger_time : live.lastCloseRipple;
+    live.lastCloseMs = Date.now();
+    updateAmbient();
+    pulseLedgerNodes();
+    /* Drop stale validation buckets to keep memory light */
+    Object.keys(live.validations).forEach(function (k) {
+      if (Number(k) < idx - 2) delete live.validations[k];
+    });
+  }
+
+  function handleValidation(msg) {
+    if (!msg) return;
+    var idx = msg.ledger_index != null ? Number(msg.ledger_index) : null;
+    var key = msg.validation_public_key || msg.public_key || msg.validationPublicKey || "";
+    if (idx == null || isNaN(idx) || !key) return;
+    /* Ignore indexes that cannot belong to the current Testnet close (bad or stale fields). */
+    if (live.lastLedger != null && (idx > live.lastLedger + 5 || idx < live.lastLedger - 2)) return;
+    if (live.lastLedger == null && (idx < 1 || idx > 1e9)) return;
+    if (!live.validations[idx]) live.validations[idx] = { keys: {}, order: [] };
+    var bucket = live.validations[idx];
+    if (!bucket.keys[key]) {
+      bucket.keys[key] = true;
+      bucket.order.push(key);
+    }
+    /* Prefer the in-progress ledger (usually last closed + 1) */
+    if (live.lastLedger == null || idx >= live.lastLedger) live.currentValLedger = idx;
+    scheduleValRender();
+  }
+
+  function handleProposed(msg) {
+    if (!live.pendingHash || !msg) return;
+    var tx = msg.transaction || msg.tx_json || msg;
+    var hash = (tx && (tx.hash || tx.Hash)) || msg.hash;
+    if (!hash) return;
+    if (String(hash).toUpperCase() !== String(live.pendingHash).toUpperCase()) return;
+    if (live.sawProposed) return;
+    live.sawProposed = true;
+    var svg = diagramRoot("demo");
+    setStage(svg, "network", false);
+    addTrack("The connected server has seen this payment as proposed (not yet final).", "real");
+    setStatus("Payment is proposed on " + (live.host || "Testnet") + "…");
+  }
+
+  function attachLiveHandlers(client) {
+    if (live.bound) return;
+    live.bound = true;
+    live.handlers = {
+      ledger: function (m) { handleLedgerClosed(m); },
+      val: function (m) { handleValidation(m); },
+      tx: function (m) { handleProposed(m); }
+    };
+    var target = (typeof client.on === "function") ? client : client.connection;
+    if (!target || typeof target.on !== "function") return;
+    target.on("ledgerClosed", live.handlers.ledger);
+    target.on("validationReceived", live.handlers.val);
+    target.on("transaction", live.handlers.tx);
+  }
+
+  async function ensureLiveStream() {
+    if (state.network !== "testnet") return null;
+    if (live.client && live.client.isConnected && live.client.isConnected()) return live.client;
+    if (live.client && live.client.isConnected === true) return live.client;
+    var client = await connectClient("testnet", { reuse: false, forLive: true });
+    live.client = client;
+    live.url = client.url || "";
+    live.host = hostOf(live.url);
+    try {
+      await client.request({ command: "subscribe", streams: ["ledger", "validations", "transactions_proposed"] });
+    } catch (e) {
+      setLiveLine("Connected to " + live.host + ", but the live stream could not subscribe. " + (e.message || ""));
+      return client;
+    }
+    attachLiveHandlers(client);
+    updateAmbient();
+    if (!live.ambientTimer) {
+      live.ambientTimer = setInterval(function () {
+        if (!live.hidden) updateAmbient();
+      }, 1000);
+    }
+    return client;
+  }
+
+  async function stopLiveStream() {
+    if (live.ambientTimer) { clearInterval(live.ambientTimer); live.ambientTimer = null; }
+    if (live.valTimer) { clearTimeout(live.valTimer); live.valTimer = null; }
+    var client = live.client;
+    live.client = null;
+    live.bound = false;
+    live.handlers = null;
+    live.url = "";
+    live.host = "";
+    if (client) {
+      try { await client.disconnect(); } catch (e) { /* ignore */ }
+    }
+  }
+
   function $(id) { return document.getElementById(id); }
   function text(el, value) { if (el) el.textContent = value == null ? "" : String(value); }
   function showErr(id, msg) { var el = $(id); if (!el) return; el.hidden = !msg; text(el, msg || ""); }
@@ -143,22 +385,19 @@
   }
 
   function playDiagram(kind) {
-    clearTimers();
+    /* Teaching map + live ledger pulse. No canned token flight — the demo is driven by the stream. */
     var svg = diagramRoot(kind);
-    resetDiagram(svg);
-    var reduced = document.body.classList.contains("reduce-motion") ||
-      (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    if (!svg) return;
     var cap = $("diagram-caption");
-    if (reduced) {
-      DIAGRAM_STAGES.forEach(function (s) { setStage(svg, s, true); });
-      if (cap) text(cap, CAPTIONS.fee);
-      return;
+    if (cap && kind !== "demo") {
+      var liveBit = live.lastLedger != null
+        ? (" Latest closed ledger is " + live.lastLedger + " (real).")
+        : " Waiting for the first live close.";
+      text(cap, "This map stays linked to the live Testnet stream." + liveBit + " The hop lines are illustrative. The next step follows one payment in real time.");
     }
-    DIAGRAM_STAGES.forEach(function (stage, i) {
-      later(function () {
-        setStage(svg, stage, i === DIAGRAM_STAGES.length - 1);
-        if (cap && kind !== "demo") text(cap, CAPTIONS[stage]);
-      }, DIAGRAM_MS[i]);
+    updateLedgerLabels();
+    ensureLiveStream().catch(function (e) {
+      setLiveLine(e.message || "Could not start the Testnet live stream.");
     });
   }
 
@@ -192,6 +431,9 @@
       text(next, name === "review" ? "Continue to sign" : name === "compose" ? "Review draft" : name === "demo" ? "Continue" : "Next");
     }
     if (cancel) cancel.hidden = atEnd;
+    if (name === "intro" || name === "diagram" || name === "demo" || name === "viewer") {
+      ensureLiveStream().catch(function (e) { setLiveLine(e.message || "Could not start the Testnet live stream."); });
+    }
     if (name === "diagram") playDiagram("diagram");
     if (name === "demo") {
       var warn = $("demo-mainnet-warn");
@@ -231,11 +473,21 @@
     var run = $("btn-run-demo");
     if (run) run.disabled = state.network !== "testnet" || state.runningDemo;
     if (state.step === "review") renderReview();
+    if (state.network === "testnet") {
+      ensureLiveStream().catch(function (e) { setLiveLine(e.message || "Could not start the Testnet live stream."); });
+    } else {
+      stopLiveStream();
+      updateAmbient();
+    }
   }
 
-  async function connectClient(network) {
+  async function connectClient(network, opts) {
     if (!window.xrpl || typeof xrpl.Client !== "function") {
       throw new Error("The ledger library failed to load.");
+    }
+    opts = opts || {};
+    if (network === "testnet" && !opts.forLive && live.client && typeof live.client.isConnected === "function" && live.client.isConnected()) {
+      return live.client;
     }
     var urls = network === "mainnet" ? MAINNET : TESTNET;
     var wantId = network === "mainnet" ? 0 : 1;
@@ -308,12 +560,18 @@
     }
     state.aborted = false;
     state.runningDemo = true;
+    live.pendingHash = null;
+    live.sawProposed = false;
+    live.startedAt = Date.now();
     var run = $("btn-run-demo");
     if (run) run.disabled = true;
     var meta = $("demo-meta");
     if (meta) meta.replaceChildren();
+    var track = $("live-track");
+    if (track) track.replaceChildren();
     var svg = diagramRoot("demo");
     resetDiagram(svg);
+    renderValidations();
     setStatus("Creating demo-only Testnet wallets…");
     appendMeta("demo-meta", "Creating two throwaway Testnet wallets in this browser (demo only).");
 
@@ -321,25 +579,27 @@
     var dest = null;
     var client = null;
     try {
+      client = await ensureLiveStream();
+      if (!client) client = await connectClient("testnet");
+      var host = live.host || hostOf(client.url) || "the connected Testnet server";
+
       sender = xrpl.Wallet.generate();
       dest = xrpl.Wallet.generate();
       var fromAddr = sender.classicAddress;
       var toAddr = dest.classicAddress;
       appendMeta("demo-meta", "Demo sender: " + shortAddr(fromAddr) + "  ·  Demo destination: " + shortAddr(toAddr));
       setStage(svg, "sender", false);
+      addTrack("Demo wallets created in this browser. About to submit to " + host + ".", "real");
 
       if (state.aborted) throw new Error("cancelled");
       setStatus("Asking the public Testnet faucet for play funds…");
       appendMeta("demo-meta", "Requesting Testnet play funds from the public faucet. This is not real value.");
       await fundAddress(fromAddr);
-
-      client = await connectClient("testnet");
       await waitFunded(client, fromAddr);
       if (state.aborted) throw new Error("cancelled");
 
-      setStatus("Submitting the demo payment to Testnet…");
+      setStatus("Submitting the demo payment to " + host + "…");
       appendMeta("demo-meta", "Submitting a fixed demo payment of " + dropsToXrp(DEMO_DROPS) + " Testnet XRP (practice amount, not a suggestion).");
-      setStage(svg, "network", false);
 
       var prepared = await client.autofill({
         TransactionType: "Payment",
@@ -348,10 +608,23 @@
         Amount: DEMO_DROPS
       });
       var signed = sender.sign(prepared);
+      live.pendingHash = signed.hash;
+      live.sawProposed = false;
+      live.startedAt = Date.now();
       forgetWallet(sender);
       forgetWallet(dest);
       sender = null;
       dest = null;
+
+      addTrack("Submitted to " + host + " (the server this page is actually connected to).", "real");
+      setStage(svg, "sender", false);
+      if (!reducedMotion()) {
+        setStage(svg, "network", false);
+        addTrack("Showing a simple hop from the sender to the network. This path is illustrative — we cannot see the real peer routing.", "illust");
+      } else {
+        setStage(svg, "network", false);
+        addTrack("Relay path skipped (reduced motion). Real peer routing is not visible anyway.", "illust");
+      }
 
       var result = await client.submitAndWait(signed.tx_blob);
       if (state.aborted && !(result && result.result && result.result.meta)) {
@@ -363,30 +636,45 @@
         throw new Error("The demo payment did not succeed (" + tes + "). Try again.");
       }
 
+      var elapsed = ((Date.now() - live.startedAt) / 1000).toFixed(1);
+      var ledgerIndex = tx.ledger_index;
+      var closeTime = null;
+      try {
+        var led = await client.request({ command: "ledger", ledger_index: ledgerIndex });
+        closeTime = led.result.ledger.close_time;
+      } catch (e) { /* optional */ }
+      if (closeTime == null && live.lastLedger === ledgerIndex) closeTime = live.lastCloseRipple;
+
+      if (!live.sawProposed) {
+        addTrack("The payment was not observed on the proposed stream before it closed, but it has now validated.", "real");
+      }
       setStage(svg, "ledger", false);
+      addTrack("Ledger " + ledgerIndex + " closed" + (closeTime != null ? " at " + rippleToIso(closeTime) : "") + ".", "real");
       setStage(svg, "dest", false);
       setStage(svg, "fee", true);
+      addTrack("Validated in " + elapsed + " seconds. A validated payment cannot be reversed.", "real");
+      renderValidations();
+      updateLedgerLabels();
+
       var txjson = (tx && tx.tx_json) || {};
       state.demo = {
         tx: txjson,
         meta: tx.meta,
         hash: tx.hash || txjson.hash || signed.hash,
-        ledger: tx.ledger_index,
+        ledger: ledgerIndex,
         validated: tx.validated === true,
         from: fromAddr,
         to: toAddr,
         amount: DEMO_DROPS,
         fee: txjson.Fee || prepared.Fee,
         sequence: prepared.Sequence != null ? prepared.Sequence : txjson.Sequence,
-        closeTime: null
+        closeTime: closeTime,
+        elapsed: elapsed,
+        server: host
       };
-      try {
-        var led = await client.request({ command: "ledger", ledger_index: state.demo.ledger });
-        state.demo.closeTime = led.result.ledger.close_time;
-      } catch (e) { /* optional */ }
 
-      setStatus("The demo payment validated on Testnet.");
-      appendMeta("demo-meta", "Validated on Testnet. A validated payment cannot be reversed.");
+      setStatus("The demo payment validated on Testnet in " + elapsed + "s via " + host + ".");
+      appendMeta("demo-meta", "Validated on Testnet in " + elapsed + "s. A validated payment cannot be reversed.");
       renderViewer();
     } catch (e) {
       if (String(e.message || e) === "cancelled") {
@@ -398,11 +686,10 @@
     } finally {
       forgetWallet(sender);
       forgetWallet(dest);
+      live.pendingHash = live.pendingHash; /* keep hash for the viewer context */
       state.runningDemo = false;
       if (run) run.disabled = state.network !== "testnet";
-      if (client) {
-        try { await client.disconnect(); } catch (e) { /* ignore */ }
-      }
+      /* Keep the shared live client connected for the ambient stream. */
     }
   }
 
@@ -427,6 +714,8 @@
     }
     var tx = d.tx || {};
     addField(dl, "Network", "Testnet (practice ledger)");
+    if (d.server) addField(dl, "Submitted through", d.server, true);
+    if (d.elapsed) addField(dl, "Time to validate", d.elapsed + " seconds (real elapsed time)");
     addField(dl, "Type", "Payment — a transfer of Testnet XRP.");
     addField(dl, "Sender (who sent it)", tx.Account || d.from, true);
     addField(dl, "Destination (who received it)", tx.Destination || d.to, true);
@@ -526,7 +815,7 @@
     } catch (e) {
       state.feeDrops = null;
     } finally {
-      if (client) try { await client.disconnect(); } catch (e) { /* ignore */ }
+      if (client && client !== live.client) try { await client.disconnect(); } catch (e) { /* ignore */ }
     }
   }
 
@@ -625,10 +914,6 @@
 
   function goSkip() {
     if (state.step === "diagram") {
-      clearTimers();
-      var svg = diagramRoot("diagram");
-      DIAGRAM_STAGES.forEach(function (s) { setStage(svg, s, true); });
-      text($("diagram-caption"), CAPTIONS.fee);
       showPanel("demo");
       return;
     }
@@ -709,11 +994,7 @@
     $("btn-skip").addEventListener("click", goSkip);
     $("btn-cancel").addEventListener("click", cancelFlow);
     $("btn-run-demo").addEventListener("click", function () {
-      runDemo().then(function () {
-        if (state.demo && !state.aborted) {
-          later(function () { showPanel("viewer"); }, 700);
-        }
-      });
+      runDemo();
     });
     $("btn-try-real").addEventListener("click", function () { showPanel("compose"); });
     $("btn-not-now").addEventListener("click", function () { showPanel("done"); });
@@ -747,6 +1028,11 @@
     }
     setNetwork("testnet");
     showPanel("intro");
+    ensureLiveStream().catch(function (e) { setLiveLine(e.message || "Could not start the Testnet live stream."); });
+    document.addEventListener("visibilitychange", function () {
+      live.hidden = document.hidden === true;
+    });
+    window.addEventListener("pagehide", function () { stopLiveStream(); });
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", bind);
