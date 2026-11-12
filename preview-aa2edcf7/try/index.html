@@ -82,8 +82,16 @@
 
   <aside class="live-ambient" id="live-ambient" aria-live="polite">
     <p class="live-line" id="live-line">Connecting to the Testnet live stream…</p>
-    <p class="live-honest" id="live-honest">Ledger index, close time and validation keys are real Testnet data. Hop lines on the diagram are illustrative — this page cannot see the real peer path.</p>
+    <p class="live-honest" id="live-honest">Ledger index, close time and validation keys are real Testnet data. Packet paths and the sphere layout are illustrative — this page cannot see the real peer routing.</p>
   </aside>
+
+  <div class="globe-root" id="globe-root" hidden>
+    <div class="globe-grid" aria-hidden="true"></div>
+    <canvas id="globe-canvas" aria-label="Live Testnet validator network. Drag to rotate."></canvas>
+    <svg class="globe-leaders" id="globe-leaders" aria-hidden="true"></svg>
+    <div class="globe-labels" id="globe-labels"></div>
+    <p class="globe-hint">Drag to rotate</p>
+  </div>
 
   <ol class="steps-rail" id="steps-rail" aria-label="Walkthrough progress">
     <li data-step="intro" class="on">Start</li>
@@ -256,6 +264,7 @@
 </footer>
 
 <script src="../../assets/vendor/xrpl-4.7.0.min.js"></script>
+<script type="module" src="globe.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

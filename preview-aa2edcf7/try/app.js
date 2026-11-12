@@ -179,6 +179,7 @@
     live.lastCloseMs = Date.now();
     updateAmbient();
     pulseLedgerNodes();
+    globeCall("onLedgerClosed", { index: idx, time: live.lastCloseRipple });
     /* Drop stale validation buckets to keep memory light */
     Object.keys(live.validations).forEach(function (k) {
       if (Number(k) < idx - 2) delete live.validations[k];
@@ -202,6 +203,7 @@
     /* Prefer the in-progress ledger (usually last closed + 1) */
     if (live.lastLedger == null || idx >= live.lastLedger) live.currentValLedger = idx;
     scheduleValRender();
+    globeCall("onValidation", { key: key, ledger: idx });
   }
 
   function handleProposed(msg) {
@@ -215,6 +217,7 @@
     var svg = diagramRoot("demo");
     setStage(svg, "network", false);
     addTrack("The connected server has seen this payment as proposed (not yet final).", "real");
+    globeCall("onProposed", { hash: hash });
     setStatus("Payment is proposed on " + (live.host || "Testnet") + "…");
   }
 
@@ -272,6 +275,16 @@
   }
 
   function $(id) { return document.getElementById(id); }
+  function globeCall(name, payload) {
+    var g = window.LiveGlobe;
+    if (g && g.ok && typeof g[name] === "function") g[name](payload);
+  }
+  function syncGlobeVisibility(step) {
+    var on = (step === "intro" || step === "diagram" || step === "demo");
+    var supported = window.LiveGlobe && window.LiveGlobe.ok;
+    document.body.classList.toggle("globe-on", !!(supported && on));
+    globeCall("setVisible", on && supported);
+  }
   function text(el, value) { if (el) el.textContent = value == null ? "" : String(value); }
   function showErr(id, msg) { var el = $(id); if (!el) return; el.hidden = !msg; text(el, msg || ""); }
   function setStatus(msg) { text($("status"), msg || ""); }
@@ -445,6 +458,7 @@
     if (name === "compose") syncComposeNet();
     if (name === "review") renderReview();
     if (name === "sign") renderSign();
+    syncGlobeVisibility(name);
     window.scrollTo(0, 0);
   }
 
@@ -617,6 +631,7 @@
       dest = null;
 
       addTrack("Submitted to " + host + " (the server this page is actually connected to).", "real");
+      globeCall("onSubmit", { hash: signed.hash, host: host });
       setStage(svg, "sender", false);
       if (!reducedMotion()) {
         setStage(svg, "network", false);
@@ -653,6 +668,7 @@
       setStage(svg, "dest", false);
       setStage(svg, "fee", true);
       addTrack("Validated in " + elapsed + " seconds. A validated payment cannot be reversed.", "real");
+      globeCall("onValidated", { ledger: ledgerIndex, elapsed: elapsed });
       renderValidations();
       updateLedgerLabels();
 
