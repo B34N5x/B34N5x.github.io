@@ -2,9 +2,12 @@
 
 Notable releases for b34n5.xyz. Each release has a short JSON summary under `updates/`.
 
+## v0.3.17 · 2026-11-13 · Tracer files on request
+- The Transaction Tracer add-on and offline web copy are no longer public downloads. If you'd like a copy, DM [@B34N5XRP](https://x.com/B34N5XRP) on X or email [hello@b34n5.xyz](mailto:hello@b34n5.xyz).
+
 ## v0.3.16 · 2026-11-13 · Transaction Tracer
 - Launched the read-only **Transaction Tracer** at `/tracer/`. Live mainnet globe, no keys.
-- Browser add-on and offline web copies are available under `/tracer/downloads/`.
+- Browser add-on and offline web copies were briefly published under `/tracer/downloads/` (withdrawn in v0.3.17; copies are sent on request).
 - Optional tips coin in the footer, with a link to [@B34N5XRP](https://x.com/B34N5XRP). Header logo goes to the home page.
 - `/tools/mainnet/` and `/tools/testnet/` now redirect to the checker pages, and missing paths show a real 404 page.
 
