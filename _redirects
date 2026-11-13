@@ -1,0 +1,4 @@
+/tools/mainnet /checker/mainnet/ 301
+/tools/mainnet/ /checker/mainnet/ 301
+/tools/testnet /checker/testnet/ 301
+/tools/testnet/ /checker/testnet/ 301

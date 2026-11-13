@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src wss://xrplcluster.com wss://s1.ripple.com wss://s2.ripple.com; img-src 'self' data:; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#07090b">
+  <meta name="description" content="Read-only XRPL mainnet transaction tracer. Never asks for keys or a wallet.">
+  <title>B34N5 Transaction Tracer</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="tips.css">
+</head>
+<body>
+  <div class="app">
+    <header class="top">
+      <a class="brand" href="https://b34n5.xyz/" id="brand" title="B34N5x home">B34N5</a>
+      <h1>Transaction Tracer</h1>
+      <div class="status" id="status" role="status" aria-live="polite">
+        <span class="dot" id="status-dot" data-state="down"></span>
+        <span id="status-text">Connecting to mainnet…</span>
+      </div>
+    </header>
+
+    <main class="stage">
+      <canvas id="map" aria-label="XRPL transaction network globe"></canvas>
+      <div id="node-labels" aria-hidden="true"></div>
+      <div id="tooltip" class="tooltip" hidden></div>
+      <div id="map-flags" class="map-flags" hidden></div>
+
+      <button type="button" id="btn-reset" class="fab-reset" aria-label="Reset view" title="Reset view">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4.6 12a7.4 7.4 0 1 0 2.3-5.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M4 5.2v4.2h4.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+
+      <button type="button" id="btn-search" class="fab-search" aria-label="Search or watch a wallet" title="Search">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.5 15.5 21 21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+
+      <div id="panel" class="panel">
+        <button type="button" id="panel-toggle" class="panel-handle" aria-expanded="false" aria-controls="panel-body">
+          <span class="handle-bar" aria-hidden="true"></span>
+          <span class="panel-label">
+            <span class="panel-title" id="panel-title">Find a transaction</span>
+            <span id="panel-peek" class="panel-peek"></span>
+          </span>
+        </button>
+        <div class="panel-body" id="panel-body">
+          <section class="controls" aria-label="Find a transaction">
+            <label class="sr-only" for="q">XRPL addresses or transaction hashes</label>
+            <textarea id="q" rows="2" spellcheck="false" autocomplete="off" autocapitalize="off"
+              placeholder="r-address, tx hash, or a list"></textarea>
+            <details class="batch-opts" id="batch-opts">
+              <summary>Batch checks</summary>
+              <label>Expected amount <input id="expect-amount" type="text" spellcheck="false" autocomplete="off" placeholder="optional, e.g. 10 XRP"></label>
+              <label>Expected destination <input id="expect-dest" type="text" spellcheck="false" autocomplete="off" placeholder="optional r-address"></label>
+            </details>
+            <div class="btns">
+              <button type="button" id="btn-watch">Watch</button>
+              <button type="button" id="btn-lookup">Look up</button>
+              <button type="button" id="btn-example" class="ghost">Example</button>
+              <button type="button" id="btn-clear" class="ghost">Clear</button>
+            </div>
+            <p class="hint" id="hint">Paste an r-address or tx hash. Never connects a wallet.</p>
+            <div id="watches" class="watches" aria-label="Saved watches on this device"></div>
+          </section>
+
+          <aside id="hud" class="hud" aria-live="polite">
+            <h2 id="hud-title">Transaction</h2>
+            <p class="empty" id="hud-empty">Tap a node or a ping for details, or search above.</p>
+            <dl id="hud-dl" hidden></dl>
+          </aside>
+
+          <aside id="alerts" class="alerts" aria-live="polite" hidden>
+            <h2>Flags <span id="alert-count" class="count"></span></h2>
+            <ul id="alert-list"></ul>
+          </aside>
+
+          <div class="legend" id="legend">
+            <span><i class="swatch watch"></i> Watched</span>
+            <span><i class="swatch ping"></i> Payment</span>
+            <span><i class="swatch hub"></i> Hub</span>
+            <span><i class="swatch ambient"></i> Other live txs</span>
+            <span><i class="swatch flag"></i> Flagged</span>
+            <p class="legend-note">Faint lines are other people's live mainnet transactions, not part of a transaction you looked up.</p>
+          </div>
+
+          <p class="downloads">Download: <a href="https://b34n5.xyz/tracer/downloads/xrpl-tracer-extension-v0.1.zip">browser add-on</a> · <a href="https://b34n5.xyz/tracer/downloads/xrpl-tracer-web-v0.1.zip">offline web copy</a></p>
+        </div>
+      </div>
+    </main>
+    <footer class="chrome-foot">
+      <div class="tips-mount-footer" id="tips-dock" data-tips-mount="footer"></div>
+      <p class="disclaimer">Read-only on XRPL Mainnet. This tool never asks for keys, seeds, logins or personal info, and it cannot sign or send transactions. We don't collect or store data for ourselves. Watched addresses are saved only in your browser, on this device. Transaction data is read live from public XRP Ledger nodes. This tool flags what it can from validated ledger data, but it does not catch everything. Issued tokens from issuers not on this tool's known list are labelled unverified — that is not a scam call, and this tool does not check xrp-ledger.toml.</p>
+    </footer>
+  </div>
+  <script src="js/three.min.js"></script>
+  <script src="js/motion.min.js"></script>
+  <script src="js/qrcode.js"></script>
+  <script src="js/tips.js"></script>
+  <script src="js/currency.js"></script>
+  <script src="js/route.js"></script>
+  <script src="js/xrpl.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

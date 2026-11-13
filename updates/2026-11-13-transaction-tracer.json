@@ -1,0 +1,6 @@
+{
+  "date": "2026-11-13",
+  "version": "0.3.16",
+  "title": "Transaction Tracer",
+  "summary": "Read-only XRPL mainnet Transaction Tracer at /tracer/, with a browser add-on download, optional tips in the footer, and checker shortcuts from /tools/mainnet/ and /tools/testnet/."
+}
