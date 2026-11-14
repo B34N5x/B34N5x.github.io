@@ -1,0 +1,36 @@
+/* B34N5 tips dock — coin + ? memo. Not an official Ripple product. */
+.tips-dock{position:relative;display:inline-flex;align-items:center;gap:4px;flex-shrink:0;z-index:9;line-height:0}
+.tips-mount-footer{margin:4px 0 10px;position:relative;z-index:6;flex-basis:100%;width:100%;display:block}
+.tips-mount-footer + span,.tips-mount-footer + p{flex-basis:100%;width:100%;display:block;margin:0}
+.tips-coin{width:28px;height:28px;padding:0;border:0;border-radius:50%;background:transparent;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 0 0 1px rgba(61,245,143,.18)}
+.tips-coin:hover{filter:brightness(1.1);box-shadow:0 0 10px rgba(61,245,143,.35)}
+.tips-coin-svg{width:28px;height:28px;display:block}
+.tips-q{width:18px;height:18px;padding:0;border:1px solid #2b5a52;border-radius:50%;background:#0b1d1a;color:#9fb3ad;font:700 11px/18px "DejaVu Sans Mono",ui-monospace,monospace;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.tips-q:hover,.tips-q[aria-expanded="true"]{color:#2ee6d0;border-color:#2ee6d0}
+.tips-memo,.tips-sheet{position:absolute;z-index:20;width:min(280px,calc(100vw - 24px));background:#0d1417;border:1px solid #1c3a36;border-radius:10px;box-shadow:0 10px 28px rgba(0,0,0,.45);color:#d7e4df;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;text-align:left;line-height:1.45}
+.tips-memo{padding:10px 12px;font-size:.8rem;font-weight:400}
+.tips-memo p{margin:0 0 8px}
+.tips-memo p:last-child{margin:0;color:#5ff0c8}
+.tips-sheet{padding:12px}
+.tips-sheet-kicker{margin:0 0 6px;font-family:"DejaVu Sans Mono",ui-monospace,monospace;font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:#9fb3ad;font-weight:600}
+.tips-addr{margin:0 0 8px;font-family:"DejaVu Sans Mono",ui-monospace,monospace;font-size:.72rem;word-break:break-all;color:#3df58f;font-weight:600}
+.tips-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 10px}
+.tips-copy{background:#3df58f;color:#03140b;font-weight:700;border:0;border-radius:8px;padding:7px 10px;font-size:.78rem;cursor:pointer;font-family:"DejaVu Sans Mono",ui-monospace,monospace}
+.tips-xaman{font-size:.78rem;font-weight:700;color:#5ff0c8;font-family:"DejaVu Sans Mono",ui-monospace,monospace}
+.tips-qr{display:flex;justify-content:center;background:#fff;border-radius:8px;padding:8px;margin:0 0 8px}
+.tips-qr svg{display:block;width:128px;height:128px}
+.tips-note{margin:0;font-size:.68rem;color:#9fb3ad;font-family:"DejaVu Sans Mono",ui-monospace,monospace;line-height:1.4}
+.tips-dock--footer .tips-coin,.tips-dock--footer .tips-coin-svg{width:30px;height:30px}
+.tips-dock--footer .tips-q{width:20px;height:20px;font-size:12px;line-height:20px}
+.tips-dock--footer .tips-memo{font-size:.85rem}
+html.ext,html.ext body,html.ext .app{min-width:420px;min-height:560px}
+@media (max-height:500px){
+  .top .tips-dock .tips-coin,.top .tips-dock .tips-coin-svg{width:22px;height:22px}
+  .top .tips-dock .tips-q{width:16px;height:16px;font-size:10px;line-height:16px}
+}
+
+.tips-x{width:20px;height:20px;padding:3px;border:1px solid #2b5a52;border-radius:50%;background:#0b1d1a;color:#e8eef0;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;box-sizing:border-box}
+.tips-x:hover{color:#fff;border-color:#2ee6d0}
+.tips-x-svg{width:11px;height:11px;display:block}
+.tips-dock--footer .tips-x{width:22px;height:22px}
+.tips-dock--footer .tips-x-svg{width:12px;height:12px}
