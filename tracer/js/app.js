@@ -81,12 +81,13 @@
     }
     const d = TracerCurrency.describeAmount(tx.delivered != null ? tx.delivered : null);
     const bits = [];
-    if (tx.delivered != null) bits.push(d.text);
-    else bits.push(tx.type || "Transaction");
+    if (tx.delivered != null) bits.push(esc(d.text));
+    else bits.push(esc(tx.type || "Transaction"));
     if (!tx.validated) bits.push("not validated");
-    else if (tx.result && tx.result !== "tesSUCCESS") bits.push(tx.result);
-    else if (tx.flagged) bits.push("flagged");
-    els.panelPeek.textContent = bits.join(" · ");
+    else if (tx.result && tx.result !== "tesSUCCESS") bits.push(esc(tx.result));
+    else if (tx.result === "tesSUCCESS") bits.push('<span class="flag ok">tesSUCCESS</span>');
+    if (tx.validated && tx.flagged && !(tx.result && tx.result !== "tesSUCCESS")) bits.push("flagged");
+    els.panelPeek.innerHTML = bits.join(" · ");
     if (els.panelTitle) els.panelTitle.textContent = tx.type || "Transaction";
   }
 
@@ -503,7 +504,14 @@
         const cls = "recent-tx" + (r.flagged || tx.flagged ? " flagged" : "");
         const hash = tx.hash ? esc(tx.hash) : "";
         const amt = tx.delivered != null ? d.text : (tx.type || "tx");
-        const label = dir + " · " + esc(amt) + (tx.result && tx.result !== "tesSUCCESS" ? " · " + esc(tx.result) : (r.flagged || tx.flagged ? " · flagged" : ""));
+        let extra = "";
+        if (tx.result && tx.result !== "tesSUCCESS") {
+          extra = " · " + esc(tx.result);
+        } else {
+          if (tx.validated && tx.result === "tesSUCCESS") extra += ' · <span class="flag ok">tesSUCCESS</span>';
+          if (r.flagged || tx.flagged) extra += " · flagged";
+        }
+        const label = dir + " · " + esc(amt) + extra;
         return '<button type="button" class="' + cls + '" data-tx-hash="' + hash + '">' + label + "</button>";
       }).join("");
       add("Recent", '<div class="recent">' + items + "</div>");

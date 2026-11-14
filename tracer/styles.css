@@ -144,6 +144,9 @@ button:disabled{opacity:.55;cursor:wait}
   border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-family:var(--mono);
   font-size:.72rem;font-weight:500;margin:0}
 .hud .recent-tx.flagged{background:#2a0f12;border-color:#8a2f38;color:#ffd9dc}
+.panel-peek .flag,
+.hud .recent-tx .flag{margin-left:0;font-size:.62rem;padding:0 6px;font-weight:600}
+
 .hud .recent-tx:hover{filter:brightness(1.08)}
 
 .alerts{margin-top:10px;background:rgba(13,20,23,.6);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
