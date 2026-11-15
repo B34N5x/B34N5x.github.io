@@ -46,7 +46,10 @@
       '<div class="tips-memo" hidden role="tooltip">' + memoHtml() + '</div>' +
       '<div class="tips-sheet" hidden role="dialog" aria-label="Send a tip in XRP">' +
         '<p class="tips-sheet-kicker">Tips are optional</p>' +
-        '<p class="tips-addr" data-addr></p>' +
+        '<div class="tips-addr-block">' +
+          '<p class="tips-addr" data-addr></p>' +
+          '<p class="tips-addr-note">Optional, never required. The tracer is free.</p>' +
+        '</div>' +
         '<div class="tips-actions">' +
           '<button type="button" class="tips-copy">Copy address</button>' +
           '<a class="tips-xaman" target="_blank" rel="noopener noreferrer">Pay in Xaman</a>' +
