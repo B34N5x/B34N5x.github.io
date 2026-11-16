@@ -3,6 +3,7 @@ window.ESCROW_ASSISTANT_CONFIG = {
   /* Public Xaman (Xumm) API Key from https://apps.xumm.dev — safe to expose in a browser app.
      Leave empty to draft JSON only (no push-to-Xaman). */
   xummApiKey: "",
+  xamanEndpoint: "https://qu1pu-xaman.xrplwill-contact.workers.dev",
   /* Optional: your own LLM endpoint for richer parsing. Off by default.
      POST JSON { messages:[{role,content}], deal:string } → { ok:true, draft:{...} }
      The page never ships with a key; you must host the proxy yourself. */

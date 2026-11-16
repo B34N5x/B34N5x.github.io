@@ -25,6 +25,8 @@
   let lastCondition = null;
   let typingTimer = null;
   let dirtyFrom = null; // lowest step edited that needs re-validation messaging
+  let xamanBusy = false;
+  let xamanTimer = null;
 
   const model = {
     dealText: "",
@@ -766,6 +768,7 @@
     note.textContent = model.reviewConfirmed
       ? "Summary confirmed. You can continue to Sign — you will sign in Xaman yourself."
       : "Confirm above to continue to Sign. Nothing is sent until you sign in Xaman.";
+    syncXamanButton();
   }
 
   function clearReviewConfirm() {
@@ -800,7 +803,7 @@
     setPresence("flash");
     syncStepFields();
     if (n === 5) renderReview();
-    if (n === 6) showTab();
+    if (n === 6) { showTab(); syncXamanButton(); }
     if (!skipIntro) {
       if (viaRail && dirtyFrom != null && dirtyFrom < n) {
         await assistantSay(`Jumped to step ${n + 1}. You changed something earlier — I’ll re-check from there when you hit Next.`);
@@ -822,7 +825,7 @@
       "Pick FinishAfter and CancelAfter. Without CancelAfter, a time escrow may never be cancellable.",
       "Optional secret code (PREIMAGE-SHA-256). Only enable if you can safely store the fulfillment.",
       "Read the plain-word summary, check memos and tags, then confirm you will sign in Xaman yourself. We will never ask for your seed.",
-      "Xaman signing is coming soon. Copy the reviewed transaction JSON and sign it in your own wallet. QU1PU never asks for your seed and never signs for you.",
+      "Confirm the review, then sign in Xaman yourself. You can also copy the transaction JSON. QU1PU never asks for your seed and never signs for you.",
       "Look up open escrows on an address (read-only). Finish/Cancel skeletons are on Sign.",
     ];
     await assistantSay(lines[n] || "Continue when ready.");
@@ -1300,7 +1303,181 @@
     await navigator.clipboard.writeText($("#tx-json").textContent);
     await assistantSay("Copied the reviewed transaction JSON. Sign it in your own wallet — QU1PU never asks for your seed.");
   });
-  /* Xaman push is not wired yet; the button stays disabled. No developer-status text. */
+
+  function xamanEndpoint() {
+    return String(CFG.xamanEndpoint || "").replace(/\/$/, "");
+  }
+  function isXamanHttps(u) {
+    try {
+      const x = new URL(u);
+      return x.protocol === "https:" && /^(?:[a-z0-9-]+\.)?(xumm|xaman)\.app$/.test(x.hostname);
+    } catch {
+      return false;
+    }
+  }
+  function isMobileSign() {
+    return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || "");
+  }
+  function clearXamanBox() {
+    const box = $("#xaman-box");
+    if (box) box.textContent = "";
+    return box;
+  }
+  function setXamanText(msg) {
+    const box = clearXamanBox();
+    if (box) box.textContent = msg;
+  }
+  function syncXamanButton() {
+    const btn = $("#xaman-btn");
+    if (!btn) return;
+    const on = !!model.reviewConfirmed && !xamanBusy;
+    btn.disabled = !on;
+    btn.setAttribute("aria-disabled", on ? "false" : "true");
+    if (!xamanBusy) btn.textContent = "Sign in Xaman";
+  }
+  function stopXamanPoll() {
+    if (xamanTimer) {
+      clearInterval(xamanTimer);
+      xamanTimer = null;
+    }
+  }
+  function showXamanRequest(data) {
+    const box = clearXamanBox();
+    if (!box) return;
+    const p = document.createElement("p");
+    p.textContent = isMobileSign()
+      ? "Opening Xaman so you can sign yourself. If it did not open, use the link or scan the QR."
+      : "Scan this QR with Xaman to sign yourself. QU1PU never asks for your seed and never signs for you.";
+    box.appendChild(p);
+    if (data.qr && isXamanHttps(data.qr)) {
+      const img = document.createElement("img");
+      img.src = data.qr;
+      img.alt = "QR code to sign in Xaman";
+      img.width = 200;
+      img.height = 200;
+      box.appendChild(img);
+    }
+    if (data.link && isXamanHttps(data.link)) {
+      const a = document.createElement("a");
+      a.href = data.link;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.textContent = "Open in Xaman";
+      box.appendChild(a);
+    }
+    const st = document.createElement("p");
+    st.id = "xaman-status";
+    st.textContent = "Waiting for you to sign in Xaman…";
+    box.appendChild(st);
+  }
+  function setXamanStatus(msg) {
+    const st = $("#xaman-status");
+    if (st) st.textContent = msg;
+    else setXamanText(msg);
+  }
+  function explorerTx(txid) {
+    const base = (netCfg() && netCfg().explorer) || "https://livenet.xrpl.org";
+    return base.replace(/\/$/, "") + "/transactions/" + encodeURIComponent(txid);
+  }
+  function showXamanResult(state) {
+    stopXamanPoll();
+    xamanBusy = false;
+    syncXamanButton();
+    const box = clearXamanBox();
+    if (!box) return;
+    const p = document.createElement("p");
+    if (state.signed) {
+      p.textContent = state.txid
+        ? "Signed in Xaman. Transaction id: " + state.txid
+        : "Signed in Xaman.";
+      box.appendChild(p);
+      if (state.txid) {
+        const a = document.createElement("a");
+        a.href = explorerTx(state.txid);
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        a.textContent = "View on explorer";
+        box.appendChild(a);
+      }
+      assistantSay("Signed in Xaman. Nothing was signed by QU1PU.");
+      return;
+    }
+    if (state.expired && !state.resolved) {
+      p.textContent = "This sign request expired. Start again if you still want to sign, or copy the transaction JSON.";
+    } else if (state.resolved && !state.signed) {
+      p.textContent = "Signing was declined in Xaman. Nothing was submitted.";
+    } else {
+      p.textContent = "Signing did not finish. You can try again or copy the transaction JSON.";
+    }
+    box.appendChild(p);
+  }
+  async function pollXaman(uuid) {
+    const ep = xamanEndpoint();
+    let n = 0;
+    stopXamanPoll();
+    xamanTimer = setInterval(async () => {
+      n += 1;
+      if (n > 240) {
+        showXamanResult({ expired: true, resolved: false, signed: false });
+        return;
+      }
+      try {
+        const r = await fetch(ep + "/payload/" + encodeURIComponent(uuid));
+        if (!r.ok) return;
+        const s = await r.json();
+        if (s.signed || s.resolved || s.expired) showXamanResult(s);
+      } catch (_) {
+        /* keep waiting; friendly result only when settled */
+      }
+    }, 2500);
+  }
+  $("#xaman-btn").addEventListener("click", async () => {
+    if (!model.reviewConfirmed) {
+      setXamanText("Confirm the review summary first. You sign in Xaman yourself — nothing is auto-signed.");
+      await assistantSay("Please confirm the review summary before signing in Xaman.", { warn: true });
+      return;
+    }
+    const ep = xamanEndpoint();
+    if (!ep) {
+      setXamanText("Signing is not available right now. Copy the transaction JSON instead.");
+      return;
+    }
+    let tx;
+    try {
+      tx = JSON.parse($("#tx-json").textContent);
+    } catch {
+      setXamanText("Could not read the reviewed transaction. Check the details, or copy the JSON.");
+      return;
+    }
+    stopXamanPoll();
+    xamanBusy = true;
+    syncXamanButton();
+    const btn = $("#xaman-btn");
+    if (btn) btn.textContent = "Starting Xaman…";
+    setXamanText("Starting a sign request in Xaman…");
+    try {
+      const r = await fetch(ep + "/payload", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(tx),
+      });
+      if (!r.ok) throw new Error("bad");
+      const data = await r.json();
+      const uuid = data && data.uuid;
+      const link = data && data.next && data.next.always;
+      const qr = data && data.refs && data.refs.qr_png;
+      if (!uuid || !isXamanHttps(link) || !isXamanHttps(qr)) throw new Error("bad");
+      showXamanRequest({ link, qr });
+      if (isMobileSign()) window.open(link, "_blank", "noopener,noreferrer");
+      await assistantSay("Sign in Xaman yourself. QU1PU never asks for your seed and never signs for you.");
+      pollXaman(uuid);
+    } catch {
+      xamanBusy = false;
+      syncXamanButton();
+      setXamanText("Could not start signing. Try again, or copy the transaction JSON.");
+      await assistantSay("Could not start signing. You can copy the transaction JSON instead.", { warn: true });
+    }
+  });
   $("#demo-btn")?.addEventListener("click", runDemo);
   $("#lookup-btn").addEventListener("click", async () => {
     const addr = $("#lookup-addr").value.trim();

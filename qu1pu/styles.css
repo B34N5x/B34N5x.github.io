@@ -101,6 +101,9 @@ textarea{min-height:100px;font-family:var(--mono);font-size:.9rem}
 .tabs button.active{border-color:var(--green);color:var(--green)}
 pre.json{margin:0;padding:12px;border-radius:10px;background:#050a09;border:1px solid var(--line);overflow:auto;font-size:.72rem;color:var(--green);max-height:220px}
 .qr-box{margin-top:10px;padding:12px;border:1px dashed #1a3832;border-radius:12px;color:var(--dim);font-size:.85rem}
+
+.qr-box img{display:block;width:200px;height:200px;margin:10px 0;background:#fff;border-radius:8px;padding:6px}
+.qr-box a{color:var(--accent)}
 .demo-panel{border:1px solid #2a6b55;background:#0b1d1a;padding:12px;border-radius:12px}
 footer{border-top:1px solid var(--line);padding:20px;text-align:center;font-family:var(--mono);font-size:.8rem;color:var(--dim)}
 
