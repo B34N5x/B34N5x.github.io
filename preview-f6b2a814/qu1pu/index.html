@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="robots" content="noindex,nofollow">
+<base href="/qu1pu/">
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07090b">
+  <meta name="description" content="Guided XRPL escrow wizard for Xaman. Human review before any signature. Draft only. By B34N5.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob: https://xumm.app https://*.xumm.app https://xaman.app https://*.xaman.app; connect-src 'self' wss://s.altnet.rippletest.net:51233 wss://testnet.xrpl-labs.com wss://xrplcluster.com wss://s1.ripple.com https://faucet.altnet.rippletest.net https://xumm.app https://*.xumm.app https://xaman.app https://*.xaman.app https://qu1pu-xaman.xrplwill-contact.workers.dev; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests">
+  <title>AI Escrow Assistant for Xaman · B34N5</title>
+  <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="/shared/tips.css">
+</head>
+<body>
+  <a class="skip" href="#step-panel">Skip to step</a>
+  <canvas id="rain" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="brand"><a href="https://b34n5.xyz/" style="color:inherit;text-decoration:none">> B34N5</a> <span>/ qu1pu</span></div>
+    <div class="spacer"></div>
+    <span class="badge warn" id="net-badge" title="Shows which network this draft is for. Testnet uses practice funds. Mainnet uses real XRP — confirm before switching.">TESTNET</span>
+    <span class="net-tip-wrap">
+      <button type="button" class="ghost" id="net-toggle" aria-describedby="net-tip">Switch network</button>
+      <span id="net-tip" class="net-tip" role="tooltip">The badge shows which network this draft is for. Testnet uses practice funds. Mainnet uses real XRP; confirm before switching. This tool only drafts — you sign.</span>
+    </span>
+    <button type="button" class="ghost" id="motion-toggle" aria-pressed="false">Reduce motion</button>
+  </header>
+
+  <main class="wrap">
+    <section class="hero" aria-label="Introduction">
+      <h1>Escrow assistant</h1>
+      <p class="lede">I’ll walk you through each step. You can go <strong>Back</strong>, jump via the rail, or <strong>Ask a question</strong> anytime. You sign in Xaman — keys never leave your signer.</p>
+      <p class="seed-line" role="note">We will never ask for your seed.</p>
+      <span class="badge">General information only · not financial advice</span>
+      <span class="badge warn">Never paste a seed or secret key</span>
+      <div class="demo-launch">
+        <button type="button" class="btn" id="watch-demo-btn" title="Guided testnet walkthrough — example data only">Watch the demo</button>
+        <span class="demo-hint" id="demo-hint" hidden>New: a short cutscene walkthrough on testnet example data. Optional — never auto-starts.</span>
+      </div>
+    </section>
+
+    <nav class="rail" id="progress-rail" aria-label="Wizard steps">
+      <!-- filled by JS -->
+    </nav>
+
+    <div class="wizard-shell">
+      <aside class="assistant-pane card" aria-label="QU1PU assistant">
+        <div class="assistant-head">
+          <span class="assistant-avatar" aria-hidden="true">◉</span>
+          <div>
+            <strong class="mono">QU1PU</strong>
+            <div class="dim tiny">escrow guide · read-only · named after the Inca knotted-string ledger</div>
+          </div>
+        </div>
+        <div class="presence-wrap" aria-hidden="true">
+          <canvas id="presence" width="320" height="320"></canvas>
+          <span class="presence-label" id="presence-label">idle</span>
+        </div>
+        <div class="chat-log" id="chat-log" aria-live="polite" aria-relevant="additions"></div>
+        <div class="ask-box">
+          <label class="sr-only" for="faq-input">Ask a question</label>
+          <input type="text" id="faq-input" placeholder="Ask a question on this step…">
+          <button type="button" class="btn" id="faq-btn">Ask</button>
+        </div>
+      </aside>
+
+      <section class="step-pane card" id="step-panel" aria-live="polite">
+        <!-- steps injected / toggled -->
+        <div class="step" data-step="0" id="step-0">
+          <h2>1 · Describe the deal</h2>
+          <p class="dim">Plain English is fine. I’ll draft fields and we’ll confirm each one.</p>
+          <label for="deal-input">Your deal</label>
+          <textarea id="deal-input" rows="5" placeholder="e.g. Lock 50 XRP for r… until Friday 5pm…"></textarea>
+          <div class="row">
+            <button type="button" class="btn" id="sample-btn">Load sample</button>
+            <button type="button" class="btn" id="cond-sample-btn">Conditional sample</button>
+          </div>
+        </div>
+
+        <div class="step" data-step="1" id="step-1" hidden>
+          <h2>2 · Confirm parties</h2>
+          <p class="dim">Source signs the escrow. Destination receives on finish.</p>
+          <label for="field-account">Source account (r…)</label>
+          <input type="text" id="field-account" autocomplete="off" spellcheck="false">
+          <label for="field-destination">Destination (r…)</label>
+          <input type="text" id="field-destination" autocomplete="off" spellcheck="false">
+          <label for="field-dest-tag">Destination tag (optional)</label>
+          <input type="text" id="field-dest-tag" inputmode="numeric" placeholder="leave blank if none">
+          <p class="note tiny" id="parties-note">Tag check runs when you continue.</p>
+        </div>
+
+        <div class="step" data-step="2" id="step-2" hidden>
+          <h2>3 · Amount</h2>
+          <label for="field-amount">Amount (XRP)</label>
+          <input type="text" id="field-amount" inputmode="decimal">
+          <p class="dim tiny" id="amount-drops">— drops</p>
+        </div>
+
+        <div class="step" data-step="3" id="step-3" hidden>
+          <h2>4 · Timing</h2>
+          <div class="lock-icon" aria-hidden="true">🔒</div>
+          <div class="timeline">
+            <div class="tl-track"><div class="tl-fill" id="tl-fill"></div></div>
+            <div class="tl-labels">
+              <span id="tl-finish">FinishAfter: —</span>
+              <span id="tl-cancel">CancelAfter: —</span>
+            </div>
+          </div>
+          <label for="field-finish">FinishAfter (local datetime)</label>
+          <input type="datetime-local" id="field-finish">
+          <label for="field-cancel">CancelAfter (local datetime)</label>
+          <input type="datetime-local" id="field-cancel">
+          <p class="dim tiny">Leave blank only if you understand the lock risk. Times convert to Ripple Epoch on review.</p>
+        </div>
+
+        <div class="step" data-step="4" id="step-4" hidden>
+          <h2>5 · Optional condition</h2>
+          <label class="check-row"><input type="checkbox" id="field-want-cond"> Use a PREIMAGE-SHA-256 secret code</label>
+          <p class="dim">If enabled, I’ll generate a condition/fulfillment pair in your browser. Save the fulfillment yourself — I don’t upload it.</p>
+          <div id="condition-box" class="note" hidden>
+            <strong>Fulfillment secret</strong>
+            <pre class="json" id="fulfillment-json"></pre>
+          </div>
+        </div>
+
+        <div class="step" data-step="5" id="step-5" hidden>
+          <h2>6 · Review</h2>
+          <p class="seed-line" role="note">We will never ask for your seed. Keys stay in your signer. QU1PU does not sign and nothing is auto-signed.</p>
+          <div class="review-summary" id="review-summary"></div>
+          <ul class="warnings" id="warn-list"></ul>
+          <div id="field-decode" class="decode-panel" hidden></div>
+          <div class="field-grid" id="field-grid"></div>
+          <label class="check-row confirm-row" for="review-confirm">
+            <input type="checkbox" id="review-confirm">
+            I have read this summary. I will sign in Xaman myself.
+          </label>
+          <p class="dim tiny" id="review-gate-note">Confirm above to continue to Sign. Nothing is sent until you sign in Xaman.</p>
+          <div class="blob-panel mt">
+            <h3 class="mono">Inspect a signed blob (read-only)</h3>
+            <p class="dim tiny">Paste a presigned transaction blob (hex) or JSON. This only shows what it would do. It is never submitted.</p>
+            <label for="blob-input" class="sr-only">Signed transaction blob</label>
+            <textarea id="blob-input" rows="4" placeholder="Signed tx blob (hex) or transaction JSON" spellcheck="false" autocomplete="off"></textarea>
+            <div class="row">
+              <button type="button" class="btn" id="blob-decode-btn">Decode blob</button>
+              <button type="button" class="btn" id="blob-sample-btn">Load sample blob</button>
+              <button type="button" class="btn" id="blob-clear-btn">Clear</button>
+            </div>
+            <div id="blob-out" class="decode-panel" hidden></div>
+          </div>
+        </div>
+
+        <div class="step" data-step="6" id="step-6" hidden>
+          <h2>7 · Sign</h2>
+          <p class="seed-line" role="note">We will never ask for your seed. You sign in Xaman yourself — QU1PU does not sign.</p>
+          <div class="tabs" role="tablist">
+            <button type="button" class="ghost active" data-tab="create" role="tab" aria-selected="true">EscrowCreate</button>
+            <button type="button" class="ghost" data-tab="finish" role="tab">EscrowFinish</button>
+            <button type="button" class="ghost" data-tab="cancel" role="tab">EscrowCancel</button>
+          </div>
+          <pre class="json" id="tx-json">{}</pre>
+          <div class="row">
+            <button type="button" class="btn" id="copy-json">Copy transaction JSON</button>
+            <button type="button" class="btn primary" id="xaman-btn" disabled aria-disabled="true">Sign in Xaman</button>
+          </div>
+          <div class="qr-box" id="xaman-box">Confirm the review summary, then sign in Xaman yourself. You can also copy the transaction JSON. QU1PU never asks for your seed and never signs for you.</div>
+          <div class="demo-example" id="demo-example-sign" hidden>
+            <h3 class="mono">Example testnet result</h3>
+            <p class="dim tiny">Past practice run — shown as example only. This walkthrough does not sign or open Xaman.</p>
+            <p class="tiny"><a id="demo-link-create" href="https://testnet.xrpl.org/transactions/77FCB5F6C2252C1914119B8973C49A9670A0798109DB71A08F6858FEF18D908E" rel="noopener" target="_blank">EscrowCreate tx</a>
+            · <a id="demo-link-finish" href="https://testnet.xrpl.org/transactions/177E74F6673BE8939BFD7C6CF5C0A2D95A2A8F40612F82AE866D83949D6B1E0D" rel="noopener" target="_blank">EscrowFinish tx</a></p>
+          </div>
+          <div class="demo-panel mt">
+            <h3 class="mono">Practice note</h3>
+            <p class="dim tiny">QU1PU does not sign for you. After you confirm the review, sign in Xaman yourself, or copy the transaction JSON.</p>
+          </div>
+        </div>
+
+        <div class="step" data-step="7" id="step-7" hidden>
+          <h2>8 · Track</h2>
+          <label for="lookup-addr">Classic address</label>
+          <input type="text" id="lookup-addr" spellcheck="false">
+          <div class="row">
+            <button type="button" class="btn" id="lookup-btn">Fetch escrows</button>
+            <button type="button" class="btn" id="use-source-btn">Use source</button>
+          </div>
+          <pre class="json" id="lookup-out">[]</pre>
+          <p class="dim tiny">Finish/Cancel JSON is on the Sign step — use OfferSequence from an escrow object above.</p>
+          <div class="demo-example" id="demo-example-track" hidden>
+            <h3 class="mono">Example testnet result</h3>
+            <p class="dim tiny">Example data only — sequence 22188846 on the practice source account.</p>
+            <p class="tiny"><a href="https://testnet.xrpl.org/transactions/77FCB5F6C2252C1914119B8973C49A9670A0798109DB71A08F6858FEF18D908E" rel="noopener" target="_blank">Create</a>
+            · <a href="https://testnet.xrpl.org/transactions/177E74F6673BE8939BFD7C6CF5C0A2D95A2A8F40612F82AE866D83949D6B1E0D" rel="noopener" target="_blank">Finish</a>
+            · <a href="https://testnet.xrpl.org/accounts/rh3oFni4dC3ZExgy4PqkZyAH5ukGb43axk" rel="noopener" target="_blank">Source account</a></p>
+          </div>
+        </div>
+
+        <div class="step-nav">
+          <button type="button" class="btn" id="btn-back">Back</button>
+          <button type="button" class="btn primary" id="btn-next">Next</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="cutscene-bar" id="cutscene-bar" hidden role="group" aria-label="Demo navigation">
+    <span class="cutscene-caption" id="cutscene-caption" aria-live="polite">Demo</span>
+    <button type="button" class="cut-btn" id="cut-back" title="Previous step (←)">Back</button>
+    <button type="button" class="cut-btn" id="cut-next" title="Next step (→)">Next</button>
+    <button type="button" class="cut-btn cut-skip" id="cut-skip" title="Skip demo (Esc)">Skip</button>
+  </div>
+
+  <footer>
+    <p>MIT · guided drafting · Built for the community · <a href="https://xrpl.org/docs/concepts/payment-types/escrow" rel="noopener" target="_blank">xrpl.org escrow</a></p>
+    <p class="dim">General information only. Not financial advice. We will never ask for your seed.</p>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="lib/xrpl-3.0.0.min.js"></script>
+  <script src="crypto-cond.js"></script>
+  <script src="parser.js"></script>
+  <script src="tx-decode.js"></script>
+  <script src="faq.js"></script>
+  <script src="app.js"></script>
+  <script src="/shared/qrcode.js"></script>
+  <script src="/shared/tips.js"></script>
+</body>
+</html>
