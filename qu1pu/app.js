@@ -822,7 +822,7 @@
       "Pick FinishAfter and CancelAfter. Without CancelAfter, a time escrow may never be cancellable.",
       "Optional secret code (PREIMAGE-SHA-256). Only enable if you can safely store the fulfillment.",
       "Read the plain-word summary, check memos and tags, then confirm you will sign in Xaman yourself. We will never ask for your seed.",
-      "Copy JSON or send to Xaman when you add a public API key. QU1PU does not sign. You can also inspect a signed blob on Review — read-only, never submitted.",
+      "Xaman signing is coming soon. Copy the reviewed transaction JSON and sign it in your own wallet. QU1PU never asks for your seed and never signs for you.",
       "Look up open escrows on an address (read-only). Finish/Cancel skeletons are on Sign.",
     ];
     await assistantSay(lines[n] || "Continue when ready.");
@@ -1192,7 +1192,7 @@
 
   async function runDemo() {
     /* Auto-sign faucet demo removed: nothing is auto-signed in this preview. */
-    await assistantSay("This preview does not auto-sign. Use Watch the demo for an example, or inspect a blob on Review. You sign in Xaman yourself.");
+    await assistantSay("Nothing is auto-signed here. Use Watch the demo for an example, or inspect a blob on Review. You sign in your own wallet.");
   }
 
   /* ---------- wire UI ---------- */
@@ -1298,23 +1298,9 @@
 
   $("#copy-json").addEventListener("click", async () => {
     await navigator.clipboard.writeText($("#tx-json").textContent);
-    await assistantSay("Copied JSON.");
+    await assistantSay("Copied the reviewed transaction JSON. Sign it in your own wallet — QU1PU never asks for your seed.");
   });
-  $("#xaman-btn").addEventListener("click", async () => {
-    if (!model.reviewConfirmed) {
-      $("#xaman-box").textContent = "Confirm the review summary first. You sign in Xaman yourself — nothing is auto-signed.";
-      await assistantSay("Please confirm the review summary before sending anything to Xaman.", { warn: true });
-      return;
-    }
-    const key = (CFG.xummApiKey || "").trim();
-    if (!key) {
-      $("#xaman-box").textContent =
-        "No Xaman API key in config.js. Create a free app at https://apps.xumm.dev and paste the public API Key into xummApiKey.";
-      await assistantSay("Add your public Xaman API key to enable push. Until then, copy the JSON.");
-      return;
-    }
-    $("#xaman-box").textContent = "API key present (…" + key.slice(-4) + "). Wire xumm PKCE / payload.create next — key is ready.";
-  });
+  /* Xaman push is not wired yet; the button stays disabled. No developer-status text. */
   $("#demo-btn")?.addEventListener("click", runDemo);
   $("#lookup-btn").addEventListener("click", async () => {
     const addr = $("#lookup-addr").value.trim();
