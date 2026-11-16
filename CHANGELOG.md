@@ -2,6 +2,11 @@
 
 Notable releases for b34n5.xyz. Each release has a short JSON summary under `updates/`.
 
+## v0.3.18 · 2026-11-16 · QU1PU (work in progress)
+- First public release of **QU1PU**, a plain-English XRPL escrow assistant, at `/qu1pu/`. Work in progress.
+- You review a plain-word summary before signing in Xaman. QU1PU does not sign, and it will never ask for your seed.
+
+
 ## v0.3.17 · 2026-11-13 · Tracer files on request
 - The Transaction Tracer add-on and offline web copy are no longer public downloads. If you'd like a copy, DM [@B34N5XRP](https://x.com/B34N5XRP) on X or email [hello@b34n5.xyz](mailto:hello@b34n5.xyz).
 

@@ -1,0 +1,6 @@
+{
+  "date": "2026-11-16",
+  "version": "0.3.18",
+  "title": "QU1PU (work in progress)",
+  "summary": "First public work-in-progress release of QU1PU, a plain-English XRPL escrow assistant at /qu1pu/. You review a summary before signing in Xaman. QU1PU does not sign and will never ask for your seed."
+}
