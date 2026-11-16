@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="shared/motion-skin.css">
 <link rel="stylesheet" href="shared/page-transitions.css">
   <link rel="stylesheet" href="shared/tips.css">
+<link rel="stylesheet" href="shared/tile-tracer.css">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -54,6 +55,17 @@
         <div class="body">
           <h2 class="name">XRPL Explainer</h2>
           <p class="tagline">How the ledger works</p>
+          <span class="live">Live</span>
+        </div>
+      </a>
+      <a class="flag flag-tracer" data-magnetic href="tracer/">
+        <div class="viz" aria-hidden="true">
+          <img class="globe-fallback" src="assets/img/globe-still.png" alt="">
+          <canvas class="globe-canvas"></canvas>
+        </div>
+        <div class="body">
+          <h2 class="name">Tracer</h2>
+          <p class="tagline">Follow a payment on the globe</p>
           <span class="live">Live</span>
         </div>
       </a>
@@ -118,4 +130,5 @@
 <script src="shared/page-transitions.js"></script>
   <script src="shared/qrcode.js"></script>
   <script src="shared/tips.js"></script>
+<script src="shared/tile-globe.js"></script>
 </body></html>
