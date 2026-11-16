@@ -267,19 +267,68 @@
     return parser?.redactSecrets ? parser.redactSecrets(s) : s;
   }
 
-  function bubble(role, htmlOrText, { html = false } = {}) {
+  function bubble(role, htmlOrText) {
     const log = $("#chat-log");
     const div = document.createElement("div");
     div.className = "bubble " + role;
     const body = safeChatText(htmlOrText);
-    // never use raw HTML for user content; secrets already redacted
-    div.innerHTML = `<div class="meta">${role === "user" ? "you" : "QU1PU"}</div>${escapeHtml(body)}`;
+    const meta = document.createElement("div");
+    meta.className = "meta";
+    meta.textContent = role === "user" ? "you" : "QU1PU";
+    const span = document.createElement("div");
+    span.textContent = body;
+    div.appendChild(meta);
+    div.appendChild(span);
     log.appendChild(div);
     log.scrollTop = log.scrollHeight;
     return div;
   }
 
-  function assistantSay(text, { warn = false } = {}) {
+  const ALLOWED_LINK_HOSTS = {
+    "https://b34n5.xyz/explainer/": 1,
+    "https://b34n5.xyz/explainer/try/": 1,
+    "https://b34n5.xyz/tracer/": 1,
+    "https://b34n5.xyz/checker/": 1,
+    "https://b34n5.xyz/checker/batch/": 1,
+    "https://b34n5.xyz/family-vault/": 1,
+    "https://b34n5.xyz/TheLobby/": 1,
+    "https://b34n5.xyz/tools/": 1,
+    "https://xrpl-will.pages.dev/": 1,
+    "https://xrpl-will.pages.dev": 1,
+  };
+
+  function isAllowedHref(href) {
+    const u = String(href || "");
+    if (!u || /preview-/i.test(u)) return false;
+    if (ALLOWED_LINK_HOSTS[u]) return true;
+    if (u.startsWith("https://xrpl.org/") || u.startsWith("https://xrpl-ai.org/")) return true;
+    return false;
+  }
+
+  function appendSafeLinks(div, links, heading) {
+    if (!div || !links || !links.length) return;
+    const wrap = document.createElement("div");
+    wrap.className = "faq-links tiny";
+    if (heading) {
+      const lab = document.createElement("span");
+      lab.className = "dim";
+      lab.textContent = heading + " ";
+      wrap.appendChild(lab);
+    }
+    links.forEach((lnk, i) => {
+      if (!isAllowedHref(lnk.href)) return;
+      if (i) wrap.appendChild(document.createTextNode(" · "));
+      const a = document.createElement("a");
+      a.href = lnk.href;
+      a.rel = "noopener";
+      a.target = "_blank";
+      a.textContent = lnk.label || lnk.href;
+      wrap.appendChild(a);
+    });
+    if (wrap.querySelector("a")) div.appendChild(wrap);
+  }
+
+  function assistantSay(text, { warn = false, sources = [], tools = [] } = {}) {
     return new Promise((resolve) => {
       clearTimeout(typingTimer);
       const log = $("#chat-log");
@@ -290,6 +339,15 @@
       log.scrollTop = log.scrollHeight;
       setPresence(warn ? "warn" : "think");
 
+      const finish = (div) => {
+        const srcLinks = (sources || []).filter(isAllowedHref).map((href) => ({ href, label: href }));
+        const toolLinks = (tools || []).filter((l) => isAllowedHref(l && l.href));
+        appendSafeLinks(div, srcLinks, "Source:");
+        appendSafeLinks(div, toolLinks, "Optional tool:");
+        setPresence(warn ? "warn" : "idle");
+        resolve();
+      };
+
       const delay = reduce ? 80 : 450 + Math.min(900, text.length * 8);
       typingTimer = setTimeout(() => {
         typing.remove();
@@ -298,8 +356,7 @@
         div.appendChild(body);
         if (reduce) {
           body.textContent = text;
-          setPresence(warn ? "warn" : "idle");
-          resolve();
+          finish(div);
           return;
         }
         setPresence("speak");
@@ -310,10 +367,7 @@
           if (i % 2 === 0) setPresence("speak", { boost: 0.5 });
           log.scrollTop = log.scrollHeight;
           if (i < text.length) requestAnimationFrame(tick);
-          else {
-            setPresence(warn ? "warn" : "idle");
-            resolve();
-          }
+          else finish(div);
         };
         tick();
       }, delay);
@@ -1211,17 +1265,22 @@
   $("#faq-btn").addEventListener("click", async () => {
     const q = $("#faq-input").value.trim();
     if (!q) return;
-    if (window.EscrowParser?.looksLikeSecret?.(q)) {
-      $("#faq-input").value = "";
-      setPresence("warn");
-      await assistantSay("We will never ask for your seed. That looked like a seed or secret key, so it was cleared and not stored or sent.", { warn: true });
-      return;
-    }
-    bubble("user", q);
     const ans = window.EscrowFAQ.answer(q);
+    if (!ans) return;
+    if (ans.blocked) $("#faq-input").value = "";
+    if (ans.hideUser) {
+      $("#faq-input").value = "";
+      bubble("user", "[hidden — I won’t repeat that]");
+    } else {
+      bubble("user", q);
+    }
     window.EscrowFAQ.logFaqLocal(q, ans);
-    if (ans.refusal || ans.blocked) setPresence("warn");
-    await assistantSay(ans.a + " Source: " + ans.href, { warn: !!(ans.refusal || ans.blocked) });
+    if (ans.refusal || ans.blocked || ans.injection) setPresence("warn");
+    await assistantSay(ans.a, {
+      warn: !!(ans.refusal || ans.blocked || ans.injection),
+      sources: ans.sources || (ans.href ? [ans.href] : []),
+      tools: ans.tools || [],
+    });
   });
 
   $$(".tabs button").forEach((b) =>

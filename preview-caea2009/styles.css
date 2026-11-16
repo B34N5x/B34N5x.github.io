@@ -159,3 +159,6 @@ body.demo-mode #xaman-btn{opacity:.35;pointer-events:none}
   .seed-line{font-size:.75rem}
   .confirm-row{font-size:.9rem}
 }
+
+.faq-links{margin-top:8px;line-height:1.5;word-break:break-all}
+.faq-links a{color:var(--link)}
