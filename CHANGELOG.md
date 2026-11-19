@@ -2,6 +2,11 @@
 
 Notable releases for b34n5.xyz. Each release has a short JSON summary under `updates/`.
 
+## v0.3.21 · 2026-11-20 · QU1PU cryptographic keys
+- The QU1PU AI hub now includes a Cryptographic keys card. It explains the two signing algorithms the XRP Ledger supports, secp256k1 and Ed25519, with simple graphic slides you can swipe or step through, and a Learn more section from official docs.
+- You can ask about those key types in the hub tiles, in the escrow assistant, or in the chat bubble on Home, Tools and Security. Answers come from official xrpl.org docs and include a source.
+- QU1PU still never asks for your seed. If a seed is pasted, it refuses and does not show it back.
+
 ## v0.3.20 · 2026-11-20 · QU1PU AI
 - `/qu1pu/` is now a QU1PU AI hub with topic tiles for Escrow, Lending and Vault. Answers come from official XRPL docs, each with a source.
 - The Escrow tile still has the guided assistant: you review a draft, then you sign in Xaman. QU1PU never asks for your seed and never signs for you.

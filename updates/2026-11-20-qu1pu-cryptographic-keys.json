@@ -1,0 +1,6 @@
+{
+  "date": "2026-11-20",
+  "version": "0.3.21",
+  "title": "QU1PU cryptographic keys",
+  "summary": "The QU1PU AI hub now has a Cryptographic keys card for secp256k1 and Ed25519, with simple graphic slides and a Learn more section from official docs. You can ask about those key types in the hub, the escrow assistant, or the chat bubble on Home, Tools and Security. QU1PU still never asks for your seed."
+}

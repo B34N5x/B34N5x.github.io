@@ -646,11 +646,31 @@
     );
   }
 
+
+  const KEYS_RE = /\b(?:secp256k1|ed25519|ed\s*25519)\b|\b(?:what|which|how)\b[\s\S]{0,48}\b(?:key types?|signing algorithms?|cryptograph(?:y|ic(?:\s+keys?)?)?)\b|\b(?:key types?|signing algorithms?|cryptographic keys?)\b[\s\S]{0,24}\b(?:xrpl|xrp ledger|xrp)\b|\b(?:which|what)\s+cryptograph/i;
+
+  const KEYS_SOURCES = [
+    "https://xrpl.org/docs/concepts/accounts/cryptographic-keys",
+    "https://xrpl.org/docs/references/protocol/data-types/base58-encodings"
+  ];
+
+  function keysAnswer() {
+    const text =
+      "The XRP Ledger supports two cryptographic signing algorithms: secp256k1 (ECDSA using the elliptic curve secp256k1) and ed25519 (EdDSA using the elliptic curve Ed25519). " +
+      "secp256k1 is the same scheme Bitcoin uses, and the XRP Ledger uses these key types by default. Ed25519 is also supported; official docs describe it as a newer algorithm with better performance and other convenient properties. Official docs do not rank one key type over the other. " +
+      "Different tools have different defaults: many client libraries (such as xrpl.js) use Ed25519 as the default, but xrpld’s wallet_propose command uses secp256k1 as the default, so the same seed can produce a different address unless the algorithm is specified. " +
+      "You can tell an Ed25519 public key because xrpld prefixes it with the byte 0xED, so both types of public key are 33 bytes. Official docs also record that seed values in the XRP Ledger’s base58 format start with s; that describes the seed encoding in general. " +
+      "As with other cryptographic algorithms, use a standard, well-known, publicly-audited implementation whenever possible — official docs mention OpenSSL’s implementations of core Ed25519 and secp256k1 functions. " +
+      "Your keys and seeds never leave your wallet. QU1PU never asks for them. You sign in Xaman yourself.";
+    return pack(text, KEYS_SOURCES, [], { curated: "keys" });
+  }
+
   function curatedAnswer(question) {
     const q = String(question || "").trim();
     if (!q) return null;
     // Safety first is handled by the caller for pasted secrets and injection.
     if (isSecurityQuestion(q)) return securityAnswer(q);
+    if (KEYS_RE.test(q)) return keysAnswer();
     if (MEME_RE.test(q)) return memeAnswer();
     if (VAULT_RE.test(q) && !LENDING_RE.test(q)) return vaultAnswer();
     if (LENDING_RE.test(q) && VAULT_RE.test(q)) return lendingAnswer();
@@ -720,7 +740,7 @@
         if (steered) return steered;
       }
     }
-    if (curated && scope && curated.curated && curated.curated !== scope && curated.curated !== "meme" && curated.curated !== "people" && curated.curated !== "security") {
+    if (curated && scope && curated.curated && curated.curated !== scope && curated.curated !== "meme" && curated.curated !== "people" && curated.curated !== "security" && curated.curated !== "keys") {
       const onThis = detectTopics(q).indexOf(scope) !== -1;
       if (!onThis) {
         const steered = steerToTopics([curated.curated], scope);
