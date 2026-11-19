@@ -5,7 +5,15 @@
   if (/(?:^|\/)qu1pu(?:\/|$)/i.test(PATH)) return;
 
   const GUIDE = "https://b34n5.xyz/qu1pu/";
-  const ALLOWED_SOURCE = ["https://xrpl.org/", "https://xrpl-ai.org/"];
+  const ALLOWED_SOURCE = [
+    "https://xrpl.org/",
+    "https://xrpl-ai.org/",
+    "https://help.xaman.app/",
+    "https://ripple.com/",
+    "https://www.xrpl.foundation/",
+    "https://x.com/Vet_X0",
+    "https://x.com/bearableguy123",
+  ];
   const ALLOWED_TOOLS = {
     "https://b34n5.xyz/explainer/": 1,
     "https://b34n5.xyz/explainer/try/": 1,
@@ -102,25 +110,101 @@
   }
 
   function sourceLabels(ans) {
-    const faq = window.EscrowFAQ;
-    if (faq && typeof faq.sourcesOf === "function") return faq.sourcesOf(ans);
-    return (ans && (ans.sources || (ans.href ? [ans.href] : []))) || [];
+    const list = (ans && (ans.sources || (ans.href ? [ans.href] : []))) || [];
+    return list.filter(isAllowedHref);
   }
 
-  function logoImg(cls) {
-    const img = el("img", {
-      className: cls || "",
-      src: (function () {
-        const s = document.querySelector('script[src*="qu1pu-bubble.js"]');
-        const dir = s && s.src ? s.src.replace(/qu1pu-bubble\.js.*$/, "") : "./";
-        return dir + "xrp-symbol-black.svg";
-      })(),
-      alt: "",
-      width: "37",
-      height: "32",
-    });
-    img.setAttribute("decoding", "async");
-    return img;
+  function abstractQ() {
+    const q = el("span", { className: "qu1pu-q", "aria-hidden": "true" });
+    q.appendChild(el("span", { className: "qu1pu-q-ring" }));
+    const pupil = el("span", { className: "qu1pu-q-pupil" });
+    const tail = el("span", { className: "qu1pu-q-tail" });
+    q.appendChild(pupil);
+    q.appendChild(tail);
+    q._pupil = pupil;
+    q._tail = tail;
+    return q;
+  }
+
+  function canWatchPointer() {
+    if (reduceMotion()) return false;
+    try {
+      return window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function attachWatch(fab, qmark) {
+    const pupil = qmark && qmark._pupil;
+    const tail = qmark && qmark._tail;
+    if (!pupil || !tail) return;
+    const MAX = 4;
+    let tx = 0, ty = 0, cx = 0, cy = 0, raf = 0, active = false;
+
+    function apply() {
+      pupil.style.transform = "translate(" + cx.toFixed(2) + "px," + cy.toFixed(2) + "px)";
+      const rot = 38 + (cx / MAX) * 6;
+      tail.style.transform = "rotate(" + rot.toFixed(2) + "deg)";
+    }
+    function tick() {
+      cx += (tx - cx) * 0.18;
+      cy += (ty - cy) * 0.18;
+      apply();
+      if (Math.abs(tx - cx) > 0.08 || Math.abs(ty - cy) > 0.08) {
+        raf = requestAnimationFrame(tick);
+      } else {
+        cx = tx;
+        cy = ty;
+        apply();
+        raf = 0;
+      }
+    }
+    function kick() {
+      if (!raf) raf = requestAnimationFrame(tick);
+    }
+    function onMove(ev) {
+      if (reduceMotion()) return;
+      const isMouse = !ev.pointerType || ev.pointerType === "mouse";
+      if (!isMouse) return;
+      if (!canWatchPointer() && ev.pointerType !== "mouse") return;
+      const r = fab.getBoundingClientRect();
+      const mx = r.left + r.width / 2;
+      const my = r.top + r.height / 2;
+      let dx = ev.clientX - mx;
+      let dy = ev.clientY - my;
+      const dist = Math.hypot(dx, dy) || 1;
+      const mag = Math.min(MAX, (MAX * Math.min(dist, 160)) / 160);
+      tx = (dx / dist) * mag;
+      ty = (dy / dist) * mag;
+      active = true;
+      kick();
+    }
+    function onLeave() {
+      tx = 0;
+      ty = 0;
+      active = false;
+      kick();
+    }
+    function bind() {
+      if (!canWatchPointer()) {
+        tx = ty = cx = cy = 0;
+        pupil.style.transform = "";
+        tail.style.transform = "";
+        return;
+      }
+    }
+    window.addEventListener("pointermove", onMove, { passive: true });
+    document.addEventListener("pointerleave", onLeave);
+    window.addEventListener("blur", onLeave);
+    try {
+      const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const ptr = window.matchMedia("(hover: hover) and (pointer: fine)");
+      const onCh = function () { bind(); if (!canWatchPointer()) onLeave(); };
+      if (mq.addEventListener) mq.addEventListener("change", onCh);
+      if (ptr.addEventListener) ptr.addEventListener("change", onCh);
+    } catch (_) {}
+    bind();
   }
 
   function boot() {
@@ -151,7 +235,7 @@
       el("div", { className: "qu1pu-head" }, [
         (function () {
           const mark = el("span", { className: "qu1pu-mark", "aria-hidden": "true" });
-          mark.appendChild(logoImg());
+          mark.appendChild(abstractQ());
           return mark;
         })(),
         el("strong", { text: "QU1PU" }),
@@ -166,13 +250,16 @@
       type: "button",
       className: "qu1pu-fab",
       id: "qu1pu-bubble-fab",
-      "aria-label": "Ask QU1PU",
+      "aria-label": "QU1PU",
+      title: "QU1PU",
       "aria-expanded": "false",
       "aria-controls": "qu1pu-bubble-panel",
     });
-    fab.appendChild(logoImg("qu1pu-fab-logo"));
+    const fabQ = abstractQ();
+    fab.appendChild(fabQ);
     const dock = el("div", { className: "qu1pu-dock", id: "qu1pu-dock" }, [panel, fab]);
     document.body.appendChild(dock);
+    attachWatch(fab, fabQ);
 
     let open = false;
     const relocate = () => placeDock(dock);

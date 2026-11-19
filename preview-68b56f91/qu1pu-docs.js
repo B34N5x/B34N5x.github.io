@@ -4,7 +4,15 @@
   const STOP = new Set("a an the of and to in is it for on or as be by at from that this with are was were been being not no do does did can will would should may might have has had you your we they their its if then than also into over such any all about how what when where why who which than does".split(" "));
   const K1 = 1.5;
   const B = 0.75;
-  const ALLOWED_SOURCE = ["https://xrpl.org/", "https://xrpl-ai.org/"];
+  const ALLOWED_SOURCE = [
+    "https://xrpl.org/",
+    "https://xrpl-ai.org/",
+    "https://help.xaman.app/",
+    "https://ripple.com/",
+    "https://www.xrpl.foundation/",
+    "https://x.com/Vet_X0",
+    "https://x.com/bearableguy123",
+  ];
 
   const EXPAND = [
     [/\b(fees?|transaction cost|burned|destroyed)\b/i, ["transaction", "cost", "destroyed", "burned", "fee"]],
@@ -280,6 +288,168 @@
     return pack(text, extracted.sources, toolLinks(question, text), { weak: weak, retrieved: true });
   }
 
+
+  const SECURITY_RE = /\b(?:how (?:can|do|to) (?:i |you )?(?:secure|stay safe|keep (?:my |your )?(?:xrp|wallet|account|funds|keys?) safe|avoid (?:a )?scams?)|secur(?:e|ing) (?:my |your )?(?:xrp|wallet|account|funds|keys?|secret)|(?:avoid|spot|report) (?:a )?scams?|scams?|phish(?:ing)?|airdrops?|giveaways?|fake support|support (?:dm|account)|dmed me|dm'?d me|direct messag|someone (?:dmed|messaged|texted)|lost (?:my )?(?:seed|secret|mnemonic|recovery)|forgot (?:my )?(?:seed|secret)|verify (?:my |your )?wallet|hardware wallet|stay safe|not (?:get )?scammed)\b/i;
+  const MEME_RE = /\b(?:wen moon|wen lambo|price prediction|price target|will xrp hit|should i (?:buy|sell|invest)|buy xrp|sell xrp|xrp(?:'s)? price|price of xrp|how much will (?:xrp|it)|going to (?:the moon|moon)|to the moon|lambo|financial advice|is xrp (?:a good|worth)|worth investing|what(?:'s| is) (?:the |xrp )price)\b/i;
+  const PROTOCOL_WORDS = /^(xrp|xrpl|ripple|escrow|amm|validator|ledger|payment|payments|tag|memo|fee|fees|reserve|reserves|credential|credentials|vault|loan|lending|batch|domain|transaction|account|wallet|qu1pu)$/i;
+
+  const PEOPLE = [
+    {
+      aliases: ["david schwartz", "schwartz", "joelkatz", "joel katz", "@joelkatz"],
+      a: "David Schwartz is a co-creator of the XRP Ledger and is described by Ripple as CTO Emeritus. This is a public role, not an endorsement.",
+      sources: [
+        "https://xrpl.org/about/history",
+        "https://ripple.com/insights/ripple-swell-2026-recap/",
+      ],
+    },
+    {
+      aliases: ["vet", "vet_x0", "@vet_x0", "hussein zangana"],
+      a: "Vet, who posts as @Vet_X0 on X, is affiliated with the XRP Ledger Foundation. This is a public affiliation, not an endorsement.",
+      sources: ["https://x.com/Vet_X0"],
+    },
+    {
+      aliases: ["bg123", "bg 123", "bearableguy123", "@bearableguy123", "bearable guy 123", "bearableguy"],
+      a: "BG123 is a well-known XRP community account on X, typically @bearableguy123. I only note that public account. I can’t verify who runs it, and this is not an endorsement.",
+      sources: ["https://x.com/bearableguy123"],
+    },
+    {
+      aliases: ["brad garlinghouse", "garlinghouse"],
+      a: "Brad Garlinghouse is the Chief Executive Officer of Ripple, according to Ripple’s official leadership page. This is a public role, not an endorsement.",
+      sources: ["https://ripple.com/company/leadership/"],
+    },
+    {
+      aliases: ["chris larsen", "larsen"],
+      a: "Chris Larsen is listed by Ripple as Executive Chairman and a co-founder, and the official XRPL history notes he joined the early project team. This is a public role, not an endorsement.",
+      sources: [
+        "https://ripple.com/company/leadership/",
+        "https://xrpl.org/about/history",
+      ],
+    },
+    {
+      aliases: ["jed mccaleb", "mccaleb"],
+      a: "Jed McCaleb is one of the three engineers who, according to the official XRP Ledger history, began developing the XRP Ledger in 2011. This is a public historical fact, not an endorsement.",
+      sources: ["https://xrpl.org/about/history"],
+    },
+    {
+      aliases: ["arthur britto", "britto"],
+      a: "Arthur Britto is one of the three engineers who, according to the official XRP Ledger history, began developing the XRP Ledger in 2011. This is a public historical fact, not an endorsement.",
+      sources: ["https://xrpl.org/about/history"],
+    },
+    {
+      aliases: ["monica long"],
+      a: "Monica Long is the President of Ripple, according to Ripple’s official leadership page. This is a public role, not an endorsement.",
+      sources: ["https://ripple.com/company/leadership/"],
+    },
+  ];
+
+  const SECURITY_SOURCES = [
+    "https://xrpl.org/docs/concepts/accounts/cryptographic-keys",
+    "https://xrpl.org/docs/concepts/transactions/secure-signing",
+    "https://xrpl.org/docs/concepts/transactions/source-and-destination-tags",
+    "https://xrpl-ai.org/faq#custody",
+    "https://help.xaman.app/app/getting-started-with-xaman/self-custody-101-staying-safe-with-xaman",
+    "https://help.xaman.app/app/learning-more-about-xaman/official-communication-channels",
+    "https://help.xaman.app/app/learning-more-about-xaman/ive-lost-my-account-secret",
+    "https://help.xaman.app/app/all-about-scams/ive-been-scammed",
+  ];
+
+  const RIDDLES = [
+    "I settle in a few seconds and I never go mining, yet people still ask when I’ll fly. What am I? (A ledger joke, not a forecast.)",
+    "I have a reserve, but I’m not a park, and I have a tag, but I don’t play tag. What am I? (An XRP Ledger account.)",
+    "I get burned, but I never start a campfire. What am I? (A transaction fee — it’s destroyed, not paid out.)",
+    "I’m public, I don’t nap, and I still won’t name a price. What am I? (The XRP Ledger… and this chat.)",
+    "I can lock value for a later date, then I open — or I don’t. What am I? (An escrow. No rockets involved.)",
+    "People stare at me for a number, but I only keep a list of trust. What am I? (A validator list, not a price chart.)",
+  ];
+  let riddleN = 0;
+
+  function normName(s) {
+    return String(s || "").toLowerCase().replace(/^@/, "").replace(/[^a-z0-9]+/g, " ").trim();
+  }
+
+  function securityLead(q) {
+    const n = String(q || "").toLowerCase();
+    if (/\blost\b|\bforgot\b/.test(n) && /\b(seed|secret|mnemonic|recovery)\b/.test(n)) {
+      return "If a seed or secret is gone, no one can honestly recreate it for you — not Xaman, not Ripple, and not this chat. ";
+    }
+    if (/\bairdrop|giveaway|verify (?:my |your )?wallet|free xrp\b/.test(n)) {
+      return "Treat unexpected airdrops, giveaways, and “verify your wallet” messages as scams. ";
+    }
+    if (/\bdm|direct messag|fake support|someone (?:dmed|messaged|texted)/.test(n)) {
+      return "A support message in your DMs is a warning sign, not a help desk. ";
+    }
+    return "";
+  }
+
+  function securityAnswer(q) {
+    const lead = securityLead(q);
+    const body =
+      "Nobody legitimate will ever ask for your seed or secret key — not support, not an airdrop, and not this chat. Keep that secret offline and never type it into a website or chat. Official Xaman help is only through the Xaman Support xApp inside the app; Xaman does not give support in social-media DMs. Check every URL carefully (Xaman’s official domain is xaman.app). If you use a hardware or card wallet, the key can stay on the device. Before you send, check the destination address and any destination tag. If you already lost a secret, paid “recovery” offers are usually a second scam. I will never ask you to type or send a secret.";
+    return pack(lead + body, SECURITY_SOURCES, [], { curated: "security" });
+  }
+
+  function memeAnswer() {
+    const riddle = RIDDLES[riddleN % RIDDLES.length];
+    riddleN += 1;
+    const text =
+      "Innocent joke: " + riddle +
+      " QU1PU doesn’t predict prices or give financial advice. If you’d like something useful, I can explain how payments, escrow, or fees work on the XRP Ledger.";
+    return pack(text, ["https://xrpl.org/docs/introduction/what-is-the-xrp-ledger"], [], { curated: "meme", joke: true });
+  }
+
+  function findPerson(q) {
+    const raw = String(q || "");
+    const n = normName(raw);
+    for (let i = 0; i < PEOPLE.length; i++) {
+      const ppl = PEOPLE[i];
+      for (let j = 0; j < ppl.aliases.length; j++) {
+        const al = normName(ppl.aliases[j]);
+        if (!al) continue;
+        if (n === al || n.indexOf(al) !== -1) return ppl;
+      }
+    }
+    return null;
+  }
+
+  function isWhoQuestion(q) {
+    return /(?:^|\b)(?:who\s+is|who'?s|whos)\b/i.test(String(q || ""));
+  }
+
+  function whoToken(q) {
+    const m = String(q || "").match(/(?:who\s+is|who'?s|whos)\s+(.+?)[?.!]*$/i);
+    return m ? m[1].trim() : "";
+  }
+
+  function peopleAnswer(q) {
+    const hit = findPerson(q);
+    if (hit) return pack(hit.a, hit.sources, [], { curated: "people" });
+    if (!isWhoQuestion(q)) return null;
+    const token = whoToken(q);
+    if (!token) return null;
+    const key = token.replace(/^@/, "").trim();
+    if (/^(the|a|an|my|your|this|that)\b/i.test(key)) return null;
+    if (PROTOCOL_WORDS.test(key) || key.split(/\s+/).length > 4) return null;
+    // Looks like a name or handle we don't have.
+    if (!/^[A-Za-z0-9_@][A-Za-z0-9_@. -]{1,40}$/.test(token)) return null;
+    return pack(
+      "I don’t have verified info on that person. Check their official profile and never trust DMs.",
+      ["https://help.xaman.app/app/getting-started-with-xaman/self-custody-101-staying-safe-with-xaman"],
+      [],
+      { curated: "people", unknown: true }
+    );
+  }
+
+  function curatedAnswer(question) {
+    const q = String(question || "").trim();
+    if (!q) return null;
+    // Safety first is handled by the caller for pasted secrets and injection.
+    if (SECURITY_RE.test(q)) return securityAnswer(q);
+    if (MEME_RE.test(q)) return memeAnswer();
+    const who = peopleAnswer(q);
+    if (who) return who;
+    return null;
+  }
+
   function answer(question) {
     const q = String(question || "").trim();
     if (!q) return null;
@@ -287,7 +457,17 @@
 
     if (faq && typeof faq.answer === "function") {
       const safety = faq.answer(q);
-      if (safety && (safety.blocked || safety.injection || safety.refusal || safety.hideUser || safety.offTopic)) {
+      if (safety && (safety.blocked || safety.injection || safety.hideUser)) {
+        return safety;
+      }
+    }
+
+    const curated = curatedAnswer(q);
+    if (curated) return curated;
+
+    if (faq && typeof faq.answer === "function") {
+      const safety = faq.answer(q);
+      if (safety && (safety.refusal || safety.offTopic)) {
         // Off-topic: if the docs have a real hit, answer from docs instead of only steering.
         if (safety.offTopic && !safety.hideUser && !safety.refusal && index) {
           const docsAns = answerFromDocs(q);
@@ -326,5 +506,5 @@
     return pack("I can answer from the official XRP Ledger docs, but I don’t have a close match for that yet and I won’t invent one.", ["https://xrpl.org/docs"], [], {});
   }
 
-  window.Qu1puDocs = { load, answer, bm25, cleanGuideTalk, assetDir };
+  window.Qu1puDocs = { load, answer, bm25, cleanGuideTalk, assetDir, curatedAnswer, PEOPLE, RIDDLES };
 })();
