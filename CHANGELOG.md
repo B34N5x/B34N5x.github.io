@@ -2,6 +2,11 @@
 
 Notable releases for b34n5.xyz. Each release has a short JSON summary under `updates/`.
 
+## v0.3.19 · 2026-11-20 · QU1PU chat bubble
+- A small QU1PU chat bubble now sits on the home page, Tools and Security. Ask about the XRP Ledger and get a direct answer from official docs, with a source.
+- It never asks for your seed, and it will tell you never to share one. Lending features are clearly labelled as still in validator voting, not live on mainnet.
+- The bubble does not appear on the QU1PU escrow assistant itself at `/qu1pu/`.
+
 ## v0.3.18 · 2026-11-16 · QU1PU (work in progress)
 - First public release of **QU1PU**, a plain-English XRPL escrow assistant, at `/qu1pu/`. Work in progress.
 - You review a plain-word summary before signing in Xaman. QU1PU does not sign, and it will never ask for your seed.

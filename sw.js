@@ -1,7 +1,7 @@
 // B34N5 service worker: same-origin GET only. Never touches WebSocket or cross-origin requests.
-const VERSION = "b34n5-v45";
+const VERSION = "b34n5-v46";
 const SHELL = ["/", "/index.html", "/tools/", "/tracer/", "/security/", "/projects/", "/checker/", "/checker/testnet/", "/checker/mainnet/", "/checker/batch/", "/checker/batch/tests/", "/tools/balance-checker/", "/terms/", "/privacy/", "/explainer/",
-  "/shared/tips.css", "/shared/tips.js", "/shared/qrcode.js", "/assets/style.css", "/assets/cursor-xrp.svg", "/assets/cursor-xrp.png", "/assets/checker.js", "/assets/batch-checker.js", "/assets/consent.js", "/assets/rain.js", "/assets/eggs.js", "/assets/pwa.js", "/assets/sparkle.js", "/assets/matrix-bg.js", "/assets/hud.js", "/assets/visits.js", "/assets/carousel.js", "/assets/float-cards.js", "/assets/vendor/xrpl-4.7.0.min.js",
+  "/shared/tips.css", "/shared/tips.js", "/shared/qrcode.js", "/shared/qu1pu-bubble.css", "/shared/qu1pu-bubble.js", "/shared/qu1pu-docs.js", "/assets/style.css", "/assets/cursor-xrp.svg", "/assets/cursor-xrp.png", "/assets/checker.js", "/assets/batch-checker.js", "/assets/consent.js", "/assets/rain.js", "/assets/eggs.js", "/assets/pwa.js", "/assets/sparkle.js", "/assets/matrix-bg.js", "/assets/hud.js", "/assets/visits.js", "/assets/carousel.js", "/assets/float-cards.js", "/assets/vendor/xrpl-4.7.0.min.js",
   "/assets/img/A-digital-rain-1600x500.png", "/assets/img/A-digital-rain-800x600.png", "/assets/img/favicon-32.png", "/assets/img/favicon-192.png",
   "/assets/img/favicon-512.png", "/assets/img/icon-192.png", "/assets/img/icon-512.png", "/assets/img/icon-maskable-192.png",
   "/assets/img/icon-maskable-512.png", "/assets/img/apple-touch-icon-180.png", "/favicon.ico", "/manifest.webmanifest"];
