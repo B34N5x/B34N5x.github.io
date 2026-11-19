@@ -40,6 +40,46 @@
     return ALLOWED_SOURCE.some((p) => u.startsWith(p));
   }
 
+  function prettyLabel(s) {
+    return String(s || "")
+      .replace(/\.[a-z0-9]+$/i, "")
+      .replace(/[-_]+/g, " ")
+      .replace(/\b\w/g, (c) => c.toUpperCase())
+      .trim();
+  }
+
+  function shortSourceLabel(href) {
+    const u = String(href || "");
+    try {
+      const url = new URL(u, "https://b34n5.xyz");
+      const host = (url.hostname || "").replace(/^www\./, "");
+      if (host === "x.com" || host === "twitter.com") {
+        const handle = url.pathname.replace(/^\//, "").split("/")[0];
+        return handle ? "@" + handle : "X";
+      }
+      if (host === "xrpl-ai.org") {
+        const hash = (url.hash || "").replace(/^#/, "").replace(/-/g, " ");
+        return hash ? "xrpl-ai.org: " + prettyLabel(hash) : "xrpl-ai.org FAQ";
+      }
+      if (host === "help.xaman.app") {
+        const last = url.pathname.split("/").filter(Boolean).pop() || "";
+        return last ? "Xaman: " + prettyLabel(last) : "Xaman Help";
+      }
+      if (host === "xrpl.org") {
+        const last = url.pathname.split("/").filter(Boolean).pop() || "xrpl.org";
+        return prettyLabel(last);
+      }
+      if (host === "ripple.com") {
+        const last = url.pathname.split("/").filter(Boolean).pop() || "Ripple";
+        return "Ripple: " + prettyLabel(last);
+      }
+      if (host === "www.xrpl.foundation" || host === "xrpl.foundation") return "XRPL Foundation";
+      return host || u;
+    } catch (_) {
+      return u;
+    }
+  }
+
   function safeText(text) {
     const parser = window.EscrowParser;
     const s = String(text || "");
@@ -99,19 +139,36 @@
     msg.appendChild(el("div", { className: "meta", text: role === "user" ? "you" : "QU1PU" }));
     msg.appendChild(el("div", { className: "body", text: safeText(text) }));
     if (extra) {
-      const sources = (extra.sources || []).filter(isAllowedHref).map((href) => ({ href, label: href }));
+      const sources = (extra.sources || []).map(asSourceLink).filter(Boolean);
       const tools = (extra.tools || []).filter((l) => isAllowedHref(l && l.href));
       appendLinks(msg, sources, "Source:");
       appendLinks(msg, tools, "Optional tool:");
     }
     log.appendChild(msg);
-    log.scrollTop = log.scrollHeight;
+    scrollLogToMessage(log, msg);
     return msg;
+  }
+
+  function asSourceLink(item) {
+    if (!item) return null;
+    if (typeof item === "string") {
+      return isAllowedHref(item) ? { href: item, label: shortSourceLabel(item) } : null;
+    }
+    if (!isAllowedHref(item.href)) return null;
+    return { href: item.href, label: item.label || shortSourceLabel(item.href) };
+  }
+
+  function scrollLogToMessage(log, msg) {
+    const start = msg.previousElementSibling && msg.previousElementSibling.classList.contains("user")
+      ? msg.previousElementSibling
+      : msg;
+    const rel = start.getBoundingClientRect().top - log.getBoundingClientRect().top + log.scrollTop;
+    log.scrollTop = Math.max(0, rel - 8);
   }
 
   function sourceLabels(ans) {
     const list = (ans && (ans.sources || (ans.href ? [ans.href] : []))) || [];
-    return list.filter(isAllowedHref);
+    return list.map(asSourceLink).filter(Boolean);
   }
 
   function abstractQ() {

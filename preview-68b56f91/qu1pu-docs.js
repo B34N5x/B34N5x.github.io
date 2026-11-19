@@ -23,6 +23,8 @@
     [/\bpermissioned domains?\b/i, ["permissioned", "domain", "credentials"]],
     [/\bbatch\b/i, ["batch", "transaction"]],
     [/\b(destination tags?|dest tags?)\b/i, ["destination", "tag", "source"]],
+    [/\btrust\s*lines?\b/i, ["trust", "line", "trustline", "issuer", "token"]],
+    [/\bnfts?\b|nftoken|non-?fungible/i, ["nft", "nfts", "nftoken", "nonfungible", "token"]],
     [/\bescrow\b/i, ["escrow", "lock", "finish", "cancel"]],
     [/\b(freeze|clawback)\b/i, ["freeze", "clawback", "xrp", "token", "issuer"]],
     [/\bpayments?\b/i, ["payment", "payments", "transaction"]],
@@ -55,10 +57,10 @@
   }
 
   function expandQuery(question) {
-    const q = String(question || "");
+    const q = String(question || "").replace(/\btrustlines?\b/gi, "trust line");
     const bag = new Set(toks(q));
     EXPAND.forEach(([re, words]) => {
-      if (re.test(q)) words.forEach((w) => bag.add(w));
+      if (re.test(q) || re.test(question || "")) words.forEach((w) => bag.add(w));
     });
     return [...bag];
   }
@@ -81,11 +83,36 @@
     return { N, tokenized, df, avgdl: total / Math.max(1, N) };
   }
 
+  const WEAK_TERMS = new Set(("xrp xrpl ledger ripple work works working official docs page use used using make made also into over such any all about how what when where why who which does did can will protocol feature question introduction").split(" "));
+
+  function mainTerms(question) {
+    return expandQuery(question).filter((t) => t.length > 2 && !WEAK_TERMS.has(t) && !STOP.has(t));
+  }
+
+  function isBasicDefinition(question) {
+    return /^(?:what(?:'s| is| are)|how do(?:es)?|define|explain)\b/i.test(String(question || "").trim());
+  }
+
+  function hitHasContentWords(doc, terms) {
+    if (!terms.length) return true;
+    const blob = [doc.t, doc.s, doc.x].join(" ").toLowerCase();
+    const dt = new Set(toks(blob));
+    return terms.some((t) => dt.has(t) || blob.indexOf(t) !== -1);
+  }
+
+  function sentenceHasMainTerms(s, terms) {
+    if (!terms.length) return true;
+    const st = new Set(toks(s));
+    return terms.some((t) => st.has(t));
+  }
+
   function bm25(question, limit) {
     if (!index || !inv) return [];
     const qTokens = expandQuery(question);
     const qSet = new Set(qTokens);
     const raw = String(question || "").toLowerCase();
+    const main = mainTerms(question);
+    const basic = isBasicDefinition(question);
     const { N, tokenized, df, avgdl } = inv;
     const scored = [];
     for (let i = 0; i < index.docs.length; i++) {
@@ -115,10 +142,16 @@
       const overlap = titleToks.filter((t) => qSet.has(t)).length;
       if (titleToks.length && overlap === titleToks.length) score += 2.2;
       else if (overlap >= 2) score += 1.1;
+      if (basic && String(doc.u || "").indexOf("https://xrpl.org/docs/concepts/") === 0) score += 3.5;
+      if (basic && /xrpl-ai\.org/.test(doc.u || "")) score -= 2.2;
+      if (basic && (doc.s || "") === doc.t) score += 1.6;
       scored.push({ score, doc });
     }
     scored.sort((a, b) => b.score - a.score || (b.doc.p || 0) - (a.doc.p || 0));
-    return scored.slice(0, limit || 8);
+    const sliced = scored.slice(0, limit || 8);
+    if (!main.length) return sliced;
+    const filtered = sliced.filter((h) => hitHasContentWords(h.doc, main));
+    return filtered.length ? filtered : [];
   }
 
   function allowedSrc(href) {
@@ -167,15 +200,20 @@
 
   function extractAnswer(question, hits) {
     const qTokens = expandQuery(question);
+    const main = mainTerms(question);
     const cands = [];
     hits.forEach((h, rank) => {
-      const defChunk = (h.doc.s || "") === h.doc.t || rank === 0;
+      const overview = (h.doc.s || "") === h.doc.t;
+      const defChunk = overview || rank === 0;
       splitSentences(h.doc.x).forEach((s) => {
         if (isAnaphoric(s)) return;
+        if (main.length && !sentenceHasMainTerms(s, main)) return;
         let sc = sentenceScore(s, qTokens) + Math.max(0, 2.4 - rank * 0.3) + (h.doc.p || 0) * 0.2;
-        if (isDefinition(s)) sc += 2.2;
-        if (defChunk && isDefinition(s)) sc += 1.2;
-        if (sc >= 1.2) cands.push({ s, sc, url: h.doc.u, title: h.doc.t, def: isDefinition(s) });
+        const onTopicDef = isDefinition(s) && sentenceHasMainTerms(s, main.length ? main : qTokens);
+        if (onTopicDef) sc += 2.2;
+        if (defChunk && onTopicDef) sc += 1.2;
+        if (overview) sc += 1.4;
+        if (sc >= 1.2) cands.push({ s, sc, url: h.doc.u, title: h.doc.t, def: onTopicDef });
       });
     });
     cands.sort((a, b) => (b.def - a.def) || (b.sc - a.sc));
@@ -187,11 +225,12 @@
       picked.push(c.s);
       if (allowedSrc(c.url) && urls.indexOf(c.url) === -1) urls.push(c.url);
     });
-    // If we skipped everything as anaphoric, fall back to unfiltered top sentences.
+    // Fall back only to sentences that still overlap the question's main terms.
     if (!picked.length) {
       hits.forEach((h) => {
         splitSentences(h.doc.x).forEach((s) => {
           if (picked.length >= 4) return;
+          if (main.length && !sentenceHasMainTerms(s, main)) return;
           if (picked.some((p) => tooSimilar(p, s))) return;
           picked.push(s);
           if (allowedSrc(h.doc.u) && urls.indexOf(h.doc.u) === -1) urls.push(h.doc.u);
@@ -289,7 +328,9 @@
   }
 
 
-  const SECURITY_RE = /\b(?:how (?:can|do|to) (?:i |you )?(?:secure|stay safe|keep (?:my |your )?(?:xrp|wallet|account|funds|keys?) safe|avoid (?:a )?scams?)|secur(?:e|ing) (?:my |your )?(?:xrp|wallet|account|funds|keys?|secret)|(?:avoid|spot|report) (?:a )?scams?|scams?|phish(?:ing)?|airdrops?|giveaways?|fake support|support (?:dm|account)|dmed me|dm'?d me|direct messag|someone (?:dmed|messaged|texted)|lost (?:my )?(?:seed|secret|mnemonic|recovery)|forgot (?:my )?(?:seed|secret)|verify (?:my |your )?wallet|hardware wallet|stay safe|not (?:get )?scammed)\b/i;
+  const SECURITY_RE = /\b(?:how (?:can|do|to) (?:i |you )?(?:secure|stay safe|keep (?:my |your )?(?:xrp|wallet|account|funds|keys?) safe|avoid (?:a )?scams?)|secur(?:e|ing) (?:my |your )?(?:xrp|wallet|account|funds|keys?|secret)|(?:avoid|spot|report) (?:a )?scams?|scams?|phish(?:ing)?|airdrops?|giveaways?|fake support|support (?:dm|account)|dmed me|dm'?d me|direct messag|someone (?:dmed|messaged|texted)|lost (?:my )?(?:seed|secret|mnemonic|recovery)|forgot (?:my )?(?:seed|secret)|verify (?:my |your )?wallet|hardware wallet|stay safe|not (?:get )?scammed|(?:is it |is that )?(?:safe|ok|okay|wise) to (?:share|give|send|paste|type)|(?:should i|can i|do i|never)(?: ever)? (?:share|give|send|paste|type)|share (?:my |your |a |the )?(?:seed|secret|mnemonic|recovery)|(?:seed|secret|mnemonic|recovery)(?: phrase| key)?(?: safety| security)?|seed phrase|secret key|private key|recovery phrase)\b/i;
+  const LENDING_RE = /\b(?:lending\s+(?:protocol|amendment)s?|lendingprotocol(?:v1[_.]?1)?|single\s*asset\s*vaults?|singleassetvault|(?:xls-?65|xls-?66)|(?:what(?:'s| is) (?:the )?(?:xrpl |xrp ledger )?lending))\b/i;
+  const CHEEKY_OFFTOPIC_RE = /\b(?:what.?s the weather|write me a poem|tell me a joke|you suck|this is useless|dumb bot|stupid bot|lol bot)\b/i;
   const MEME_RE = /\b(?:wen moon|wen lambo|price prediction|price target|will xrp hit|should i (?:buy|sell|invest)|buy xrp|sell xrp|xrp(?:'s)? price|price of xrp|how much will (?:xrp|it)|going to (?:the moon|moon)|to the moon|lambo|financial advice|is xrp (?:a good|worth)|worth investing|what(?:'s| is) (?:the |xrp )price)\b/i;
   const PROTOCOL_WORDS = /^(xrp|xrpl|ripple|escrow|amm|validator|ledger|payment|payments|tag|memo|fee|fees|reserve|reserves|credential|credentials|vault|loan|lending|batch|domain|transaction|account|wallet|qu1pu)$/i;
 
@@ -384,8 +425,43 @@
   function securityAnswer(q) {
     const lead = securityLead(q);
     const body =
-      "Nobody legitimate will ever ask for your seed or secret key — not support, not an airdrop, and not this chat. Keep that secret offline and never type it into a website or chat. Official Xaman help is only through the Xaman Support xApp inside the app; Xaman does not give support in social-media DMs. Check every URL carefully (Xaman’s official domain is xaman.app). If you use a hardware or card wallet, the key can stay on the device. Before you send, check the destination address and any destination tag. If you already lost a secret, paid “recovery” offers are usually a second scam. I will never ask you to type or send a secret.";
+      "Never share your seed or secret with anyone, including QU1PU. Nobody legitimate will ever ask for your seed or secret key — not support, not an airdrop, and not this chat. Keep that secret offline and never type it into a website or chat. Official Xaman help is only through the Xaman Support xApp inside the app; Xaman does not give support in social-media DMs. Check every URL carefully (Xaman’s official domain is xaman.app). If you use a hardware or card wallet, the key can stay on the device. Before you send, check the destination address and any destination tag. If you already lost a secret, paid “recovery” offers are usually a second scam. I will never ask you to type or send a secret.";
     return pack(lead + body, SECURITY_SOURCES, [], { curated: "security" });
+  }
+
+  function lendingAnswer() {
+    const text =
+      "The LendingProtocol and SingleAssetVault amendments are not enabled on mainnet yet; they are still in validator voting. " +
+      "The Lending Protocol is an XRP Ledger DeFi primitive that enables on-chain, fixed-term, uncollateralized loans using pooled funds from a Single Asset Vault. " +
+      "Loan brokers create vaults, depositors add assets, and borrowers receive loans on agreed terms. Official detail is in the XRPL docs.";
+    return pack(text, [
+      "https://xrpl.org/docs/concepts/tokens/lending-protocol",
+      "https://xrpl.org/docs/concepts/tokens/single-asset-vaults",
+      "https://xrpl.org/resources/known-amendments",
+    ], [], { curated: "lending" });
+  }
+
+  function isSecurityQuestion(q) {
+    return SECURITY_RE.test(String(q || ""));
+  }
+
+  function isFinanceQuestion(q) {
+    const n = String(q || "");
+    if (isSecurityQuestion(n)) return false;
+    if (/\b(seed|secret|mnemonic|recovery phrase|private key)\b/i.test(n)) return false;
+    return /\b(buy|sell|invest(?:ing|ment)?|price|worth)\b/i.test(n);
+  }
+
+  const XRPL_VOCAB = new Set(("trust line trustline issuer iou token tokens nft nfts nftoken nonfungible amm escrow reserve reserves payment payments tag memo fee fees lending loan vault vaults borrower broker amendment credential credentials freeze clawback batch domain destination account wallet validator consensus dex offer offers check ticket ripplestate nftoken mint").split(" "));
+
+  function expandsToXrpl(q) {
+    return mainTerms(q).concat(expandQuery(q)).some((t) => XRPL_VOCAB.has(t));
+  }
+
+  function isCheekyOrRude(q, safety) {
+    if (CHEEKY_OFFTOPIC_RE.test(q)) return true;
+    if (safety && safety.hideUser) return true;
+    return false;
   }
 
   function memeAnswer() {
@@ -443,8 +519,9 @@
     const q = String(question || "").trim();
     if (!q) return null;
     // Safety first is handled by the caller for pasted secrets and injection.
-    if (SECURITY_RE.test(q)) return securityAnswer(q);
+    if (isSecurityQuestion(q)) return securityAnswer(q);
     if (MEME_RE.test(q)) return memeAnswer();
+    if (LENDING_RE.test(q)) return lendingAnswer();
     const who = peopleAnswer(q);
     if (who) return who;
     return null;
@@ -465,16 +542,32 @@
     const curated = curatedAnswer(q);
     if (curated) return curated;
 
+    if (CHEEKY_OFFTOPIC_RE.test(q)) {
+      if (faq && typeof faq.steerOffTopic === "function") {
+        return { a: faq.steerOffTopic(), offTopic: true, sources: [], tools: [] };
+      }
+    }
+
     if (faq && typeof faq.answer === "function") {
       const safety = faq.answer(q);
       if (safety && (safety.refusal || safety.offTopic)) {
-        // Off-topic: if the docs have a real hit, answer from docs instead of only steering.
-        if (safety.offTopic && !safety.hideUser && !safety.refusal && index) {
-          const docsAns = answerFromDocs(q);
+        // Rude or cheeky questions always get topic suggestions — never a BM25 override.
+        // If FAQ missed a compound XRPL term (e.g. "trustline"), try the docs after expansion.
+        if (safety.offTopic) {
+          if (isCheekyOrRude(q, safety) || !expandsToXrpl(q)) {
+            return safety.a ? safety : { a: faq.steerOffTopic ? faq.steerOffTopic() : "I only cover XRP Ledger and escrow questions here.", offTopic: true, sources: [], tools: [] };
+          }
+          const docsAns = index ? answerFromDocs(q) : null;
           if (docsAns && !docsAns.weak) return docsAns;
+          return safety.a ? safety : { a: faq.steerOffTopic ? faq.steerOffTopic() : "I only cover XRP Ledger and escrow questions here.", offTopic: true, sources: [], tools: [] };
         }
-        if (safety.offTopic && safety.a) return safety;
-        return safety;
+        // Honour finance refusals only for buy/sell/invest/price, not "should I share my seed".
+        if (safety.refusal && isFinanceQuestion(q)) return safety;
+        if (safety.refusal && !isFinanceQuestion(q)) {
+          // fall through to docs
+        } else {
+          return safety;
+        }
       }
       // Strong curated FAQ (not the generic fallback / wizard redirect)
       if (safety && safety.a && !safety.fallback && !safety.xrplGeneral) {
@@ -506,5 +599,5 @@
     return pack("I can answer from the official XRP Ledger docs, but I don’t have a close match for that yet and I won’t invent one.", ["https://xrpl.org/docs"], [], {});
   }
 
-  window.Qu1puDocs = { load, answer, bm25, cleanGuideTalk, assetDir, curatedAnswer, PEOPLE, RIDDLES };
+  window.Qu1puDocs = { load, answer, bm25, cleanGuideTalk, assetDir, curatedAnswer, PEOPLE, RIDDLES, expandQuery, mainTerms };
 })();
