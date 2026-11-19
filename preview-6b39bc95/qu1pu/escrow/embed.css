@@ -1,0 +1,11 @@
+.hub-back{
+  margin-left:10px;font-size:.8em;color:#2ee6d0;text-decoration:none;
+}
+.hub-back:hover{color:#3df58f}
+html.embedded .hub-back{display:none}
+html.embedded body{background:#07090b}
+html.embedded #rain{display:none}
+html.embedded header.topbar{position:sticky;top:0}
+html.embedded footer{display:none}
+html.embedded .hero{padding-top:12px}
+html.embedded .hero h1{font-size:1.6rem}
