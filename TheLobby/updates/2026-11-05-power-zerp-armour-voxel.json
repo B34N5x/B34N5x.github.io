@@ -38,9 +38,6 @@
   "queued_next": "own-collection scrollable NFT picker (memory-only after wallet sign-in)",
   "commit": "c17993e",
   "deploy": {
-    "deployment": "https://a9896b7b.b34n5-lobby-test.pages.dev",
-    "alias": "https://preview-sec.b34n5-lobby-test.pages.dev",
-    "project": "b34n5-lobby-test",
     "branch": "preview-sec"
   }
 }

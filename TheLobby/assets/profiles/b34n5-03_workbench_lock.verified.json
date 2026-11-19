@@ -6,7 +6,7 @@
   "bodyAspect": 1.1
  },
  "tier": "Legendary",
- "tierNote": "CREATOR-DECLARED (second-brain NFT.md, V11 standards #5): Workbench Lock has two Legendary traits, 'Glowing Brass Time Lock' and 'Master Workbench'. Not in local metadata (no local JSON for this card).",
+ "tierNote": "CREATOR-DECLARED (V11 standards): Workbench Lock has two Legendary traits, 'Glowing Brass Time Lock' and 'Master Workbench'. Not in local metadata (no local JSON for this card).",
  "legendaryTraits": [
   "Glowing Brass Time Lock",
   "Master Workbench"

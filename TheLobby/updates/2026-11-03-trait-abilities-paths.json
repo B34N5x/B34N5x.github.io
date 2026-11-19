@@ -93,10 +93,9 @@
   },
   "summary": "Preview: map public NFT traits to 3D parts + abilities (hat/laser/flight/charge); space lobby buildings and add plaza footpaths; phone-checked; no keys/funds.",
   "risks": [
-    "Preview branch only \u2014 do not promote to live without Beans sign-off",
+    "Preview branch only — do not promote to live without Beans sign-off",
     "Ability keys F/T/R; avoid KeyC (front view)",
     "Old SW may need hard refresh for #abil HUD"
   ],
-  "usage_estimate_pct": null,
   "commit": "9d29dcec090ddbc8efe2905d54975f8cf111ad05"
 }

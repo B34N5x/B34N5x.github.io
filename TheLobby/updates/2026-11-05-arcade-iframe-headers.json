@@ -19,10 +19,7 @@
     "shots/preview/form/arcade-fighter-412.png"
   ],
   "deploy": {
-    "alias": "https://preview-sec.b34n5-lobby-test.pages.dev",
-    "branch": "preview-sec",
-    "project": "b34n5-lobby-test",
-    "deployment": "https://3ca1af69.b34n5-lobby-test.pages.dev"
+    "branch": "preview-sec"
   },
   "weak_spots": "If CF Pages merges overlapping /* DENY after path rules, middleware override is the backstop; Basic-auth 401 responses still DENY (intentional)",
   "commit": "470e284"

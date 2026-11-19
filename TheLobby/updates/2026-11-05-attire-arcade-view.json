@@ -45,10 +45,7 @@
     "shots/preview/form/viewbtn-412.png"
   ],
   "deploy": {
-    "alias": "https://preview-sec.b34n5-lobby-test.pages.dev",
-    "project": "b34n5-lobby-test",
-    "branch": "preview-sec",
-    "deployment": "https://67556c89.b34n5-lobby-test.pages.dev"
+    "branch": "preview-sec"
   },
   "commit": "a5dcbd6",
   "constraint": "wallet address / session token / sign-in data still memory-only (no localStorage/cookies/sessionStorage)"

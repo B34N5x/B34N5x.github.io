@@ -6,7 +6,6 @@
   "preview_only": true,
   "live_deploy": false,
   "rollback": "f5b9632d0b6716449c249345bdcb0611422533d8",
-  "research": "/workspace/xrpl-academy/lobby-research/NFT_TRAIT_TAXONOMY.md",
   "collections_studied": [
     "XRPL Fuzzybear / Fuzzyverse-class (Background,Fur,Clothes,Eyes,Headwear,Aura)",
     "XRPL Fuzzy pixel companion (Character,Hat,Accessory,Special)",
@@ -68,7 +67,7 @@
     "alien",
     "generic"
   ],
-  "fallback": "palette / image-only / abstract \u2192 generic capsule; never crash; florist still queued",
+  "fallback": "palette / image-only / abstract → generic capsule; never crash; florist still queued",
   "samples_note": "MADE-UP / mock only; never B34N5 collection ids or art",
   "tests": {
     "test:chars": "pass",
@@ -86,7 +85,7 @@
   },
   "summary": "Preview: any signed-in NFT maps via synonym taxonomy to body + parts + abilities; abstract/image-only get palette generic avatars; research note written; no keys/funds/wallet storage; no live deploy.",
   "risks": [
-    "Preview branch only \u2014 do not promote to live without Beans sign-off",
+    "Preview branch only — do not promote to live without Beans sign-off",
     "Ability keys F/T/R/G/V; avoid KeyC (front view)",
     "Synonym map is best-effort across collections; odd custom trait names may need weekly tune-up"
   ],

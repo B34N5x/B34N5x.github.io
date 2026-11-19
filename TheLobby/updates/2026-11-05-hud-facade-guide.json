@@ -6,7 +6,7 @@
   "preview_only": true,
   "live_deploy": false,
   "rollback": "0ed9328",
-  "user_ask": "Got no hud; drag prompt too big \u2014 whole tile drag + lock position; buildings need proper textures",
+  "user_ask": "Got no hud; drag prompt too big — whole tile drag + lock position; buildings need proper textures",
   "root_causes": {
     "hud": "#hudgear lived inside #hub #mmrow which declutter set display:none; debug #hud was intentionally hidden",
     "guide": "labelled Drag handle instead of whole-tile grab; position memory-only (forgotten on reopen)",
@@ -62,8 +62,5 @@
     "Drop orb intentional; soft ground blob present; trail no longer piles grey pixels on floor when idle"
   ],
   "commit": "42f2a379cdac8729eb528948af52ea63530acd3c",
-  "preview_url": "https://preview-sec.b34n5-lobby-test.pages.dev",
-  "deployment_url": "https://96556588.b34n5-lobby-test.pages.dev",
-  "deploy_tip": "42f2a37",
-  "alias_url": "https://preview-sec.b34n5-lobby-test.pages.dev"
+  "deploy_tip": "42f2a37"
 }

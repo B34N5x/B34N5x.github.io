@@ -12,9 +12,6 @@
   },
   "rollback": "a5dcbd6",
   "commit": "83df5b8",
-  "deploy": {
-    "alias": "https://preview-sec.b34n5-lobby-test.pages.dev",
-    "deployment": "https://3adc7385.b34n5-lobby-test.pages.dev"
-  },
+  "deploy": {},
   "regress": "shots/preview/form/regress/summary.json ALL PASS"
 }

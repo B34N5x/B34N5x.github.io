@@ -39,10 +39,7 @@
     "shots/preview/form/arcade-floor-after-fighter-1366.png"
   ],
   "deploy": {
-    "alias": "https://preview-sec.b34n5-lobby-test.pages.dev",
-    "branch": "preview-sec",
-    "project": "b34n5-lobby-test",
-    "deployment": "https://22104f96.b34n5-lobby-test.pages.dev"
+    "branch": "preview-sec"
   },
   "weak_spots": "Door threshold just outside LOTS.arcade pad=0 still uses groundH; widen with inLot pad only if repro needs it. Florist lot also now FLOOR (intended).",
   "commit": "059260f"

@@ -1,7 +1,7 @@
 {
   "date": "2026-11-05",
   "timezone": "Australia/Sydney",
-  "title": "environment pass \u2014 dusk denseness, phone-smooth props/FX",
+  "title": "environment pass — dusk denseness, phone-smooth props/FX",
   "branch": "preview-sec",
   "preview_only": true,
   "live_deploy": false,
@@ -43,8 +43,5 @@
     "p95 regress within 15% on low at both sizes"
   ],
   "commit": "55aaba5",
-  "preview_url": "https://preview-sec.b34n5-lobby-test.pages.dev",
-  "deployment_url": "https://8aa0cd77.b34n5-lobby-test.pages.dev",
-  "deploy_tip": "55aaba5",
-  "alias_url": "https://preview-sec.b34n5-lobby-test.pages.dev"
+  "deploy_tip": "55aaba5"
 }

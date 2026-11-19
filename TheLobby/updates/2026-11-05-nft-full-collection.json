@@ -28,10 +28,7 @@
     "shots/preview/form/interact-e-jump-1366.png"
   ],
   "deploy": {
-    "alias": "https://preview-sec.b34n5-lobby-test.pages.dev",
-    "deployment": "https://c66253c5.b34n5-lobby-test.pages.dev",
-    "branch": "preview-sec",
-    "project": "b34n5-lobby-test"
+    "branch": "preview-sec"
   },
   "commit": "9f457d5"
 }

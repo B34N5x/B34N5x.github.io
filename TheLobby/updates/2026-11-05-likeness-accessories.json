@@ -3,7 +3,7 @@
   "zone": "Australia/Sydney",
   "branch": "preview-sec",
   "title": "Likeness: head accessories, ape/mug, clothes, armour-only",
-  "summary": "Hair/skull_hat/eyemask taxonomy; armour plates only for type=armour; vest\u2260armor; cup\u2192mug object; ape muzzle; attached gauntlets/boots.",
+  "summary": "Hair/skull_hat/eyemask taxonomy; armour plates only for type=armour; vest≠armor; cup→mug object; ape muzzle; attached gauntlets/boots.",
   "cache": {
     "main": "v96",
     "traits": "v33",
@@ -39,10 +39,7 @@
     "shots/preview/compare/test-grid-before-likeness.png"
   ],
   "deploy": {
-    "alias": "https://preview-sec.b34n5-lobby-test.pages.dev",
-    "project": "b34n5-lobby-test",
-    "branch": "preview-sec",
-    "deployment": "https://a6818ac4.b34n5-lobby-test.pages.dev"
+    "branch": "preview-sec"
   },
   "commit": "0a9874e"
 }

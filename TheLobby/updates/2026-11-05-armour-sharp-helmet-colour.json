@@ -31,10 +31,7 @@
   ],
   "voxel": "opt-in unchanged; default unused",
   "deploy": {
-    "alias": "https://preview-sec.b34n5-lobby-test.pages.dev",
-    "project": "b34n5-lobby-test",
-    "branch": "preview-sec",
-    "deployment": "https://ab2bddeb.b34n5-lobby-test.pages.dev"
+    "branch": "preview-sec"
   },
   "commit": "7ad64b1"
 }

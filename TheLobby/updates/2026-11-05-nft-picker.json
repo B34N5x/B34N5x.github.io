@@ -18,9 +18,6 @@
   ],
   "commit": "da6c8ae",
   "deploy": {
-    "alias": "https://preview-sec.b34n5-lobby-test.pages.dev",
-    "project": "b34n5-lobby-test",
-    "branch": "preview-sec",
-    "deployment": "https://2c539d6e.b34n5-lobby-test.pages.dev"
+    "branch": "preview-sec"
   }
 }

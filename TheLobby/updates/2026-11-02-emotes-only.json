@@ -49,11 +49,7 @@
     "Self-declaration is not strong age assurance under high-risk Phase 2 codes"
   ],
   "rollback": "b826d6f03ffe0e823c4e0b5ec0defcd6b9cf7b8d",
-  "legal": "/workspace/xrpl-academy/lobby-legal/AGE_AND_CHAT.md",
-  "usage_estimate_pct": 4,
   "commit": "6d54f7d3748f3f05cbeed3df037ad779a87550c7",
-  "preview_url": "https://preview.b34n5-lobby-test.pages.dev",
-  "deployment_url": "https://e0de2eaf.b34n5-lobby-test.pages.dev",
   "rooms_worker": "https://b34n5-rooms-preview.xrplwill-contact.workers.dev",
   "rooms_worker_version": "5c61b006-92a1-4116-a732-591f20e08b9e"
 }

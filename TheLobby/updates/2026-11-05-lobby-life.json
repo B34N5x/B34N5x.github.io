@@ -6,7 +6,7 @@
   "preview_only": true,
   "live_deploy": false,
   "rollback": "ab6d134",
-  "user_ask": "Random seats\u2026 npc animals\u2026 ups playing arcade\u2026",
+  "user_ask": "Random seats… npc animals… ups playing arcade…",
   "features": {
     "seats": "InstancedMesh benches/stools/planters/cones; isClearSpot/PLAZA_R/SAFE_SPOTS",
     "animals": "lite shared-geo upright wanderers; walk/ear/tail/sit/sniff; avoid buildings/player/props",
@@ -50,11 +50,8 @@
     "arcade": "two lite NPCs visible through Ledger Arcade glass at cabinets",
     "animal_close": "upright tan animal near Petal & Pin with street seats",
     "plaza": "seats/planters on rim; wanderers often off-frame in wide shot",
-    "hud_412": "HUD gear above Skin with gap \u2014 no overlap"
+    "hud_412": "HUD gear above Skin with gap — no overlap"
   },
   "commit": "3ee4092c1ccf20ef52df0a8e1569aa962a79f197",
-  "preview_url": "https://preview-sec.b34n5-lobby-test.pages.dev",
-  "deployment_url": "https://f5b32525.b34n5-lobby-test.pages.dev",
-  "deploy_tip": "f5b32525",
-  "alias_url": "https://preview-sec.b34n5-lobby-test.pages.dev"
+  "deploy_tip": "f5b32525"
 }

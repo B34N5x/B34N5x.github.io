@@ -53,9 +53,6 @@
     "Laser beam visible mid-cast; upright tiger; SwiftShader fps not device proof"
   ],
   "commit": "26d5ea4",
-  "preview_url": "https://preview-sec.b34n5-lobby-test.pages.dev",
-  "deployment_url": "https://5c0eefac.b34n5-lobby-test.pages.dev",
   "deploy_tip": "26d5ea4",
-  "next": "ENVIRONMENT PASS (Beans approved 1) after this deploy",
-  "alias_url": "https://preview-sec.b34n5-lobby-test.pages.dev"
+  "next": "ENVIRONMENT PASS (Beans approved 1) after this deploy"
 }
