@@ -107,9 +107,28 @@
     return (ans && (ans.sources || (ans.href ? [ans.href] : []))) || [];
   }
 
+  function logoImg(cls) {
+    const img = el("img", {
+      className: cls || "",
+      src: (function () {
+        const s = document.querySelector('script[src*="qu1pu-bubble.js"]');
+        const dir = s && s.src ? s.src.replace(/qu1pu-bubble\.js.*$/, "") : "./";
+        return dir + "xrp-symbol-black.svg";
+      })(),
+      alt: "",
+      width: "37",
+      height: "32",
+    });
+    img.setAttribute("decoding", "async");
+    return img;
+  }
+
   function boot() {
     const faq = window.EscrowFAQ;
     if (!faq || typeof faq.answer !== "function") return;
+    if (window.Qu1puDocs && typeof window.Qu1puDocs.load === "function") {
+      window.Qu1puDocs.load().catch(function () {});
+    }
 
     const log = el("div", { className: "qu1pu-log", id: "qu1pu-bubble-log", "aria-live": "polite" });
     const input = el("input", {
@@ -130,10 +149,13 @@
       hidden: true,
     }, [
       el("div", { className: "qu1pu-head" }, [
-        el("span", { className: "qu1pu-mark", "aria-hidden": "true", text: "◉" }),
+        (function () {
+          const mark = el("span", { className: "qu1pu-mark", "aria-hidden": "true" });
+          mark.appendChild(logoImg());
+          return mark;
+        })(),
         el("strong", { text: "QU1PU" }),
         el("div", { className: "qu1pu-head-links" }, [
-          el("a", { className: "qu1pu-guide", href: GUIDE, text: "Full guide" }),
           closeBtn,
         ]),
       ]),
@@ -147,8 +169,8 @@
       "aria-label": "Ask QU1PU",
       "aria-expanded": "false",
       "aria-controls": "qu1pu-bubble-panel",
-      text: "◉",
     });
+    fab.appendChild(logoImg("qu1pu-fab-logo"));
     const dock = el("div", { className: "qu1pu-dock", id: "qu1pu-dock" }, [panel, fab]);
     document.body.appendChild(dock);
 
@@ -167,7 +189,7 @@
       if (open) {
         panel.removeAttribute("hidden");
         if (!log.childNodes.length) {
-          addMsg(log, "bot", "Ask about XRPL payments and escrow. For the full guided draft, open the full guide.");
+          addMsg(log, "bot", "Ask about the XRP Ledger — payments, escrow, fees, reserves, and more. I’ll answer from official docs.");
         }
         input.focus();
       } else {
@@ -186,7 +208,11 @@
     async function ask() {
       const q = input.value.trim();
       if (!q) return;
-      const ans = faq.answer(q);
+      if (window.Qu1puDocs && typeof window.Qu1puDocs.load === "function") {
+        try { await window.Qu1puDocs.load(); } catch (_) {}
+      }
+      const answerFn = (window.Qu1puDocs && window.Qu1puDocs.answer) || faq.answer;
+      const ans = answerFn(q);
       if (!ans) return;
       if (ans.blocked || ans.hideUser) input.value = "";
       if (ans.hideUser) addMsg(log, "user", "[hidden — I won’t repeat that]");
