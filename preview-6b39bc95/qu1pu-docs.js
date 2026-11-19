@@ -535,6 +535,46 @@
     return pack(text, [], topicTools(dest), { steered: true, steerTo: dest });
   }
 
+  function listOtherTopics(currentId) {
+    const list = (window.QU1PU_HUB && window.QU1PU_HUB.topics) || [];
+    return list.filter((t) => t && t.id && t.id !== currentId);
+  }
+
+  function joinTopicNames(names) {
+    if (!names.length) return "";
+    if (names.length === 1) return names[0];
+    if (names.length === 2) return names[0] + " or " + names[1];
+    return names.slice(0, -1).join(", ") + ", or " + names[names.length - 1];
+  }
+
+  function tileOffTopic(scope, question) {
+    const hits = detectTopics(question);
+    const foreign = hits.filter((id) => id && id !== scope);
+    if (foreign.length) {
+      const steered = steerToTopics(foreign, scope);
+      if (steered) return steered;
+    }
+    const current = topicById(scope);
+    const cover = current ? current.title : "this topic";
+    const others = listOtherTopics(scope);
+    const names = others.map((t) => t.title);
+    let text = "I only answer " + cover + " questions in this tile.";
+    if (names.length) {
+      text += " For other topics, open " + joinTopicNames(names) + ".";
+    }
+    return pack(text, [], topicTools(others.map((t) => t.id)), { offTopic: true, tileOffTopic: true });
+  }
+
+  function offTopicReply(scope, question) {
+    if (scope) return tileOffTopic(scope, question);
+    const faq = window.EscrowFAQ;
+    if (scope) return offTopicReply(scope, q);
+    if (faq && typeof faq.steerOffTopic === "function") {
+      return { a: faq.steerOffTopic(), offTopic: true, sources: [], tools: [] };
+    }
+    return pack("I only cover XRP Ledger and escrow questions here.", [], [], { offTopic: true });
+  }
+
   const VAULT_RE = /\b(?:single\s*asset\s*vaults?|singleassetvault|xls-?65|vault(?:set|deposit|withdraw)s?)\b/i;
 
   function isSecurityQuestion(q) {
@@ -695,9 +735,7 @@
     if (curated) return mergeTopicTools(curated, q, opts);
 
     if (CHEEKY_OFFTOPIC_RE.test(q)) {
-      if (faq && typeof faq.steerOffTopic === "function") {
-        return { a: faq.steerOffTopic(), offTopic: true, sources: [], tools: [] };
-      }
+      return offTopicReply(scope, q);
     }
 
     if (faq && typeof faq.answer === "function") {
@@ -707,11 +745,11 @@
         // If FAQ missed a compound XRPL term (e.g. "trustline"), try the docs after expansion.
         if (safety.offTopic) {
           if (isCheekyOrRude(q, safety) || !expandsToXrpl(q)) {
-            return safety.a ? safety : { a: faq.steerOffTopic ? faq.steerOffTopic() : "I only cover XRP Ledger and escrow questions here.", offTopic: true, sources: [], tools: [] };
+            return offTopicReply(scope, q);
           }
           const docsAns = index ? answerFromDocs(q, scope) : null;
           if (docsAns && !docsAns.weak) return docsAns;
-          return safety.a ? safety : { a: faq.steerOffTopic ? faq.steerOffTopic() : "I only cover XRP Ledger and escrow questions here.", offTopic: true, sources: [], tools: [] };
+          return offTopicReply(scope, q);
         }
         // Honour finance refusals only for buy/sell/invest/price, not "should I share my seed".
         if (safety.refusal && isFinanceQuestion(q)) return safety;

@@ -6,4 +6,7 @@
     if (document.body) document.body.classList.add("embedded");
     else document.addEventListener("DOMContentLoaded", () => document.body.classList.add("embedded"));
   }
+  if (window.Qu1puDocs && typeof window.Qu1puDocs.load === "function") {
+    window.Qu1puDocs.load();
+  }
 })();
