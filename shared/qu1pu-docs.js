@@ -31,7 +31,6 @@
   ];
 
   const TOOLS = [
-    { re: /\b(escrow|finishafter|cancel after|crypto-condition|xaman|draft)\b/i, href: "https://b34n5.xyz/qu1pu/", label: "QU1PU" },
     { re: /\b(trace|tracer|failed transaction|payment path|globe)\b/i, href: "https://b34n5.xyz/tracer/", label: "Transaction Tracer" },
     { re: /\b(consensus|validator|how the ledger works|explainer)\b/i, href: "https://b34n5.xyz/explainer/", label: "XRPL Explainer" },
   ];
@@ -46,6 +45,72 @@
     const s = document.querySelector('script[src*="qu1pu-bubble.js"], script[src*="qu1pu-docs.js"]');
     if (s && s.src) return s.src.replace(/qu1pu-(?:bubble|docs)\.js.*$/, "");
     return "./";
+  }
+
+  function compiledTopics() {
+    const list = (window.QU1PU_HUB && window.QU1PU_HUB.topics) || [];
+    return list.map((t) => ({
+      id: t.id,
+      title: t.title,
+      queryRe: (t.queryRe || []).map((s) => new RegExp(s, "i")),
+      docUrlRe: (t.docUrlRe || []).map((s) => new RegExp(s, "i"))
+    }));
+  }
+
+  function hubBase() {
+    const loc = (typeof location !== "undefined" && location) || null;
+    const path = String((loc && loc.pathname) || "");
+    const origin = (loc && loc.origin) || "https://b34n5.xyz";
+    const m = path.match(/^(.*\/preview-[a-f0-9]+)\//i);
+    if (m) return origin + m[1] + "/qu1pu/";
+    return origin + "/qu1pu/";
+  }
+
+  function hubHref(topicId) {
+    const base = hubBase();
+    return topicId ? base + "#" + topicId : base;
+  }
+
+  function detectTopics(question) {
+    const q = String(question || "");
+    const hits = [];
+    compiledTopics().forEach((t) => {
+      if (t.queryRe.some((re) => re.test(q))) hits.push(t.id);
+    });
+    return hits;
+  }
+
+  function detectTopic(question) {
+    const hits = detectTopics(question);
+    return hits.length ? hits[0] : null;
+  }
+
+  function docInTopic(doc, topicId) {
+    if (!topicId) return true;
+    const t = compiledTopics().find((x) => x.id === topicId);
+    if (!t) return true;
+    const u = String((doc && doc.u) || "");
+    return t.docUrlRe.some((re) => re.test(u));
+  }
+
+  function topicById(id) {
+    const list = (window.QU1PU_HUB && window.QU1PU_HUB.topics) || [];
+    for (let i = 0; i < list.length; i++) if (list[i].id === id) return list[i];
+    return null;
+  }
+
+  function topicTools(ids) {
+    const out = [];
+    const seen = {};
+    (ids || []).forEach((id) => {
+      const t = topicById(id);
+      if (!t) return;
+      const href = hubHref(id);
+      if (seen[href]) return;
+      seen[href] = 1;
+      out.push({ href: href, label: t.title, hub: true });
+    });
+    return out;
   }
 
   function toks(text) {
@@ -106,7 +171,7 @@
     return terms.some((t) => st.has(t));
   }
 
-  function bm25(question, limit) {
+  function bm25(question, limit, topic) {
     if (!index || !inv) return [];
     const qTokens = expandQuery(question);
     const qSet = new Set(qTokens);
@@ -117,6 +182,7 @@
     const scored = [];
     for (let i = 0; i < index.docs.length; i++) {
       const doc = index.docs[i];
+      if (topic && !docInTopic(doc, topic)) continue;
       const ts = tokenized[i];
       const tf = Object.create(null);
       for (let j = 0; j < ts.length; j++) tf[ts[j]] = (tf[ts[j]] || 0) + 1;
@@ -308,8 +374,8 @@
     return loadPromise;
   }
 
-  function answerFromDocs(question) {
-    const hits = bm25(question, 8);
+  function answerFromDocs(question, topic) {
+    const hits = bm25(question, 8, topic);
     if (!hits.length) return null;
     const top = hits[0].score;
     const weak = top < 5.5;
@@ -329,7 +395,7 @@
 
 
   const SECURITY_RE = /\b(?:how (?:can|do|to) (?:i |you )?(?:secure|stay safe|keep (?:my |your )?(?:xrp|wallet|account|funds|keys?) safe|avoid (?:a )?scams?)|secur(?:e|ing) (?:my |your )?(?:xrp|wallet|account|funds|keys?|secret)|(?:avoid|spot|report) (?:a )?scams?|scams?|phish(?:ing)?|airdrops?|giveaways?|fake support|support (?:dm|account)|dmed me|dm'?d me|direct messag|someone (?:dmed|messaged|texted)|lost (?:my )?(?:seed|secret|mnemonic|recovery)|forgot (?:my )?(?:seed|secret)|verify (?:my |your )?wallet|hardware wallet|stay safe|not (?:get )?scammed|(?:is it |is that )?(?:safe|ok|okay|wise) to (?:share|give|send|paste|type)|(?:should i|can i|do i|never)(?: ever)? (?:share|give|send|paste|type)|share (?:my |your |a |the )?(?:seed|secret|mnemonic|recovery)|(?:seed|secret|mnemonic|recovery)(?: phrase| key)?(?: safety| security)?|seed phrase|secret key|private key|recovery phrase)\b/i;
-  const LENDING_RE = /\b(?:lending\s+(?:protocol|amendment)s?|lendingprotocol(?:v1[_.]?1)?|single\s*asset\s*vaults?|singleassetvault|(?:xls-?65|xls-?66)|(?:what(?:'s| is) (?:the )?(?:xrpl |xrp ledger )?lending))\b/i;
+  const LENDING_RE = /\b(?:lending\s+(?:protocol|amendment)s?|lendingprotocol(?:v1[_.]?1)?|xls-?66|(?:what(?:'s| is) (?:the )?(?:xrpl |xrp ledger )?lending))\b/i;
   const CHEEKY_OFFTOPIC_RE = /\b(?:what.?s the weather|write me a poem|tell me a joke|you suck|this is useless|dumb bot|stupid bot|lol bot)\b/i;
   const MEME_RE = /\b(?:wen moon|wen lambo|price prediction|price target|will xrp hit|should i (?:buy|sell|invest)|buy xrp|sell xrp|xrp(?:'s)? price|price of xrp|how much will (?:xrp|it)|going to (?:the moon|moon)|to the moon|lambo|financial advice|is xrp (?:a good|worth)|worth investing|what(?:'s| is) (?:the |xrp )price)\b/i;
   const PROTOCOL_WORDS = /^(xrp|xrpl|ripple|escrow|amm|validator|ledger|payment|payments|tag|memo|fee|fees|reserve|reserves|credential|credentials|vault|loan|lending|batch|domain|transaction|account|wallet|qu1pu)$/i;
@@ -438,8 +504,73 @@
       "https://xrpl.org/docs/concepts/tokens/lending-protocol",
       "https://xrpl.org/docs/concepts/tokens/single-asset-vaults",
       "https://xrpl.org/resources/known-amendments",
-    ], [], { curated: "lending" });
+    ], topicTools(["lending", "vault"]), { curated: "lending" });
   }
+
+  function vaultAnswer() {
+    const text =
+      "The SingleAssetVault amendment is not enabled on mainnet yet; it is still in validator voting. " +
+      "A Single Asset Vault is an XRP Ledger primitive that holds one asset and issues shares to depositors. " +
+      "Vaults can also supply funds used by the Lending Protocol, which is likewise not enabled on mainnet yet. Official detail is in the XRPL docs.";
+    return pack(text, [
+      "https://xrpl.org/docs/concepts/tokens/single-asset-vaults",
+      "https://xrpl.org/docs/concepts/tokens/lending-protocol",
+      "https://xrpl.org/resources/known-amendments",
+    ], topicTools(["vault", "lending"]), { curated: "vault" });
+  }
+
+  function steerToTopics(ids, currentId) {
+    const dest = (ids || []).filter((id) => id && id !== currentId);
+    if (!dest.length) return null;
+    const names = dest.map((id) => (topicById(id) || {}).title || id);
+    const label = names.length === 1 ? names[0] : names.slice(0, -1).join(", ") + ", or " + names[names.length - 1];
+    const current = topicById(currentId);
+    const cover = current ? current.title : "this topic";
+    const text = "I only answer " + cover + " questions in this tile. That looks like a question for " + label + ".";
+    return pack(text, [], topicTools(dest), { steered: true, steerTo: dest });
+  }
+
+  function listOtherTopics(currentId) {
+    const list = (window.QU1PU_HUB && window.QU1PU_HUB.topics) || [];
+    return list.filter((t) => t && t.id && t.id !== currentId);
+  }
+
+  function joinTopicNames(names) {
+    if (!names.length) return "";
+    if (names.length === 1) return names[0];
+    if (names.length === 2) return names[0] + " or " + names[1];
+    return names.slice(0, -1).join(", ") + ", or " + names[names.length - 1];
+  }
+
+  function tileOffTopic(scope, question) {
+    const hits = detectTopics(question);
+    const foreign = hits.filter((id) => id && id !== scope);
+    if (foreign.length) {
+      const steered = steerToTopics(foreign, scope);
+      if (steered) return steered;
+    }
+    const current = topicById(scope);
+    const cover = current ? current.title : "this topic";
+    const others = listOtherTopics(scope);
+    const names = others.map((t) => t.title);
+    let text = "I only answer " + cover + " questions in this tile.";
+    if (names.length) {
+      text += " For other topics, open " + joinTopicNames(names) + ".";
+    }
+    return pack(text, [], topicTools(others.map((t) => t.id)), { offTopic: true, tileOffTopic: true });
+  }
+
+  function offTopicReply(scope, question) {
+    if (scope) return tileOffTopic(scope, question);
+    const faq = window.EscrowFAQ;
+    if (scope) return offTopicReply(scope, q);
+    if (faq && typeof faq.steerOffTopic === "function") {
+      return { a: faq.steerOffTopic(), offTopic: true, sources: [], tools: [] };
+    }
+    return pack("I only cover XRP Ledger and escrow questions here.", [], [], { offTopic: true });
+  }
+
+  const VAULT_RE = /\b(?:single\s*asset\s*vaults?|singleassetvault|xls-?65|vault(?:set|deposit|withdraw)s?)\b/i;
 
   function isSecurityQuestion(q) {
     return SECURITY_RE.test(String(q || ""));
@@ -521,16 +652,55 @@
     // Safety first is handled by the caller for pasted secrets and injection.
     if (isSecurityQuestion(q)) return securityAnswer(q);
     if (MEME_RE.test(q)) return memeAnswer();
+    if (VAULT_RE.test(q) && !LENDING_RE.test(q)) return vaultAnswer();
+    if (LENDING_RE.test(q) && VAULT_RE.test(q)) return lendingAnswer();
     if (LENDING_RE.test(q)) return lendingAnswer();
+    if (VAULT_RE.test(q)) return vaultAnswer();
     const who = peopleAnswer(q);
     if (who) return who;
     return null;
   }
 
-  function answer(question) {
+  function mergeTopicTools(ans, question, opts) {
+    if (!ans || ans.blocked || ans.injection) return ans;
+    const scope = opts && opts.topic;
+    const hits = detectTopics(question);
+    const add = [];
+    if (scope) {
+      hits.forEach((id) => { if (id !== scope) add.push(id); });
+    } else {
+      hits.forEach((id) => add.push(id));
+      if (ans.curated === "lending") ["lending", "vault"].forEach((id) => add.push(id));
+      if (ans.curated === "vault") ["vault", "lending"].forEach((id) => add.push(id));
+    }
+    if (!add.length && !scope && /\b(?:set\s*up|setup|create|draft|how to)\b/i.test(question)) {
+      const guessed = detectTopic(question);
+      if (guessed) add.push(guessed);
+    }
+    const extra = topicTools(add);
+    if (!extra.length) return ans;
+    const have = {};
+    const tools = (ans.tools || []).slice();
+    tools.forEach((t) => { if (t && t.href) have[t.href] = 1; });
+    extra.forEach((t) => { if (!have[t.href]) { tools.push(t); have[t.href] = 1; } });
+    ans.tools = tools;
+    if (!scope && hits.length && ans.a && !/open QU1PU /i.test(ans.a) && !ans.steered) {
+      const first = topicById(hits[0]);
+      if (first && !ans.curated) {
+        ans.a = String(ans.a) + " For a closer look, open " + first.title + ".";
+      } else if (first && (ans.curated === "lending" || ans.curated === "vault")) {
+        ans.a = String(ans.a) + " Open " + first.title + " on the QU1PU AI page to read more.";
+      }
+    }
+    return ans;
+  }
+
+  function answer(question, opts) {
+    opts = opts || {};
     const q = String(question || "").trim();
     if (!q) return null;
     const faq = window.EscrowFAQ;
+    const scope = opts.topic || null;
 
     if (faq && typeof faq.answer === "function") {
       const safety = faq.answer(q);
@@ -540,12 +710,27 @@
     }
 
     const curated = curatedAnswer(q);
-    if (curated) return curated;
+    if (curated && curated.curated === "security") return mergeTopicTools(curated, q, opts);
+    if (scope && !(curated && (curated.curated === "security" || curated.curated === "meme"))) {
+      const hits = detectTopics(q);
+      const foreign = hits.filter((id) => id !== scope);
+      const onScope = hits.indexOf(scope) !== -1;
+      if (foreign.length && !onScope) {
+        const steered = steerToTopics(foreign, scope);
+        if (steered) return steered;
+      }
+    }
+    if (curated && scope && curated.curated && curated.curated !== scope && curated.curated !== "meme" && curated.curated !== "people" && curated.curated !== "security") {
+      const onThis = detectTopics(q).indexOf(scope) !== -1;
+      if (!onThis) {
+        const steered = steerToTopics([curated.curated], scope);
+        if (steered) return steered;
+      }
+    }
+    if (curated) return mergeTopicTools(curated, q, opts);
 
     if (CHEEKY_OFFTOPIC_RE.test(q)) {
-      if (faq && typeof faq.steerOffTopic === "function") {
-        return { a: faq.steerOffTopic(), offTopic: true, sources: [], tools: [] };
-      }
+      return offTopicReply(scope, q);
     }
 
     if (faq && typeof faq.answer === "function") {
@@ -555,11 +740,11 @@
         // If FAQ missed a compound XRPL term (e.g. "trustline"), try the docs after expansion.
         if (safety.offTopic) {
           if (isCheekyOrRude(q, safety) || !expandsToXrpl(q)) {
-            return safety.a ? safety : { a: faq.steerOffTopic ? faq.steerOffTopic() : "I only cover XRP Ledger and escrow questions here.", offTopic: true, sources: [], tools: [] };
+            return offTopicReply(scope, q);
           }
-          const docsAns = index ? answerFromDocs(q) : null;
+          const docsAns = index ? answerFromDocs(q, scope) : null;
           if (docsAns && !docsAns.weak) return docsAns;
-          return safety.a ? safety : { a: faq.steerOffTopic ? faq.steerOffTopic() : "I only cover XRP Ledger and escrow questions here.", offTopic: true, sources: [], tools: [] };
+          return offTopicReply(scope, q);
         }
         // Honour finance refusals only for buy/sell/invest/price, not "should I share my seed".
         if (safety.refusal && isFinanceQuestion(q)) return safety;
@@ -572,7 +757,7 @@
       // Strong curated FAQ (not the generic fallback / wizard redirect)
       if (safety && safety.a && !safety.fallback && !safety.xrplGeneral) {
         const cleaned = cleanGuideTalk(safety.a);
-        const docsAns = index ? answerFromDocs(q) : null;
+        const docsAns = index ? answerFromDocs(q, scope) : null;
         const keyTerms = expandQuery(q).filter((w) => ["burned","destroyed","burn","amm","lending","credential","credentials","freeze","clawback","domain","batch","permissioned"].indexOf(w) !== -1);
         const faqTok = new Set(toks(cleaned || ""));
         const faqMisses = keyTerms.length && keyTerms.some((w) => !faqTok.has(w));
@@ -589,7 +774,7 @@
     }
 
     if (index) {
-      const docsAns = answerFromDocs(q);
+      const docsAns = answerFromDocs(q, scope);
       if (docsAns) return docsAns;
     }
 
@@ -599,5 +784,32 @@
     return pack("I can answer from the official XRP Ledger docs, but I don’t have a close match for that yet and I won’t invent one.", ["https://xrpl.org/docs"], [], {});
   }
 
-  window.Qu1puDocs = { load, answer, bm25, cleanGuideTalk, assetDir, curatedAnswer, PEOPLE, RIDDLES, expandQuery, mainTerms };
+  const LENDING_CAVEAT = "The LendingProtocol and LendingProtocolV1_1 amendments are not enabled on mainnet yet; they are still in validator voting. ";
+  const VAULT_CAVEAT = "The SingleAssetVault amendment is not enabled on mainnet yet; it is still in validator voting. ";
+
+  function ensureTopicCaveat(ans, question, opts) {
+    if (!ans || !ans.a || ans.blocked || ans.injection || ans.steered || ans.offTopic || ans.refusal) return ans;
+    const scope = (opts && opts.topic) || null;
+    const hits = detectTopics(question);
+    const aboutLending = scope === "lending" || hits.indexOf("lending") !== -1 || ans.curated === "lending";
+    const aboutVault = scope === "vault" || hits.indexOf("vault") !== -1 || ans.curated === "vault";
+    if (!aboutLending && !aboutVault) return ans;
+    const low = String(ans.a).toLowerCase();
+    if (low.indexOf("not enabled on mainnet") !== -1) return ans;
+    if (scope === "vault" || (aboutVault && !aboutLending)) ans.a = VAULT_CAVEAT + ans.a;
+    else ans.a = LENDING_CAVEAT + ans.a;
+    const need = "https://xrpl.org/resources/known-amendments";
+    ans.sources = (ans.sources || []).slice();
+    if (ans.sources.indexOf(need) === -1) ans.sources.push(need);
+    return ans;
+  }
+
+  const answerCore = answer;
+  function answerPublic(question, opts) {
+    opts = opts || {};
+    const ans = mergeTopicTools(answerCore(question, opts), question, opts);
+    return ensureTopicCaveat(ans, question, opts);
+  }
+
+  window.Qu1puDocs = { load, answer: answerPublic, bm25, cleanGuideTalk, assetDir, curatedAnswer, PEOPLE, RIDDLES, expandQuery, mainTerms, detectTopic, detectTopics, docInTopic, hubHref };
 })();

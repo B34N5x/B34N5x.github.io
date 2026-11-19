@@ -2,6 +2,12 @@
 
 Notable releases for b34n5.xyz. Each release has a short JSON summary under `updates/`.
 
+## v0.3.20 · 2026-11-20 · QU1PU AI
+- `/qu1pu/` is now a QU1PU AI hub with topic tiles for Escrow, Lending and Vault. Answers come from official XRPL docs, each with a source.
+- The Escrow tile still has the guided assistant: you review a draft, then you sign in Xaman. QU1PU never asks for your seed and never signs for you.
+- Lending and Vault tiles are education only. The LendingProtocol, LendingProtocolV1_1 and SingleAssetVault amendments are not enabled on mainnet yet; they are still in validator voting.
+- The chat bubble on the home page, Tools and Security can point you to the matching tile when you ask about escrow, lending or vaults.
+
 ## v0.3.19 · 2026-11-20 · QU1PU chat bubble
 - A small QU1PU chat bubble now sits on the home page, Tools and Security. Ask about the XRP Ledger and get a direct answer from official docs, with a source.
 - It never asks for your seed, and it will tell you never to share one. Lending features are clearly labelled as still in validator voting, not live on mainnet.

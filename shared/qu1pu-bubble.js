@@ -4,7 +4,13 @@
   const PATH = String(location.pathname || "");
   if (/(?:^|\/)qu1pu(?:\/|$)/i.test(PATH)) return;
 
-  const GUIDE = "https://b34n5.xyz/qu1pu/";
+  function previewHubBase() {
+    const path = String(location.pathname || "");
+    const m = path.match(/^(.*\/preview-[a-f0-9]+)\//i);
+    if (m) return location.origin + m[1] + "/qu1pu/";
+    return location.origin + "/qu1pu/";
+  }
+  const GUIDE = previewHubBase();
   const ALLOWED_SOURCE = [
     "https://xrpl.org/",
     "https://xrpl-ai.org/",
@@ -35,8 +41,17 @@
 
   function isAllowedHref(href) {
     const u = String(href || "");
-    if (!u || /preview-/i.test(u)) return false;
-    if (ALLOWED_TOOLS[u]) return true;
+    if (!u) return false;
+    const hub = previewHubBase();
+    if (hub) {
+      try {
+        const url = new URL(u, location.href);
+        const base = new URL(hub, location.href);
+        if (url.origin === base.origin && url.pathname.replace(/\/?$/, "/") === base.pathname.replace(/\/?$/, "/")) return true;
+      } catch (_) {}
+    }
+    if (/preview-/i.test(u)) return false;
+    if (ALLOWED_TOOLS[u] || ALLOWED_TOOLS[u.replace(/#.*$/, "")]) return true;
     return ALLOWED_SOURCE.some((p) => u.startsWith(p));
   }
 
@@ -142,7 +157,8 @@
       const sources = (extra.sources || []).map(asSourceLink).filter(Boolean);
       const tools = (extra.tools || []).filter((l) => isAllowedHref(l && l.href));
       appendLinks(msg, sources, "Source:");
-      appendLinks(msg, tools, "Optional tool:");
+      const toolHeading = tools.some((l) => /\/qu1pu\/?#/.test((l && l.href) || "")) ? "Open on QU1PU AI:" : "Optional tool:";
+      appendLinks(msg, tools, toolHeading);
     }
     log.appendChild(msg);
     scrollLogToMessage(log, msg);
@@ -280,7 +296,7 @@
       placeholder: "Ask about XRPL or escrow…",
     });
     input.setAttribute("aria-label", "Ask QU1PU a question");
-    const askBtn = el("button", { type: "button", text: "Ask" });
+    const askBtn = el("button", { type: "button", id: "qu1pu-bubble-send", text: "Ask" });
     const closeBtn = el("button", { type: "button", className: "qu1pu-close", "aria-label": "Close chat", text: "×" });
     const panel = el("div", {
       className: "qu1pu-panel",

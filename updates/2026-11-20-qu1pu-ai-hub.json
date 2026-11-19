@@ -1,0 +1,6 @@
+{
+  "date": "2026-11-20",
+  "version": "0.3.20",
+  "title": "QU1PU AI",
+  "summary": "/qu1pu/ is now a QU1PU AI hub with Escrow, Lending and Vault tiles. Answers come from official XRPL docs, with a source. The escrow assistant is unchanged: you review, then you sign in Xaman. Lending and Vault are education only and not enabled on mainnet yet. The chat bubble on Home, Tools and Security can point you to the matching tile."
+}

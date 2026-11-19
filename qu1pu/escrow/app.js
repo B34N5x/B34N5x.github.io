@@ -299,11 +299,27 @@
     "https://xrpl-will.pages.dev": 1,
   };
 
+  function previewHubBase() {
+    const path = String(location.pathname || "");
+    const m = path.match(/^(.*\/preview-[a-f0-9]+)\//i);
+    if (m) return location.origin + m[1] + "/qu1pu/";
+    return location.origin + "/qu1pu/";
+  }
+
   function isAllowedHref(href) {
     const u = String(href || "");
-    if (!u || /preview-/i.test(u)) return false;
-    if (ALLOWED_LINK_HOSTS[u]) return true;
-    if (u.startsWith("https://xrpl.org/") || u.startsWith("https://xrpl-ai.org/")) return true;
+    if (!u) return false;
+    const hub = previewHubBase();
+    if (hub) {
+      try {
+        const url = new URL(u, location.href);
+        const base = new URL(hub, location.href);
+        if (url.origin === base.origin && url.pathname.replace(/\/?$/, "/") === base.pathname.replace(/\/?$/, "/")) return true;
+      } catch (_) {}
+    }
+    if (/preview-/i.test(u)) return false;
+    if (ALLOWED_LINK_HOSTS[u] || ALLOWED_LINK_HOSTS[u.replace(/#.*$/, "")]) return true;
+    if (u.startsWith("https://xrpl.org/") || u.startsWith("https://xrpl-ai.org/") || u.startsWith("https://help.xaman.app/") || u.startsWith("https://ripple.com/") || u.startsWith("https://www.xrpl.foundation/")) return true;
     return false;
   }
 
@@ -345,7 +361,8 @@
         const srcLinks = (sources || []).filter(isAllowedHref).map((href) => ({ href, label: href }));
         const toolLinks = (tools || []).filter((l) => isAllowedHref(l && l.href));
         appendSafeLinks(div, srcLinks, "Source:");
-        appendSafeLinks(div, toolLinks, "Optional tool:");
+        const toolHeading = toolLinks.some((l) => /\/qu1pu\/?#/.test((l && l.href) || "")) ? "Open topic:" : "Optional tool:";
+        appendSafeLinks(div, toolLinks, toolHeading);
         setPresence(warn ? "warn" : "idle");
         resolve();
       };
@@ -1265,10 +1282,20 @@
     await goStep(step + 1);
   });
 
-  $("#faq-btn").addEventListener("click", async () => {
+  async function askAssistantQuestion() {
     const q = $("#faq-input").value.trim();
     if (!q) return;
-    const ans = window.EscrowFAQ.answer(q);
+    const docs = window.Qu1puDocs;
+    if (docs && typeof docs.load === "function") {
+      try { await docs.load(); } catch (_) {}
+    }
+    let ans = null;
+    if (docs && typeof docs.answer === "function") {
+      ans = docs.answer(q, { topic: "escrow" });
+    }
+    if (!ans && window.EscrowFAQ && typeof window.EscrowFAQ.answer === "function") {
+      ans = window.EscrowFAQ.answer(q);
+    }
     if (!ans) return;
     if (ans.blocked) $("#faq-input").value = "";
     if (ans.hideUser) {
@@ -1284,6 +1311,14 @@
       sources: ans.sources || (ans.href ? [ans.href] : []),
       tools: ans.tools || [],
     });
+  }
+
+  $("#faq-btn").addEventListener("click", () => { askAssistantQuestion(); });
+  $("#faq-input").addEventListener("keydown", (ev) => {
+    if (ev.key === "Enter") {
+      ev.preventDefault();
+      askAssistantQuestion();
+    }
   });
 
   $$(".tabs button").forEach((b) =>
